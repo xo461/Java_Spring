@@ -1,0 +1,32 @@
+package org.zerock.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+import org.junit.Test;
+
+import lombok.extern.log4j.Log4j;
+
+@Log4j  //log안쓰려면 syso 쓰면 된다. log는 파일로 저장되고 syso는 콘솔에 뜬다.
+public class JDBCTests {
+	//static초기화 블록. JDBCTests이름이 불러지면 실행이 된다.
+	//드라이버 확인을 할때 사용을 한다.
+	static {
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (Exception e) {
+			e.printStackTrace(); //드라이버 없을 떄. 오류출력
+		}
+		
+	}
+	// 연결 테스트 메서드
+	@Test
+	public void testConnection() {
+		//try(자원) -> try문을 쓰면. try문 빠져나갈때 자원 자동으로 회수. close안해도됨.
+		try(Connection con = DriverManager.getConnection("")) {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+}

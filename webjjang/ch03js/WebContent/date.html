@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>날짜객체</title>
+</head>
+<body>
+<div id = "demo"></div>
+<script type="text/javascript">
+var d = new Date();
+//var d = Date();
+alert(typeof(d));
+document.getElementById("demo").innerHTML = d;//id가 데모인 테그의 안에 d를 넣어준다.
+alert("년도(year):" +d.getYear()); //119 -> 1900+ 119 = 2019
+alert("년도(fullYear):" +d.getFullYear());
+alert("월:" +d.getMonth()); //월; 0~11
+
+var chri = new Date("2019-12-25");
+alert (chri);
+
+</script>
+</body>
+</html>

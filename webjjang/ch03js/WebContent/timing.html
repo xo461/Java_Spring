@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>일정시간만에 자동으로 실행이되는 처리문</title>
+<script type="text/javascript" src="./js/util.js"></script>
+</head>
+<body>
+<!-- 아래 버튼을 클릭하면 3초 후에 myFunction이 실행이되도록 처리 -->
+<button onclick="setTimeout(myFunction, 3000)">시도해라</button>
+<div id="demo"></div>
+<button onclick="clearInterval(myVar)">시간 멈추기</button>
+<script type="text/javascript">
+// 함수 선언 - 호출해서 실행하게 된다.
+function myFunction(){
+	alert("안녕~~");
+}
+
+
+// 1초 만에 실행이 되는 처리문
+// var myVar = setInterval(myTimer, 1000);
+// function myTimer(){
+// 	var d = new Date();
+// 	get("#demo").innerHTML = d.toLocaleTimeString();
+// }
+
+var myVar = setInterval(function(){
+	var d = new Date();
+	get("#demo").innerHTML = d.toLocaleTimeString();
+}, 1000);
+</script>
+</body>
+</html>
+
+<!-- - setInterval 함수 : 일정한 시간 간격으로 작업을 수행하기 위해서 사용합니다.clearInterval 함수를 사용하여 중지할 수 있습니다. 주의할 점은 일정한 시간 간격으로 실행되는 작업이 그 시간 간격보다 오래걸릴 경우 문제가 발생할 수 있습니다. -->
+<!-- - setTimeout 함수 : 일정한 시간 후에 작업을 한번 실행합니다. 보통 재귀적 호출을 사용하여 작업을 반복합니다. 기본적으로 setInterval 과는 달리 지정된 시간을 기다린후 작업을 수행하고, 다시 일정한 시간을 기다린후 작업을 수행하는 방식입니다. 지정된 시간 사이에 작업 시간이 추가 되는 것입니다. clearTimeout() 을 사용해서 작업을 중지합니다. -->
+<!-- - clearInterval(), clearTimeout()이 실행중인 작업을 중지시키는 것은 아닙니다. 지정된 작업은 모두 실행되고 다음 작업 스케쥴이 중지 되는 것입니다. -->

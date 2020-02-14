@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript">
+// 하단에서 시도해봐~버튼을 클릭하면 동작이되는 함수 선언 - 호출해서 실행한다.
+function myFunction(){
+	document.getElementById("demo").innerHTML = "문장이 변경되었습니다.";
+}
+</script>
+</head>
+<body>
+<h1>나의 웹페이지</h1>
+<p id="demo">한 문자</p>
+<button onclick="myFunction();">시도해봐~</button>
+<button onclick="document.getElementById('demo').innerHTML = '문장이 다시! 변경되었습니다.';">시도해봐~</button>
+<!-- 이문서에 id가 demo인 태그를 가져와서 그태그의 안에 '문장이~'를 넣어준다. -->
+<hr />
+<button onclick="pop(this.innerHTML)">경고(test)</button>
+<!-- this.이태그의 안에있는 내용을 pop해라. -->
+<button onclick="pop(this.innerHTML)">Big Data</button>
+<button onclick="pop(this.innerHTML)">개발자</button>
+</body>
+</html>

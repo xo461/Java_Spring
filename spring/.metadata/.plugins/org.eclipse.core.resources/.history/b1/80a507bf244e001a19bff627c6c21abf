@@ -1,0 +1,5 @@
+package org.zerock.notice.controller;
+
+public class NoticeController {
+
+}

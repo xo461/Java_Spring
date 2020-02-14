@@ -1,0 +1,19 @@
+package org.zerock.mapper;
+
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
+
+//test...
+
+@Log4j
+public class TimeMapperTest {
+
+	//timemapper 가져오기위한 변수선언
+	@Setter(onMethod_ = {@Autowired})
+	private TimeMapper timeMapper;
+	
+	public void testGetTime() {
+		log.info("getTime");
+		log.info(timeMapper.getTime()); //메서드호출해서 실행
+	}
+}

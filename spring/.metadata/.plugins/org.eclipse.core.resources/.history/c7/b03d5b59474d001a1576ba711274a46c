@@ -1,0 +1,32 @@
+package org.zerock.sample;
+
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
+@Log4j
+public class TestBoard {
+
+	@Setter(onMethod_ = {@Autowired})
+	private BoardController boardController;
+
+	@Test
+	public void testExist() {
+		
+		String message = "you're good";
+		assertNotNull(boardController);;
+		log.info(message);
+		log.info(boardController);
+		log.info("-------------------------");
+		log.info(boardController.get());
+	}
+}

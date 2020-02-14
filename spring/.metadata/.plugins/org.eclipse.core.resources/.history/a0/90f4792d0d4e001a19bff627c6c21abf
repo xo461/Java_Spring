@@ -1,0 +1,49 @@
+package org.zerock.board.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller //이걸 써줘야 url이 인식된다.
+public class BoardController {
+
+	//주소 입력해서 치는건 get방식..
+	@RequestMapping(value = "/board/list.do", method = RequestMethod.GET)
+	public String list() {
+		// /WEB-INF/view/ + board/list + .jsp가 붙는다.
+		return "board/list";
+	}
+	
+	@RequestMapping(value = "/board/write.do", method = RequestMethod.GET)
+	public String writeForm() {
+		// /WEB-INF/view/ + board/list + .jsp가 붙는다.
+		return "board/write";
+	}
+	
+	@RequestMapping(value = "/board/write.do", method = RequestMethod.POST)
+	public String write() {
+		// /WEB-INF/view/ + board/list + .jsp가 붙는다.
+		return "redirect:list.do";
+	}
+
+	@RequestMapping(value = "/board/view.do", method = RequestMethod.GET)
+	public String view() {
+		// /WEB-INF/view/ + board/list + .jsp가 붙는다.
+		return "board/view";
+	}
+	@RequestMapping(value = "/board/update.do", method = RequestMethod.GET)
+	public String updateForm() {
+		// /WEB-INF/view/ + board/list + .jsp가 붙는다.
+		return "board/update";
+	}
+	@RequestMapping(value = "/board/update.do", method = RequestMethod.POST)
+	public String update() {
+		// /WEB-INF/view/ + board/list + .jsp가 붙는다.
+		return "redirect:view.do";
+	}
+	@RequestMapping(value = "/board/delete.do", method = RequestMethod.POST)
+	public String delete() {
+		return "redirect:list.do";
+	}
+
+}

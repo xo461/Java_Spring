@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>숫자와 문자 비교</title>
+</head>
+<body>
+<span id="result"></span><br/>
+<span id="result2"></span>
+<span id="result3"></span>
+<script type="text/javascript">
+	var n = 10;//숫자
+	var cn = "10";//문자
+	if(n==cn){//==는 타입 다르면 강제변환시켜서 비교
+		document.getElementById("result").innerHTML = "같다(==)";
+		//getElementByID("result")Id가 result인 태그를 가져온다. 
+		//-> .innerHTML = "같다" : 해당 태그 안에 "같다"는 내용을 넣어준다. 
+	}
+	if(n===cn){//===는 타입까지 비교 (이거 사용 권장)
+		document.getElementById("result2").innerHTML = "같다(===)";
+	}else{
+		document.getElementById("result3").innerHTML = "같지않다(===)";		
+	}
+
+</script>
+</body>
+</html>

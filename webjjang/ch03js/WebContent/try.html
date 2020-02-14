@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+5~10 사이의 숫자를 입력하세요.<br/>
+<input id = "demo"><br/>
+<!-- 입력된 숫자가 잘못됐을때  -->
+<div id = "message"></div><br/>
+<button onclick="myFunction()">입력</button>
+
+<script type="text/javascript">
+function myFunction(){
+	var message, x;
+	//메시지를 표시하는 곳 - div
+	message = document.getElementById("message");
+	message.innerHTML = "";
+	// 메시지를 입력하는 곳
+	x = document.getElementById("demo").value;
+	try{ //실행될 선언들
+		//입력란이 비어있으면 예외처리
+		if(x == "") throw "비었네";
+		//숫자가 아니면 예외처리
+		//isNaN() - 매개변수가 숫자인지 검사하는 함수(NaN은 Not a Number)
+		//매개변수가 숫자가 아니면 true, 숫자이면 false를 반환
+		if(isNaN(x)) throw "숫자가 아님";
+		//Number(): 문자열을 숫자로 변환하는 함수
+		//숫자를 문자열로 변환할 때는 String() 함수를 사용
+		x = Number(x);
+		//숫자인 경우 5~10 사이의 숫자가 아니면 예외처리
+		if(x > 10) throw "너무 큼";
+		if(x < 5) throw "너무 작음";
+		message.innerHTML = "적당한 데이터 입니다.";
+	} catch(err){//try 블록 (또는 try 블록 내에서 호출된 함수) 내의 명령문이 예외를 throw 하면 제어가 catch 절로 즉시 이동합니다. try 블록에 예외가 발생하지 않으면 catch 절을 건너뜁니다.
+		//typeof(): 변수의 데이터 타입을 반환하는 연산자
+		alert(typeof err)
+		//예외가 발생시 처리
+		message.innerHTML = "Error: " + err + ".";
+	} finally { //try 선언이 완료된 이후에 실행된 선언들. 이 선언들은 예외 발생 여부와 상관없이 실행된다
+		document.getElementById("demo").value = "";
+		
+	}
+}
+
+</script>
+</body>
+</html>

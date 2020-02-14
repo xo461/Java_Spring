@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<input id = "id" readonly = "readonly">
+<button onclick="checkId()">아이디 중복체크</button><br/>
+<script type="text/javascript">
+
+//팝업창
+
+
+// 1.일반경고창
+alert("데이터 확인이나 흐름 확인을 위한 경고창");
+
+// 2. confirm() 함수
+// - 불린 값을 입력 받을 때 사용
+// - 확인을 누르면 true를 리턴
+// - 취소를 누르면 false를 리턴
+// 지우겠습니까? 확인누르면 지웠다는 창 나옴
+if(confirm("메시지를 지우겠습니까?")) alert("메시지가 지워짐.")
+function checkId(){
+	
+//3. prompt() 함수 - String prompt([String message], [String defaultValue])
+// - 문자열을 입력할 때 사용
+// - 숫자를 입력 받아야 하는 경우는 문자열로 입력 받은 뒤 변환
+// - 첫번째 매개변수는 입력 창에서 띄워줄 메시지
+// - 두번째 매개변수는 입력 부분의 기본 값
+
+//아이디 입력창 띄우기
+document.getElementById("id").value = prompt("사용하실 아이디를 입력하세요.","minnie")
+}
+
+
+</script>
+
+</body>
+</html>

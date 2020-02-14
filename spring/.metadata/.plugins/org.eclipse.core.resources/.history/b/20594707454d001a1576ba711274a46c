@@ -1,0 +1,10 @@
+package org.zerock.sample;
+
+public class testBoard {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

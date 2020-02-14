@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+document.write("test");
+
+//자바스크립트는 변수타입 선언하지 않는다. 
+//javascript에는 아래 6개 데이터에 대해서 false 값으로 판단한다.나머지는 TRUE
+//undefined, null,0, -0,NaN, "" 
+
+a = 1;
+if(a)//a가 true 이면 (위에 6개 데이터가 아니면 다 true이다.)
+	document.write("1은 true입니다.<br/>");
+else
+	document.write("1은 false입니다.<br/>");
+
+a = 0;
+if(a)
+	document.write("0은 true입니다.<br/>");
+else
+	document.write("0은 false입니다.<br/>");
+// 아무 숫자도 없으면(0이면) false..
+
+a = -1;
+if(a)
+	document.write("-1은 true입니다.<br/>");
+else
+	document.write("-1은 false입니다.<br/>");
+
+
+s = null;
+if(s)
+	document.write("null은 true입니다.<br/>");
+else
+	document.write("null은 false입니다.<br/>");
+// null은 false이다.
+
+s = "";
+if(s)
+	document.write("\"\"은 true입니다.<br/>");
+else
+	document.write("\"\"은 false입니다.<br/>");
+// ""안이 비었으면 false이다.
+
+
+</script>
+</head>
+<body>
+
+
+</body>
+</html>

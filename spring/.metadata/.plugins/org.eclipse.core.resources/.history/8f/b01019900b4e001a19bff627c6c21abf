@@ -1,0 +1,8 @@
+package org.zerock.board.controller;
+
+import org.springframework.stereotype.Controller;
+
+@Controller //이걸 써줘야 url이 인식된다.
+public class BoardController {
+
+}
