@@ -1,7 +1,0 @@
-https://search.naver.com/search.naver?sm=top_hty&fbm=1&ie=utf8&query=submit
-jquery.com
-
-<실습>
-1. 회원가입 이메일 입력란 완성
-2. 게시판 글쓰기 화면 구현 작성 
- -> 게시판 글쓰기 -> 리스트를 완성하세요. <팀별>
