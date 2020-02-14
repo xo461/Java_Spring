@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+	table{
+		border: 1px solid red;
+		margin: auto;
+	}
+		
+	td{border: 1px solid orange;}
+
+	/* 가로 길이 고정	 */
+	#t1{
+		width: 400px;
+	}
+
+	/* 	가로의 최대 길이 400px이고 창을 줄이면 테이블 길이가 줄어듦 */
+	#t2{
+		max-width: 400px;
+	}
+</style>
+
+</head>
+<body>
+<table id="t1">
+<tr>
+	<td>이영환</td>
+	<td>서울시</td>
+	<td>강사</td>
+</tr>
+
+<tr>
+	<td>이영환</td>
+	<td>서울시</td>
+	<td>강사</td>
+</tr>
+
+<tr>
+	<td>이영환이영환이영환이영환</td>
+	<td>서울시서울시서울시서울시</td>
+	<td>강사강사강사강사강사강사강사</td>
+</tr>
+</table>
+
+
+<table id="t2">
+<tr>
+	<td>이영환이영환이영환이영환</td>
+	<td>서울시서울시서울시서울시</td>
+	<td>강사강사강사강사강사강사강사</td>
+</tr>
+
+<tr>
+	<td>이영환</td>
+	<td>서울시</td>
+	<td>강사</td>
+</tr>
+
+<tr>
+	<td>이영환</td>
+	<td>서울시</td>
+	<td>강사</td>
+</tr>
+
+</table>
+</body>
+</html>

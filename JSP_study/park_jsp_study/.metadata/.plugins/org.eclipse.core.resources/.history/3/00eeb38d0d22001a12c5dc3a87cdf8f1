@@ -1,0 +1,38 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="com.sun.javafx.collections.MappingChange.Map"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%
+//map : dto와 같다.
+Map <String, String> map = new HashMap <>();
+map.put("name", "미니");
+map.put("취미", "등산");
+map.put("스타일", "귀여움");
+
+%>
+
+이름:<%=map.get("name") %>
+이름:<%=map.get("name") %>
+이름:<%=map.get("name") %>
+
+<c:set var="map" value="<%=new HashMap() %>" scope="page"/>
+
+<c:set target="${map }" property="name" value="요미"/>
+<c:set target="${map }" property="취미" value="드라이브"/>
+<c:set target="${map }" property="스타일" value="댄디"/>
+
+
+이름:${map.name}<br>
+이름:${map.취미}<br>
+이름:${map.스타일}<br>
+
+</body>
+</html>

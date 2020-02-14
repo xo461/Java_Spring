@@ -1,0 +1,71 @@
+
+MySQL DB
+
+bin> mysql -u root -p
+12345
+
+create database team;
+
+use team;
+
+
+drop table game20;
+drop table game50;
+drop table userinfo;
+
+create table userinfo(  -- 회원가입
+	id varchar(15) primary key,
+	pwd varchar(15) not null,
+	name varchar(20) not null,
+	phone varchar(15)
+);
+
+create table game20(  -- 스무고개 게임
+	t_num int(4) auto_increment primary key,
+	t_id varchar(15),
+	t_name varchar(20),
+	t_score int(5),
+	foreign key (t_id) references userinfo (id)
+);
+
+create table game50(  -- 1 to 50 게임
+	f_num int(4) auto_increment primary key,
+	f_id varchar(15),
+	f_name varchar(20),
+	f_score double(5,2),
+	f_date datetime,
+	foreign key (f_id) references userinfo (id)
+);
+
+create table answer(
+	q_num int(4) auto_increment primary key,
+	q_answer varchar(15) not null,
+	q_ans_type varchar(20),
+	q_ans_legs int(4),
+	q_ans_eat bool not null,
+	q_ans_color varchar(20)
+);
+
+
+insert into answer (q_answer,q_ans_type,q_ans_eat,q_ans_color) values('사과','과일',true,'빨간색,초록색');
+insert into answer values(0,'고양이','동물',4,false,'다양');
+insert into answer values(0,'태양','사물|행성',null,false,'빨간색,노란색');
+insert into answer values(0,'비둘기','동물',2,true,'흰색,회색');
+insert into answer values(0,'산소',null,null,false,null);
+insert into answer values(0,'수박','식물',null,true,'초록색,검은색');
+insert into answer values(0,'신호등','사물',1,false,'초록색,노란색,빨간색');
+insert into answer values(0,'양','동물',4,true,'흰색,아이보리');
+
+
+insert into userinfo values('kim','1','김철주','010-8709-3628');
+insert into userinfo values('jh','1','곽주호','010-9122-8468');
+
+insert into game20 values(0, 'kim', '김철주', 2000);
+
+insert into game50 values(0, 'jh', '곽주호', 60.2, '2015-08-21 12:10:32');
+insert into game50 values(0, 'jh', '곽주호', 69.1, '2015-08-22 12:20:32');
+insert into game50 values(0, 'jh', '곽주호', 58.7, '2015-08-23 12:30:32');
+insert into game50 values(0, 'jh', '곽주호', 63.2, '2015-08-24 12:50:32');
+insert into game50 values(0, 'jh', '곽주호', 52.5, now());
+
+commit;

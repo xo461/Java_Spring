@@ -1,0 +1,59 @@
+PreparedStatement 클래스  와 Statement 비교 
+
+1. PreparedStatement 는 준비된 Statement 이다
+   미리 SQL문이 셋팅된 Statement가 DB에 전송되어저 컴파일되어지고
+   SQL문의 ? 부분만 나중에 추가 셋팅해서 실행이 되어지는 
+   준비된 Statement 이다 
+
+<  Statement 사용법>
+
+Statement stmt=con.createStatement();// 생성, 생성시 인자 안들어간다 
+stmt.executeUpdate(sql);// 실행시 인자가 들어간다
+stmt.executeQuery(sql);
+
+
+<PreparedStatement 사용법>
+
+PreparedStatement pstmt=con.prepareStatement(sql);// 생성시 인자 들어간다
+pstmt.setXxx(1,값);
+pstmt.setXxx(2,값);
+pstmt.setXxx(3,값);
+pstmt.executeUpdate();// 실행시 인자 안들어간다 
+pstmt.executeQuery();
+
+========================================================================
+
+2. PreparedStatement 장점
+    반복적인 SQL문을 사용할 경우에 Statement보다 빠르다
+   (이유는  ? 를 제외한 SQL문이 DB에서 미리 컴파일 되어져서 대기하고 있기 때문에)
+
+
+3. 단점 
+    SQL문마다 PreparedStatement 객체를 각각 생성해 줘야 한다
+    ( 재 사용이 불가능해서, 새로 생성 해야 한다 )
+   Statement객체는 SQL문이 달라지더라도 한개만 생성해서 재사용 가능하다
+    ( 실행시 sql 문이 들어가기 때문에) 
+
+
+
+4. Statement  반복 사용 할때 
+
+  stmt=con.createStatement();
+  String content="김장면";
+  for(int i=0; i<10000;i++)
+   {
+      //stmt.executeUpdate("insert into test values('"+content+"')");
+      stmt.executeUpdate("insert into test values('김장면')");
+   }
+
+
+
+5.  PreparedStatement 반복 사용 할때 
+
+    pstmt=con.prepareStatement("insert into test values(?)");
+
+    for(int i=0 ; i<10000;i++)
+    {
+     pstmt.setString(1,content+i);
+     pstmt.executeUpdate();
+    }

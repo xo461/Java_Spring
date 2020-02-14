@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="./js/jquery-3.4.1.min.js"></script>
+
+<style type="text/css">
+	table{
+		width: 400px;
+	}
+	th, td{
+		border: 1px solid #aaa;
+		padding: 15px;
+	}
+</style>
+
+<script type="text/javascript">
+$(function() {
+	//not: 첫번째랑 마지막은 제외하고 적용해라.
+	$("tr:not(:first, :last)").css({"background":"#ffff99"});
+	
+});
+
+</script>
+
+</head>
+<body>
+	<table>
+		<tr>
+			<th>제목입니다.</th>
+		</tr>
+		<tr>
+			<td>데이터입니다.</td>
+		</tr>
+		<tr>
+			<td>데이터입니다.</td>
+		</tr>
+		<tr>
+			<td>데이터입니다.</td>
+		</tr>
+		<tr>
+			<td>버튼부분입니다.</td>
+		</tr>
+	</table>
+</body>
+</html>

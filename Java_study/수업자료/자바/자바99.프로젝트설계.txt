@@ -1,0 +1,32 @@
+Main - Controller -> menu
+ 
+  BoardConroller
+
+
+     service.BoardServiceList
+
+
+          BoardDAO <- OracleBoardDAO, MySQLBoardDAO
+
+
+     out.BoardPrint
+
+
+PL : Project 생성 : project1023
+  -> 기본 패키지 : com.webjjang
+ ->  com.webjjang.main.Main 
+ ->  com.webjjang.main.Controller
+
+1. PL - project 생성
+2. PL - svn 공유(share)
+3. 각팀원 - svn project를 checkout
+
+
+게시판 담당
+ -> com.webjjang.board.dto.BoardDTO
+ -> com.webjjang.board.dao.BoardDAO
+ -> com.webjjang.board.service.BoardListService
+ -> com.webjjang.board.service.BoardViewService
+ -> com.webjjang.board.controller.BoardController
+
+ 

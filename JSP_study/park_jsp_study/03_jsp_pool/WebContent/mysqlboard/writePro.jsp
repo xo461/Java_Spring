@@ -1,0 +1,30 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="boardmysql.*" %>
+<%
+request.setCharacterEncoding("utf-8");
+%>    
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<!-- dto에 setter작업 -->
+<jsp:useBean id="dto" class="boardmysql.BoardDTO">
+	<jsp:setProperty name="dto" property="*"/>
+</jsp:useBean>
+
+<%
+//ip setter작업
+dto.setIp(request.getRemoteAddr());
+
+BoardDAO dao = BoardDAO.getDao(); //dao객체얻기
+dao.insertArticle(dto);
+response.sendRedirect("list.jsp"); //list로 페이지 이동
+%>
+</body>
+</html>

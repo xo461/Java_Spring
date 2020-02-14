@@ -1,0 +1,173 @@
+{\rtf1\ansi\ansicpg949\deff0\deflang1033\deflangfe1042{\fonttbl{\f0\fnil\fcharset129 \'b8\'bc\'c0\'ba \'b0\'ed\'b5\'f1;}{\f1\fmodern\fprq2\fcharset129 \'b8\'bc\'c0\'ba \'b0\'ed\'b5\'f1;}{\f2\froman\fprq2\fcharset0 Times New Roman;}{\f3\froman\fprq2\fcharset129 \'b9\'d9\'c5\'c1;}{\f4\fmodern\fprq2\fcharset129 \'b1\'bc\'b8\'b2;}{\f5\fmodern\fprq2\fcharset129 \'b5\'b8\'bf\'f2;}}
+{\colortbl ;\red255\green0\blue0;\red255\green255\blue0;\red0\green255\blue255;\red255\green0\blue255;\red155\green0\blue211;\red0\green112\blue192;}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sl240\slmult1\lang18\f0\fs20 cmd \'c3\'a2\'bf\'a1\'bc\'ad\par
+c:\\>sqlplus scott/tiger\par
+select * from tab;\par
+\pard\nowidctlpar\f1 ========================\par
+\cf1 group by \'c0\'fd\cf0\lang1033\f2\par
+\lang1042\f1 ========================\par
+\highlight2\lang18\'b1\'d7\'b7\'ec\'c7\'d4\'bc\'f6 \'bb\'e7\'bf\'eb \par
+\highlight0\par
+\'b9\'ae10) \'ba\'ce\'bc\'ad\'ba\'b0\'b7\'ce \'b0\'a1\'c0\'e5 \'b3\'f4\'c0\'ba \'b1\'de\'bf\'a9 \'b1\'b8\'c7\'cf\'b1\'e2 \par
+\'b4\'e410) select \highlight2 max\highlight0 (sal) max,deptno from \highlight2 emp\highlight0  group by deptno;\par
+\par
+\'b9\'ae11) \'ba\'ce\'bc\'ad\'ba\'b0\'b7\'ce \'c6\'f2\'b1\'d5 \'b1\'de\'bf\'a9 \'b1\'b8\'c7\'cf\'b1\'e2 \par
+\'b4\'e411) select \highlight2 avg\highlight0 (sal) avg,deptno from \highlight2 emp\highlight0  group by deptno;\par
+\par
+\'b1\'d7\'b7\'ec\'ba\'b0 \'c0\'ce\'bf\'f8\'bc\'f6\par
+select \highlight2 count\highlight0 (*),deptno, max(sal) ,avg(sal) from \highlight2 emp\highlight0  group by deptno;\par
+\par
+========================\par
+\cf1 Having \'c0\'fd\cf0\lang1033\f2\par
+\lang1042\f1 ========================\par
+Having \lang18\'c0\'fd\'c0\'ba group by \'c0\'fd\'bf\'a1 \'c0\'c7\'c7\'d8 \'bb\'fd\'bc\'ba\'b5\'c8 \'b0\'e1\'b0\'fa \'c1\'df\'bf\'a1\'bc\'ad \par
+\highlight2\'c1\'b6\'b0\'c7\highlight0\'c0\'bb \'bb\'e7\'bf\'eb\'c7\'d2\'b6\'a7 Having\'c0\'fd\'c0\'bb \'bb\'e7\'bf\'eb\'c7\'d1\'b4\'d9\lang1033\f2 .\par
+\par
+\lang18\f1\'b9\'ae12) \'ba\'ce\'bc\'ad\'ba\'b0 \'b1\'de\'bf\'a9 \'c6\'f2\'b1\'d5\'c0\'cc 2000 \'c0\'cc\'bb\'f3\'c0\'ce \'c0\'da\'b7\'e1\'b8\'b8 \'bb\'ea\'c3\'e2\'c7\'cf\'bd\'c3\'bf\'e4 \par
+      deptno,\'c6\'f2\'b1\'d5 \'b1\'b8\'c7\'cf\'b1\'e2.\lang1033\f2\par
+\lang18\f1\par
+\'b4\'e412) \par
+select deptno,avg(sal) from emp \par
+\highlight2 group by \highlight0 deptno \par
+\highlight3 having\highlight0  avg(sal)>2000;\par
+\par
+\cf1\lang1042\kerning2\b\f3\fs40 JOIN\cf0\b0\fs20  ( emp, dept, salgrade,bonus)\lang18\kerning0\f1\par
+\pard\nowidctlpar\qj\lang1042\kerning2\f3\'b0\'fc\'b0\'e8\'c7\'fc \'c5\'d7\'c0\'cc\'ba\'ed\'bf\'a1\'bc\'ad\'b4\'c2 \'c5\'d7\'c0\'cc\'ba\'ed\'b0\'a3\'c0\'c7 \'b0\'fc\'b0\'e8\'b0\'a1 \'c1\'df\'bf\'e4\'c7\'cf\'b4\'d9\lang1033\f2\par
+\lang1042\f3\'c7\'cf\'b3\'aa \'c0\'cc\'bb\'f3\'c0\'c7 \'c5\'d7\'c0\'cc\'ba\'ed\'bf\'a1\'bc\'ad \highlight2\'c5\'d7\'c0\'cc\'c5\'cd\'b8\'a6 \'c1\'b6\'c8\'b8\highlight0\'c7\'cf\'b1\'e2 \'c0\'a7\'c7\'ec\'bc\'ad \'bb\'e7\'bf\'eb\'b5\'c7\'b4\'c2 \'b0\'cd\'c0\'cc JOIN \'c0\'cc\'b4\'d9 \par
+\pard\nowidctlpar\lang18\kerning0\f1\par
+\pard\nowidctlpar\qj\tx2115\cf4\lang1042\kerning2\b\f3\fs24 EQUI JOIN\par
+\cf0\b0\fs20\'bb\'e7\'bf\'f8(emp) \'bf\'cd \'ba\'ce\'bc\'ad(dept) \'b0\'f8\'c5\'eb \'c4\'ae\'b7\'b3\'c0\'ce \highlight2 deptno\highlight0  \'b0\'aa\'c0\'cc \'c0\'cf\'c4\'a1\'c7\'d1 \'c0\'da\'b7\'e1 \'c3\'df\'c3\'e2 \'c7\'cf\'bd\'c3\'bf\'e4,\lang1033\f2\par
+\lang1042\f3 (\'b5\'ce \'c5\'d7\'c0\'cc\'ba\'ed\'c0\'c7 JOIN \'bf\'b9\'c1\'a6\'c0\'cc\'b4\'d9 ,\'b5\'ce \'c5\'d7\'c0\'cc\'ba\'ed\'c0\'c7 \'c4\'c3\'b7\'b3\'c0\'cc \'b0\'e1\'c7\'d5\'b5\'c8\'b4\'d9 )\par
+\pard\nowidctlpar\lang18\kerning0\f1\par
+\pard\nowidctlpar\qj\tx2115\lang1042\kerning2\f3 SELECT *\par
+FROM emp, dept\par
+WHERE \b emp.deptno=dept.deptno\b0 ;\lang1033\f2\par
+\pard\nowidctlpar\lang18\kerning0\f1\par
+\'ba\'b0\'c4\'aa \'ba\'ce\'bf\'a9\'c7\'cf\'b1\'e2\par
+\pard\nowidctlpar\qj\tx2115\lang1042\kerning2\f3 SELECT e.ename, d.dname, e.deptno, d.deptno\par
+FROM \highlight2\b emp e , dept d\lang1033\b0\f2\par
+\highlight0\lang1042\f3 WHERE \b e.deptno=d.deptno\b0 ;\lang1033\f2\par
+\pard\nowidctlpar\lang18\kerning0\f1\par
+\pard\nowidctlpar\qj\tx2115\cf4\lang1042\kerning2\b\f3\fs24 EQUI JOIN\cf0\b0\fs20  \'bf\'a1 \b AND \'bf\'ac\'bb\'ea\'c0\'bb \'c3\'df\'b0\'a1\b0\'c7\'cf\'bf\'a9 \'b0\'cb\'bb\'f6\'c7\'cf\'bd\'c3\'bf\'e4\lang1033\f2\par
+\lang1042\f3\'ba\'ce\'bc\'ad\'b0\'a1 \'c0\'cf\'c4\'a1\'c7\'cf\'b0\'ed,\'bb\'e7\'bf\'f8\'b8\'ed\'c0\'cc SCOTT \'c0\'ce \'bb\'e7\'b6\'f7\'c0\'bb \'b0\'cb\'bb\'f6\'c7\'cf\'b4\'c2 \'bf\'b9\'c1\'a6 \par
+\pard\nowidctlpar\lang18\kerning0\f1\par
+\pard\nowidctlpar\qj\tx2115\lang1042\kerning2\f3 SELECT ename, dname\par
+FROM emp  , dept \par
+WHERE emp.deptno=dept.deptno \highlight2 AND\highlight0  emp.ename='SCOTT';\lang1033\f2\par
+\pard\nowidctlpar\lang18\kerning0\f1\par
+\pard\nowidctlpar\qj\tx2115\cf4\lang1042\kerning2\b\f3 NON-EQUI JOIN\par
+\cf0\b0 NON-EQUI JOIN \'c0\'ba \'c1\'b6\'c0\'ce \'c1\'b6\'b0\'c7\'bf\'a1 \'c6\'af\'c1\'a4 \'b9\'fc\'c0\'a7 \'b3\'bb\'bf\'a1 \'c0\'d6\'b4\'c2\'c1\'f6 \'c1\'b6\'bb\'e7\'c7\'cf\'b1\'e2 \'c0\'a7\'c7\'d8\'bc\'ad\par
+ WHERE \'c0\'fd\'bf\'a1 \'c1\'b6\'c0\'ce \'c1\'b6\'b0\'c7\'c0\'bb \'bb\'e7\'bf\'eb\'c7\'d1\'b4\'d9\lang1033\f2 ,\par
+\lang1042\f3\par
+SELECT e.ename, e.sal, s.grade\par
+FROM emp e , salgrade s\par
+WHERE \b e.sal >= s.losal AND e.sal <= s.hisal\b0 ;\lang1033\f2\par
+\lang1042\f3\par
+\cf5\b 3\'b0\'b3 \'c5\'d7\'c0\'cc\'ba\'ed\'c0\'c7 \'c1\'b6\'c0\'ce \'bf\'b9\'c1\'a6 \par
+\cf0\b0 SELECT e.ename, e.sal, s.grade\par
+FROM emp e , dept d, salgrade s\par
+WHERE e.deptno=d.deptno \par
+AND e.sal BETWEEN s.losal AND s.hisal;\lang1033\f2\par
+\lang1042\f3\par
+\cf5 SELF JOIN\par
+\cf0 Emp(\'bb\'e7\'bf\'f8)\'c5\'d7\'c0\'cc\'ba\'ed \'bf\'a1\'bc\'ad \'b0\'a2\'b0\'a2 \'bb\'e7\'c0\'a9\'c0\'cc\'b8\'a7 \'b9\'d7 \'c0\'da\'bd\'c5\'c0\'c7 \'b4\'e3\'b4\'e7\'b8\'c5\'b4\'cf\'c0\'fa \'c3\'e2\'b7\'c2\'c7\'cf\'b4\'c2 \'bf\'b9\'c1\'a6 \par
+\par
+SELECT e.ename || '\'c0\'c7 \'b8\'c5\'b4\'cf\'c0\'fa\'b4\'c2 ' ||manager.ename || ' \'c0\'d4\'b4\'cf\'b4\'d9'\par
+FROM \b emp e , emp manager\lang1033\b0\f2\par
+\lang1042\f3 WHERE e.mgr=manager.empno;\lang1033\f2\par
+\lang1042\f3 ===========================================\par
+\pard\nowidctlpar\kerning0\b\f4\'a1\'dc \kerning2\f5\fs30 Equi Join\cf4\kerning0\f4    :\cf6  \'c0\'cf\'c4\'a1\'c7\'d1 \'c0\'da\'b7\'e1 \'c3\'df\'c3\'e2\cf4\lang1033\f2\par
+\cf0\kerning2\b0\fs21\par
+\cf1\lang1042\b\f5\'b0\'a1\'c0\'e5 \'c0\'cf\'b9\'dd\'c0\'fb\cf0\'c0\'b8\'b7\'ce \'bb\'e7\'bf\'eb\'c7\'cf\'b4\'c2 Equality Condition(=)\'bf\'a1 \'c0\'c7\'c7\'d1 \'c1\'b6\'c0\'ce\'c0\'cc\'b4\'d9\lang1033\f2\par
+\kerning0\b0\fs20\par
+\cf6\lang1042\f4\'bb\'e7\'bf\'f8(emp) \'bf\'cd \'ba\'ce\'bc\'ad(dept) \'b0\'f8\'c5\'eb \'c4\'ae\'b7\'b3\'c0\'ce \cf5\b deptno \cf6\b0\'b0\'aa\'c0\'cc \b\'c0\'cf\'c4\'a1\b0\'c7\'d1 \'c0\'da\'b7\'e1 \'c3\'df\'c3\'e2\'c7\'cf\'b4\'c2\lang1033\f2\par
+\lang1042\f4\'b5\'ce \'c5\'d7\'c0\'cc\'ba\'ed\'c0\'c7 JOIN \'bf\'b9\'c1\'a6 , \'b5\'ce \'c5\'d7\'c0\'cc\'ba\'ed\'c0\'c7 \'c4\'c3\'b7\'b3\'c0\'cc \'b0\'e1\'c7\'d5\'b5\'c8\'b4\'d9 \par
+\cf0\lang1033\b\f2\par
+\lang1042\f4 SELECT ename, dname, emp.deptno, dept.deptno\par
+FROM emp, dept\par
+WHERE emp.deptno=dept.deptno;\par
+\pard\nowidctlpar\qj\tx2115\kerning2\b0\f3\par
+\highlight2\kerning0\b\f5\fs22 INNER JOIN\highlight0\kerning2\b0\f3\fs20\par
+\pard\sb100\sa100\kerning0\f5\fs22\'c4\'de\'b8\'b6(,) \'b4\'eb\'bd\'c5 \b INNER JOIN\b0\'c0\'bb \'bb\'e7\'bf\'eb \'c7\'d2 \'bc\'f6 \'c0\'d6\'c0\'b8\'b8\'e7, \b INNER\b0\'b4\'c2 \'bb\'fd\'b7\'ab \'b0\'a1\'b4\'c9\'c7\'cf\'b4\'d9. \lang1033\f2\par
+\lang1042\f5 Join \'c1\'b6\'b0\'c7\'c0\'ba \b ON\b0  \'c0\'fd\'bf\'a1 \'bf\'c2\'b4\'d9\lang1033\f2 .\par
+\pard\nowidctlpar\cf4\lang1042\b\f4\fs24\'a1\'dc\'bf\'b9\cf0\lang1033\b0\f2\fs20\par
+\lang1042\b\f4 SELECT e.empno, e.ename, d.dname,e.deptno  \par
+FROM dept d  \cf1 INNER  JOIN \cf0  emp e  \cf1 ON \cf0  d.deptno = e.deptno;\par
+\lang1033\f2\par
+\par
+\cf4\lang1042\f4\fs24\'a1\'dc\'bf\'b9 \cf0\fs20 INNER \'bb\'fd\'b7\'ab \par
+SELECT e.empno, e.ename, d.dname , e.deptno\lang1033\f2\par
+\lang1042\f4 FROM dept d \cf1 JOIN\cf0  emp e \cf1 ON\cf0  d.deptno = e.deptno;\par
+\lang1033\b0\f2\par
+\pard\sb100\sa100\cf4\lang1042\b\f4\fs24\'a1\'dc\cf0\f5\fs22 NATURAL JOIN\b0\'c0\'bb \'bb\'e7\'bf\'eb \'c7\'cf\'b8\'e9 \'b5\'bf\'c0\'cf\'c7\'d1 \'c4\'c3\'b7\'b3\'c0\'bb \'b3\'bb\'ba\'ce\'c0\'fb\'c0\'b8\'b7\'ce \'b8\'f0\'b5\'ce\'c1\'b6\'c0\'ce \'c7\'cf\'b9\'c7\'b7\'ce\lang1033\f2 ,\par
+\lang1042\f5  \b ON\b0\'c0\'fd\'c0\'cc \'bb\'fd\'b7\'ab \'b0\'a1\'b4\'c9\'c7\'cf\'b4\'d9\lang1033\f2 .\par
+\pard\nowidctlpar\lang1042\b\f4\fs20 SELECT e.empno, e.ename, d.dname  \lang1033\f2\par
+\lang1042\f4 FROM dept d NATURAL JOIN emp e;\par
+\par
+\par
+SELECT e.empno, e.ename, d.dname, \highlight2 d.deptno\highlight0   \cf1\'be\'c8\'b5\'ca\cf0\lang1033\f2\par
+\lang1042\f4 FROM dept d \par
+NATURAL JOIN emp e;\par
+\par
+\pard\sb100\sa100\cf4\fs24\'a1\'dc\cf0\b0\f5\fs22 NATURAL JOIN\'c0\'c7 \highlight2\'b4\'dc\'c1\'a1\'c0\'ba\highlight0  \'b5\'bf\'c0\'cf\'c7\'d1 \'c0\'cc\'b8\'a7\'c0\'bb \'b0\'a1\'c1\'f6\'b4\'c2 \'c4\'ae\'b7\'b3\'c0\'ba \'b8\'f0\'b5\'ce \'c1\'b6\'c0\'ce\'c0\'cc \'b5\'c7\'b4\'c2\'b5\'a5\lang1033\f2 ,\par
+\lang1042\f5 join\'c4\'ae\'b7\'b3\'c0\'bb \'c3\'e2\'b7\'c2\'c7\'d2 \'bc\'f6 \'be\'f8\'b4\'d9 \cf1\par
+\b USING\cf0\b0  \'b9\'ae\'c0\'bb \'bb\'e7\'bf\'eb\'c7\'cf\'b8\'e9 \cf1 join\'c4\'c3\'b7\'b3\'c0\'bb \'c3\'e2\'b7\'c2\cf0\'c7\'d2 \'bc\'f6 \'c0\'d6\'b4\'d9 \lang1033\f2 .\par
+\pard\nowidctlpar\fs20\par
+\lang1042\b\f4 SELECT e.empno, e.ename, deptno \par
+FROM emp e \par
+JOIN dept d \par
+USING (\highlight2 deptno\highlight0 );\par
+\cf1\par
+\par
+\cf5 OUTER JOIN\cf1  \cf0\par
+\par
+\cf1\'a1\'dcLEFT OUTER JOIN (\cf0\b0 LEFT JOIN\cf1\b  ) : \'bf\'de\'c2\'ca \'b5\'a5\'c0\'cc\'c5\'cd \'b8\'f0\'b5\'ce \'c6\'f7\'c7\'d4\'c7\'cf\'bf\'a9  \'c7\'a5\'bd\'c3\'b5\'c8\'b4\'d9 \lang1033\f2\par
+\cf0\b0\par
+\lang1042\f4 1. \'bf\'de\'c2\'ca \'c5\'d7\'c0\'cc\'ba\'ed\'bf\'a1 \'c1\'b6\'c0\'ce\'bd\'c3\'c5\'b3 \'c4\'c3\'b7\'b3\'c0\'c7 \'b0\'aa\'c0\'cc \'be\'f8\'b4\'c2 \'b0\'e6\'bf\'ec \'bb\'e7\'bf\'eb\'c7\'d5\'b4\'cf\'b4\'d9. \par
+\par
+\'bf\'de\'c2\'ca \'bf\'dc\'ba\'ce \'c1\'b6\'c0\'ce \'c0\'bb \'b8\'b8\'b5\'e9\'b7\'c1\'b8\'e9 LEFT JOIN \'bf\'ac\'bb\'ea\'c0\'bb \'bb\'e7\'bf\'eb\'c7\'d5\'b4\'cf\'b4\'d9. \par
+\'bf\'de\'c2\'ca \'bf\'dc\'ba\'ce \'c1\'b6\'c0\'ce\'c0\'ba \'b5\'ce \'c5\'d7\'c0\'cc\'ba\'ed \'bf\'c0\'b8\'a5\'c2\'ca \'c5\'d7\'c0\'cc\'ba\'ed\'c0\'c7 \'b7\'b9\'c4\'da\'b5\'e5\'bf\'a1 \'b4\'eb\'c7\'d8 \'c0\'cf\'c4\'a1\'c7\'cf\'b4\'c2 \'b0\'aa\'c0\'cc \'be\'f8\'b4\'c2 \'b0\'e6\'bf\'ec\'bf\'a1\'b5\'b5\lang1033\f2\par
+\lang1042\b\f4\'bf\'de\'c2\'ca  \'c5\'d7\'c0\'cc\'ba\'ed\'c0\'c7 \'b8\'f0\'b5\'e7 \'b7\'b9\'c4\'da\'b5\'e5\'b8\'a6 \'c6\'f7\'c7\'d4\b0\'c7\'d5\'b4\'cf\'b4\'d9\lang1033\f2\par
+\par
+\lang1042\b\f4  \lang1033\f2\par
+\b0\par
+\lang1042\b\f4 SELECT e.deptno, d.deptno \par
+     FROM \highlight2 emp e\highlight0  \cf5 LEFT OUTER JOIN \cf0\highlight2 dept d\highlight0   ON e.deptno = d.deptno;\par
+\par
+\par
+SELECT e.deptno, d.deptno \par
+     FROM emp e , dept d  where  \highlight2 e.deptno\highlight0  = d.deptno(\highlight2 +\highlight0 );\par
+\lang1033\b0\f2\par
+\pard\nowidctlpar\qj\tx2115\lang1042\kerning2\f3\par
+\pard\nowidctlpar\cf1\kerning0\b\f4\'a1\'dc RIGHT OUTER JOIN  : \'bf\'c0\'b8\'a5\'c2\'ca \'b5\'a5\'c0\'cc\'c5\'cd \'b8\'f0\'b5\'ce \'c3\'e2\'b7\'c2 \lang1033\f2\par
+\cf0\b0\par
+\lang1042\f4 1. \'bf\'c0\'b8\'a5\'c2\'ca\'bf\'a1 \'c5\'d7\'c0\'cc\'ba\'ed\'bf\'a1 \'c1\'b6\'c0\'ce\'bd\'c3\'c5\'b3 \'c4\'c3\'b7\'b4\'c0\'c7 \'b0\'aa\'c0\'cc \'be\'f8\'b4\'c2 \'b0\'e6\'bf\'ec \'bb\'e7\'bf\'eb\'c7\'d5\'b4\'cf\'b4\'d9. \par
+\par
+\'bf\'c0\'b8\'a5\'c2\'ca \'bf\'dc\'ba\'ce \'c1\'b6\'c0\'ce \'c0\'bb \'b8\'b8\'b5\'e9\'b7\'c1\'b8\'e9 RIGHT JOIN \'bf\'ac\'bb\'ea\'c0\'bb \'bb\'e7\'bf\'eb\'c7\'d5\'b4\'cf\'b4\'d9. \par
+\'bf\'c0\'b8\'a5\'c2\'ca \'bf\'dc\'ba\'ce \'c1\'b6\'c0\'ce\'c0\'ba \'b5\'ce \'c5\'d7\'c0\'cc\'ba\'ed \'c1\'df \'bf\'de\'c2\'ca \'c5\'d7\'c0\'cc\'ba\'ed\'c0\'c7 \'b7\'b9\'c4\'da\'b5\'e5\'bf\'a1 \'b4\'eb\'c7\'d8 \'c0\'cf\'c4\'a1\'c7\'cf\'b4\'c2 \'b0\'aa\'c0\'cc \'be\'f8\'b4\'c2 \'b0\'e6\'bf\'ec\'bf\'a1\'b5\'b5\lang1033\f2\par
+\lang1042\b\f4\'bf\'c0\'b8\'a5\'c2\'ca  \'c5\'d7\'c0\'cc\'ba\'ed\'c0\'c7 \'b8\'f0\'b5\'e7 \'b7\'b9\'c4\'da\'b5\'e5\b0\'b8\'a6 \'c6\'f7\'c7\'d4\'c7\'d5\'b4\'cf\'b4\'d9\lang1033\f2\par
+\par
+\par
+\lang1042\b\f4 SELECT e.deptno, d.deptno \par
+     FROM \highlight3 emp e\highlight0  \highlight2 RIGHT OUTER JOIN\highlight0  \highlight3 dept d\highlight0  \cf1 ON\cf0  e.deptno = d.deptno;\par
+\lang1033\f2\par
+\par
+\lang1042\f4 SELECT e.deptno, d.deptno \par
+     FROM emp e\cf1  , \cf0 dept d  \cf1 where\cf0   e.deptno(\highlight2 +\highlight0 ) = \highlight2 d.deptno\highlight0 ;\lang1033\f2\par
+\b0\par
+\pard\nowidctlpar\qj\tx2115\lang1042\kerning2\f3\par
+\pard\nowidctlpar\cf1\kerning0\b\f4\'a1\'dcFULL OUTER JOIN\par
+\cf0\lang1033\b0\f2\par
+\lang1042\f4 1. \'be\'e7\'c2\'ca \'c5\'d7\'c0\'cc\'ba\'ed\'bf\'a1 \'b4\'d9 outer join\'c0\'bb \'c7\'cf\'b4\'c2\'b0\'cd\'c0\'bb TWO-WAY OUTER JOIN \'b6\'c7\'b4\'c2 \par
+FULL OUTER JOIN\'c0\'cc\'b6\'f3 \'c7\'d5\'b4\'cf\'b4\'d9\lang1033\f2 .\par
+\lang1042\f4  \lang1033\b\f2\par
+\b0\par
+\lang1042\b\f4 SELECT e.ename,e.deptno, d.deptno,d.dname \par
+FROM \highlight3 emp e\highlight0  \cf1 FULL OUTER JOIN\cf0  \highlight3 dept d\highlight0  \cf1 ON\cf0  e.deptno=d.deptno;\par
+\pard\nowidctlpar\qj\tx2115\kerning2\b0\f3\par
+\par
+\par
+\par
+\pard\sl240\slmult1\lang18\kerning0\f0\par
+}
+ 

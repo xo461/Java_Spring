@@ -1,0 +1,12 @@
+1. com.webjjang.notice.dao.NoticeDAO
+2. com.webjjang.main.Service : interface
+3. com.webjjang.notice.service.NoticeListService
+4. com.webjjnag.bean.Beans
+5. com.webjjang.main.Controller : interface
+6. com.webjjnag.notice.controller.NoticeController
+7. com.webjjnag.bean.Beans
+8. com.webjjang.main.SwitchMain
+
+--> notice - view : 개발해 팀별로
+
+--> 다하신 팀은 개별로 공지사항 완성시오.

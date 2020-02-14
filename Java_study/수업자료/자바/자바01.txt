@@ -1,0 +1,29 @@
+개발환경만들기
+
+1.컴파일러(언어) - JAVA 8(JDK1.8) / OpenJDK
+http://oracle.com
+2.개발툴(코드편집기) - 이클립스(EE)/IntelliJ
+              - STS
+3.톰캣 서버(WAS) - JAVA기반
+4.Oracle 11g, 12c : DB server
+5.SQL Deveploper : DB 클라이언트 : 여러 줄 처리
+
+1.컴파일러(언어) - JAVA 8(JDK1.8) / OpenJDK
+1) http://oracle.com에서 다운로드
+2) 기본으로 설치 진행 -> JDK, 소스, JRE
+3) java 실행 : 명령프롬프트 실행
+4) 환경설정
+ - JAVA_HOME
+ - path
+5) java소스개발
+6) 컴파일(파일) : javac PrintName.java
+7) 실행(class) : java PrintName
+
+https://docs.oracle.com/javase/8/docs/api/index.html
+
+
+2.개발툴(코드편집기) - 이클립스(EE) * JAVA SE 8
+eclipse.org
+ - 한글 설정 : eclipse.ini
+   >> -Dfile.encoding=utf-8
+

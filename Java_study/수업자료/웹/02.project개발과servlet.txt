@@ -1,0 +1,25 @@
+- Servlet : 서버쪽에서 동작되는 자바 프로그램
+          : Servlet을 상속 받았다. -> 특별한 메서드에 프로그램 작성
+  <특별한 메서드>
+  
+-> 프로그램의 간소화 => HTML 화 시킨 코드 사용 : JSP
+
+1. 프로젝트 : webjjangcom_ver2
+2. 서버 : localhost : tomcat -> port:80, timeout:180, path : /
+3. 사용라이브러리 등록 : ojdbc8.jar, jstl-1.2.jar
+4. java version의 프로그램들을 복사 붙여 넣기를 한다. -> 필요없는 것은 지운다. -> 약간의 수정을 한다.
+5. jsp를 복사 붙여 넣기.
+6. 알맞게 수정
+
+M(Model) : view - service - dao의 사용하는 데이터 형식 맞춘 객체
+V(View) : JSP
+Controller : JSP
+
+MVC model 1
+
+
+M(Model) : view - service - dao의 사용하는 데이터 형식 맞춘 객체
+V(View) : JSP
+Controller : Servlet -> 서버쪽 자바 프로그램
+
+MVC model 2

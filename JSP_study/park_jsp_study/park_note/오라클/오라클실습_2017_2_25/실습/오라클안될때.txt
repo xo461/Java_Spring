@@ -1,0 +1,5 @@
+C:\oracle\ora92\bin>lsnrctl start
+
+C:\oracle\ora92\bin>lsnrctl status
+
+C:\Documents and Settings\Administrator.MY_COM2>

@@ -1,0 +1,17 @@
+컬럼명 바꾸기
+alter table [table name] rename column [old 커럼명] TO [new 컬럼명];
+
+컬럼명 바꾸기
+ALTER TABLE test RENAME COLUMN addr TO juso ;
+
+
+컬럼수정
+alter table  test modify ( juso varchar(50)  ) ;
+
+
+컬럼 삭제
+Alter table  test Drop (juso);
+
+
+컬럼추가
+Alter table  test add ( tax number(10,2)  default 2000  );

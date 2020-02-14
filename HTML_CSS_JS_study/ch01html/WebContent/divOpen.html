@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<title>공지를 위한 div</title>
+
+<style type="text/css">
+#noticeDiv {
+	width: 300px;
+	height: 420px;
+	background: orange;
+	position: absolute;
+	top: 200px;
+	left: 400px;
+	border: 2px solid #aaa;
+}
+</style>
+
+<script type="text/javascript">
+$(function() {
+	//공지 보이기 여부
+	//이벤트처리
+	//공지보기 버튼 이벤트
+	$("#noticeViewBtn").click(function(){
+	//	alert("공지보기 버튼 클릭");
+		$("#noticeDiv").show();
+	});
+	//공지 닫기 버튼 이벤트
+	${"#closeDivBtn"}.click(function(){
+	$("#noticeDiv").hide();	
+	});
+});
+
+</script>
+</head>
+<body>
+	<button id="noticeViewBtn">공지 보기</button>
+	<p></p>
+
+	<!-- 공지 창 -->
+	<div id="noticeDiv">
+		<h2>&lt;공지&gt;</h2>
+		<p>
+			12월 25일은 공휴일이므로 수업이 없음.
+
+		</p>
+			<button id="closeDivBtn">닫기</button>
+	</div>
+
+</body>
+</html>

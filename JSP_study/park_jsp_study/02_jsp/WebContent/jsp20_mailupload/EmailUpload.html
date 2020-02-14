@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>EmailUpload.html</title>
+</head>
+<body bgColor="ivory">
+	<form method="post" action="EmailUpload.jsp" enctype="multipart/form-data">
+		<table border="1" align="center">
+			<tr>
+        		<td>보내는 사람  이메일 주소</td>
+        		<td><input type="text" name="from" size="40"></td>
+      		</tr>
+
+			<tr>
+        		<td>받는 사람  이메일 주소</td>
+        		<td><input type="text" name="to" size="40"></td>
+      		</tr>
+
+			<tr>
+        		<td>글제목</td>
+        		<td><input type="text" name="subject" size="40"></td>
+      		</tr>
+			
+			<tr>
+        		<td colspan="2">글내용</td>
+      		</tr>
+			
+			<tr>
+        		<td colspan="2">
+        			<textarea rows="30" cols="70" name="content" align="center"></textarea>
+        		</td>
+      		</tr>
+
+			<tr>
+        		<td>첨부파일</td>
+        		<td><input type="file" name="fi"></td>
+      		</tr>
+			
+			<tr>
+        		<td colspan="2">
+        			<input type="submit" value="전송">
+        			<input type="reset" value="취소">
+        		</td>
+      		</tr>
+			
+			
+		
+		
+		</table>
+	
+	
+	</form>
+
+</body>
+</html>

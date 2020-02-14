@@ -1,0 +1,51 @@
+[변수] - 저장공간
+기본형 - 길이가 정해져 있다. 값 저장
+ . boolean - true / false - 1byte
+ . 숫자
+   - 정수 - byte - short - <int> - long : 부호 + 값
+    . 음수 : 부호+절대값 , 1의 보수, 2의 보수(자바)
+   - 실수 - float - <double>
+ . 문자 - char - 2byte : - 값이 없다. 'A'
+    
+참조형 - 길이가 정해져 있지 않다. 주소 저장
+ . String --> char[]
+    : == X, str.equals(str2)
+ . [] -> String[] args -> index : 주소에서부터 상대 거리 int[]
+ . Class -> 변수와 메서드로 구성되어 있다.
+ . 자료구조형 -> 컬렉션, map
+
+연산자
+ int + int -> int
+ short + short -> int
+ int / int -> int : 소수점 아래가 없어진다.
+ 10 % 3 -> 1 : 나머지 - 배수:나머지가 0이면 나누는 숫자의 배수
+
+ a= a+ 1
+ a += 1;
+ a++
+
+ a++
+ syso(a)
+
+ syso(++a)
+
+ syso(a)
+ a++
+
+ syso(a++)
+
+ 조건연산자(삼항연산자)
+ (조건)?참:거짓;
+ result = (score >= 60)?"합격":"불합격";
+ if(score >= 60) result = "합격";
+ else result ="불합격";
+
+ & && : 둘다 true이여만 true로 만든다.
+ F & F -> 앞에 것이 F 이면 뒤에 것과 상관없이 F가 나온다.
+ && : 앞에 것이 F 이면 뒤에는 검사하지 않는다.
+ if(stuent != null && stuent.name.equals("이영환")) ~~~
+
+ 객체 - Class를 개발한다.
+ 객체를 생성한다. -> 메인메모리에 올린다.
+ static - 고정
+ new - 새로운

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비동기 통신</title>
+
+<!-- ajax jquery 함수 -->
+<!-- load(url, data, callback function(res, status, xhr){}) -->
+서버에 jsp만들어서 배열만들고, 그 배열에 있으면 id를 넘긴다. 
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#body").load("demo_test.txt");
+	$("#changeBtn").click(function(){
+		$("#body").load("change.txt");
+	});
+	//이벤트 처리
+	
+});
+</script>
+</head>
+<body>
+<h1>비동기 통신을 이용한 데이터 변경</h1>
+<p id="body"> 여기의 내용이 바뀝니다. 
+</p>
+<button id="changeBtn">여기를 누르면 데이터가 바뀝니다.</button>
+</body>
+</html>

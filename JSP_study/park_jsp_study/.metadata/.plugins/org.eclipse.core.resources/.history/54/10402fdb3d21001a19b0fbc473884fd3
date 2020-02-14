@@ -1,0 +1,49 @@
+<%@page import="boardmysql.BoardDTO"%>
+<%@page import="boardmysql.BoardDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ include file="/view/color.jsp" %>
+    
+    <!-- content.jsp -->
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<%
+int num=Integer.parseInt(request.getParameter("num"));
+String pageNum=request.getParameter("pageNum");//페이지 번호 받기
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:dd");
+
+BoardDAO dao = BoardDAO.getDao();//dao객체얻기
+BoardDTO dto = dao.getArticle(num);
+
+int ref=dto.getRef();
+int re_step=dto.getRe_step();
+int re_level=dto.getRe_level();
+%>
+
+
+
+<body>
+<h1><center>글내용보기</center></h1>
+<table width="70%" align="center" cellpadding="3">
+		<tr height="30">
+			<td align="center"  width="125"bgcolor="<%=value_c%>">글번호</td>
+			<td align="center"  width="125"><%=dto.getNum() %></td>
+		</tr>	
+		
+		<%
+		String im=dto.getContent();
+		im = im.replace("\n", "<br>");
+		%>
+		<%=im %>
+		</td>
+		</tr>
+		<tr height="30">
+			<td colspan="4" bgcolor=<%=value_c %>" align="right">
+			<input type="button" value="글수정"	onClick="document.location.href='updateForm.jsp?num=<%=dto.getNum() %>&pageNum=<%=pageNum %>'">
+		</tr>
+	</table>
+</body>
+</html>

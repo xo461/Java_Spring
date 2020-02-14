@@ -1,0 +1,25 @@
+mysql
+
+간단한 회원가입
+
+실행 
+cmd
+cd\
+cd c:\MySQL55\bin
+mysql -u root -h localhost -p
+
+use mydb;
+
+show tables;
+
+create table member1(
+id varchar(20) not null primary key,
+pwd varchar(20) not null,
+name varchar(20) not null,
+email varchar(30) not null,
+tel varchar(30) not null,
+addr varchar(50) not null
+);
+
+
+desc member1;

@@ -1,0 +1,60 @@
+http://blog.naver.com/bleu_ciel?Redirect=Log&logNo=140037529218
+
+테이블관리
+
+http://blog.naver.com/bleu_ciel?Redirect=Log&logNo=140037529218
+
+테이블 이름 변경
+ALTER table 구테이블이름 RENAME TO 신테이블이름
+
+컬럼명 변경
+ALTER TABLE 테이블이름 RENAME COLUMN 구컬럼명 to 신컬럼명;
+
+제약조건변경
+ALTER table 테이블명 RENAME CONSTRANT 구제약조건 TO 신제약조건
+
+컬럼추가
+ALTER table 테이블명 add( 컬럼명 자료형(크기));
+
+컬럼변경 ( 데이터가 있을경우 다른 데이터 형으로 변경 불가능) 
+ALTER table 테이블명 MODIFY( 컬럼명 자료형(크기) NOT NULL);
+
+컬럼삭제
+ALTER table 테이블명 DROP COLUMN 커럼명 
+
+제약조건 삭제 
+ALTER table 테이블명 DROP CONSTRAINT PRIMARY KEY  CASCADE
+ALTER table emp DROP CONSTRAINT emp_pk_empno CASCADE;
+
+테이블TRUNCATE 
+TRUNCATE TABLE emp;
+
+테이블을 TRUNCATE 하면 테입르의 모든 행(데이터)이 삭제되고 사용된 공간이 해제
+
+
+테이블삭제
+DROP TABLE emp;   ( 테이블삭제 )
+DROP TABLE emp CASCADE CONSTRAINT;   ( 제약조건도 같이삭제 )
+
+* cASCADE CONSTRAINT : 외래키에 의해 참조되는 기본키를 포함한 테이블일 경우
+기본키를 참조하던 외래키 조건도 같이 된다 
+
+
+테이블복사
+A테이블의 내용을 B테이블로 복사
+INSERT INTO b SELECT * FROM a ;  ( a,b 테이블이 이미 존재)
+CREATE TABLE b AS SELECT * FORM a ; ( a 테이블의 내용을 b테이블 생성하면서 복사 )
+
+CREATE TABLE b AS SELECT * FROM a WHERE 1=2; ( a 테이블 구조만을 b테이블로 생성)
+
+
+테이블 합치기
+CREATE TABLE sa4 AS SELECT saname,sajob FROM sawon WHERE sajob='과장';
+CREATE TABLE sa5 AS SELECT saname,sajob FROM sawon WHERE sajob='부장';
+위의 두 테이블 합치기
+CREATE TABEL sa45 AS SELECT * FROM sa4 UNION SELECT * FROM sa5;
+
+
+컬럼에 해당하는 테이블면 알아내기
+SELECT table_name FROM user_tab_cols WHERE column_name='sal';
+SELECT count(column_name) "column count" FROM cols WHERE column_name='sal';

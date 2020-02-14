@@ -1,0 +1,292 @@
+●문자열 처리 함수 
+
+upper : 대문자로 변환
+lower : 소문자로 변환
+
+initcap : 첫글자만 대문자로( 이니셜만 대문자로)
+
+trim  : 공백제거 
+ltrim  :왼쪽 공백 제거 
+rtrim  : 오른쪽 공백 제거 
+
+substring:  자바
+substr : 문자열 일부분을 추출 (오라클)
+
+● 실습
+문1) ename을 대문자로 출력 하시요 
+empno, ename만 
+
+select empno, upper(ename)
+from emp;
+
+문2) ename을 소문자로 출력 하시요 
+empno, ename만 
+
+select empno, lower(ename)
+from emp;
+
+
+문3) 사원이름을 첫글자만 대문자로 출력하시요.
+empno, ename, hiredate만
+
+select empno, initcap(ename), hiredate
+from emp;
+
+★문4) hiredate 에서 년도만 출력 하시요.
+ename,hiredate만
+
+select ename,hiredate,substr(hiredate,1,2)
+from emp;
+
+★문5)hiredate 에서 월(달)만 출력 하시요.
+ename,hiredate만
+
+select ename,hiredate,substr(hiredate,4,2)
+from emp;
+
+★문6) 87년에 입사한 사람만 추출 하시요(where 조건문 사용)
+ename,hiredate만
+
+select ename,hiredate
+from emp
+where substr(hiredate,1,2)='87';
+
+select ename,hiredate
+from emp
+where substr(hiredate,1,2)=87;
+
+
+문7) ename에서 3번째 문자가 'R' 것을 추출하시요.
+empno,ename만
+
+select empno,ename
+from emp
+where substr(ename,3,1)='R';
+
+====================================
+자바에서
+
+문자열을 숫자로 변환 : Integer.parseInt("123");
+숫자를 문자렬로 바꾸는 것: ""+21
+
+
+오라클
+
+number ------------> Character
+         to_char
+
+       <------------
+         to_number
+
+
+date --------------->Character
+        to_char
+
+     <---------------
+        to_date
+
+
+=========================
+날짜 출력 형식 
+=========================
+YYYY :년도 4자리
+YY   :년도 2자리 
+MM   :월을 숫자로 표현
+MON  :월을 알파벳으로 표현
+dd   :날짜를 2자리로 표현
+DAY  :요일 표현
+DY   :요일을 약어로 표현
+
+=========================
+시간 출력 형식 
+=========================
+AM/PM   :오전/오후
+HH/HH12 :12시간제 표현
+HH24    :24시간제 표현
+MI      :분
+SS      :초
+==========================
+문1) hiredate 를 YYYY-MM-dd 로 출력 하시요 
+ename, hiredate만 
+
+참고 : 자바에서 SimpleDateFormat
+
+select ename,hiredate,to_char(hiredate,'YYYY-MM-dd')
+from emp;
+
+select ename,hiredate,to_char(hiredate,'YYYY/MM/dd')
+from emp;
+
+시스템 날짜를 출력하는 예제 
+SELECT TO_CHAR(SYSDATE) from dual;
+SELECT TO_CHAR(SYSDATE,'YYYY-MM-dd') from dual;
+SELECT TO_CHAR(SYSDATE,'YYYY-MM-dd HH24:mi:ss DAY') from dual;
+SELECT TO_CHAR(SYSDATE,'YYYY-MM-dd HH24:mi:ss DY') from dual;
+SELECT TO_CHAR(SYSDATE,'YYYY-MM-dd HH:mi:ss DY') from dual;
+SELECT TO_CHAR(SYSDATE,'YYYY-MM-dd HH12:mi:ss DY') from dual;
+
+SELECT TO_CHAR(SYSDATE, 'MONTH') from dual;
+SELECT TO_CHAR(SYSDATE, 'MON') from dual;
+
+SELECT TO_CHAR(SYSDATE, 'MONTH'), TO_CHAR(SYSDATE, 'MON') FROM DUAL;
+
+자바 => SimpleDateFormat("yyyy-MM-dd HH:mm:ss EEEE)
+
+
+
+문2) emp테이블의 sal를 6자리로하고 ,와 $를 붙여서 출력 하시요
+
+select ename,sal,to_char(sal,'$999,999') 
+from emp;
+
+
+문3) 지역 통화기호(나라) 붙여서 sal을 출력하시요 
+( L => local )
+select ename, to_char(sal,'L999,999')
+from emp;
+
+ENAME      TO_CHAR(SAL,'L999,
+---------- ------------------
+SMITH                   ￦800
+ALLEN                 ￦1,600
+WARD                  ￦1,250
+JONES                 ￦2,975
+MARTIN                ￦1,250
+BLAKE                 ￦2,850
+
+
+★ null 변환 함수  NVL( null value)
+
+커미션이 null인경우 ,0으로 변경하여 계산해야 해야 제대로 계산된다.
+
+잘못된 예제
+select ename,sal,comm,sal*12+comm
+from emp;
+  
+올바른 예제
+
+select ename,sal,comm,sal*12+NVL(comm,0)
+from emp;
+
+
+ 
+◆ LIKE 연산자 
+% 는 0-n 개의 문자열 대체
+_는 1 글자의 문자열을 대체
+
+◆와일드 카드(%) 문자 사용하기 ( 첫번째가 J 문자열 검색 )
+SELECT empno,ename  FROM emp
+WHERE ename LIKE 'J%';
+
+◆ename의 2번째 글자가 A인 자료 검색를 하시요.
+SELECT empno,ename  FROM emp
+WHERE ename LIKE '_A%';
+
+
+◆ename에서 뒤에서 2번째가 E인 자료 검색을 하시요.
+
+SELECT empno,ename  FROM emp
+WHERE ename LIKE '%E_';
+
+◆ename에서 A가 포함된 자료 검색 하시요
+empno,ename만 출력하시요.
+
+SELECT empno,ename  FROM emp
+WHERE ename LIKE '%A%';
+
+◆SELECT empno, ename FROM emp
+WHERE ename LIKE '%\%%' ESCAPE '\';
+
+이름에 % 를 포함한 사람을 검색한다
+ESCAPE 문자 \ 뒤에 한 글자는 와일드카드로 인식하지말고
+글자 그대로 인식하라는 뜻이다 
+
+
+◆IN 연산자 ( 같은 값이 있으면 )
+메인 쿼리의 비교 조건이 서브쿼리의 결과중에서 하나라도 일치하면 참, 
+( = 비교만 가능)
+
+
+커미션(comm)이 300 또는 500 또는 1400 인 사람을 검색하기 
+
+예: or 연산 
+SELECT empno, ename, comm  FROM emp
+WHERE comm=300 OR comm=500 OR comm=1400;
+
+
+예: in 연산 
+
+SELECT empno, ename, comm  FROM emp
+WHERE comm IN(300,500,1400);
+
+이렇게 여러게 값중 하난인 경우 OR 대신 IN 연산자를 사용할 수 도 있다 
+WHERE 컬럼명  IN(value_list);
+
+
+◆ BETWEEN AND 연산자 
+
+Sal 이 500 과 4000 사이에 있는 사람을 검색
+
+예:AND 연산
+SELECT empno, ename, sal  FROM emp
+WHERE sal>=500  AND sal<=4000;
+
+예: BETWEEN AND 연산자 
+
+SELECT empno, ename, sal  FROM emp
+WHERE sal BETWEEN 500 AND 4000;
+
+◆ 논리 연산자 (  AND / OR / NOT )
+
+◆ NOT 연산자 
+
+예:부서번호가 10 이 아닌 자료 검색 
+SELECT empno, ename ,deptno  FROM emp
+WHERE NOT deptno=10;
+
+◆NOT IN
+
+예: Comm 이 300 또는 500 아닌 자료 검색
+
+SELECT empno, ename, comm  FROM emp
+WHERE comm NOT IN (300,500);
+
+
+◆NOT LIKE 
+
+예: 이름에 A 를 포함하지 않은 자료 검색 
+SELECT empno, ename FROM emp
+WHERE ename NOT LIKE '%A%';
+
+◆NOT BETWEEN A AND B
+예:급여가 500 과 4000 아닌 자료 검색
+
+SELECT empno, ename ,sal  FROM emp
+WHERE sal NOT BETWEEN 500 AND 4000;
+
+
+◆ 정렬하여 출력하기  ORDER BY 절
+
+예: sal를 오름차순 정렬 하시요.
+SELECT empno, ename ,sal
+FROM emp
+ORDER BY sal ASC;  
+ 
+예: sal 내림차순 
+SELECT empno, ename ,sal  
+FROM emp
+ORDER BY sal DESC;  
+
+예: 입사일을  내림차순으로 정렬 하시요.
+SELECT empno, ename ,hiredate 
+FROM emp
+ORDER BY hiredate DESC;   
+
+◆정렬방식에 여러가지 조건 제시  
+SELECT empno, deptno, ename 
+FROM emp
+ORDER BY deptno ASC , ename ASC;
+
+
+
+

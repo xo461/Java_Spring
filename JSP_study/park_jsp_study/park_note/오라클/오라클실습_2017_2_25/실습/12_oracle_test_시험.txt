@@ -1,0 +1,29 @@
+시험
+문1)부서가 10번이고 , 급여가 2000이상인 자료만 추출하되
+empno,ename,deptno,sal 만 출력하시요.
+
+
+문2)입사일이 '81'인 자료만 추출하되
+ename,deptno,hiredate만 출력하시요.
+
+
+문3) 커미션이 500이거나 커미션 1400인 자료만 추출하되
+empno,ename,sal,comm만 출력하시요
+
+
+문4)이름에 T 포함된 자료만 추출하되 
+empno,ename,hiredate만 출력 하시요
+
+
+문5)커미션이 300과 500사이 인것만 추출하되,
+empno,ename,sal,comm 출력하시요.
+
+
+문6)부서(deptno)를 오름차순으로 , 급여(sal)을 내림차 순으로 출력하되
+empno,ename,deptno,sal만 출력하시요.
+
+
+문7) 12월에 입사한 사원만 추출하되
+empno,ename,hiredate만 출력 하시요.
+
+ 

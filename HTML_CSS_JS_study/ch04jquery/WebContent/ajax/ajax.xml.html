@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+// 		alert("function()");
+	
+		//$.ajax() : ajax 표준함수({k:v, k:v, ...})
+// 		ajax, xml은 url이 달라서 두개 필요
+		$.ajax({
+			url : "rank.xml", //요청 url
+			dataType : "xml", // 받아 오는 데이터의 타입 지정 -xml/json/html
+			//데이터 통신을 해서 정상적으로 끝나면 처리되는 콜백함수
+			
+			success : function(result) {
+				alert(result);//받아온데이터타입이 뭔지 보여줌
+				//result안에 rank 태그를 찾는다. - 3개 존재
+				if ($(result).find("rank").length > 0) { // 데이터가 있는 경우 처리
+					$(result).find("rank").each(function() { // rank 3개가 있으므로 3번 반복
+						var name = $(this).find("k").text(); // 검색어를 가져오기 - 김연아/이상화/모태범 <k>태그 찾아서 그안에 텍스트 김연아 등을 name에 저장
+						var result = "<li>" + name + "</li>"; // 이름을 li 태그로 감싼다.
+						$("#wrap ol").append(result); // ol 태그에 추가.
+					});
+				},
+			},
+			// 오류가 있는 경우에만 처리되는 콜백하수.
+			error : function(xhr, status, errorThrown) {
+				alert("error");
+				alert(xhr);
+				alert(status);
+				alert(errorThrown);
+			}
+		});
+	});
+</script>
+</head>
+<body>
+	<h2>인기 검색어</h2>
+	<div id="wrap">
+		<ol></ol>
+	</div>
+</body>
+</html>

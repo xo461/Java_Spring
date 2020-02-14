@@ -1,0 +1,212 @@
+
+◆DQL : Data Query Language (질의어)
+ select (데이터 검색 시 사용 ) 
+
+
+◆DML : Data Manipulation Language
+insert ( 데이터 입력 )
+update ( 데이터 수정 )
+delete ( 데이터 삭제 )
+commit
+rollback
+
+
+◆DDL : Data Definition Language
+      (데이터 정의어 )
+create ( 데이터베이스 생성)
+alter  ( 컬럼추가 , 컬럼 변경 )
+drop   (table 삭제 )
+rename (table이름 변경 ) alter table oldName rename to newName
+truncate( 데이터베이스 저장공간 삭제 )
+
+◆TCL : Transaction Control Language
+  여러 개의 쿼리문을 처리할때 하나라도 문제가 생길경우
+  rollbak를 하고
+  여러 개의 쿼리 문이 모두 정상 처리 되었을때는
+  commit 합니다.
+
+  KB은행에서 신한은행으로 5억 보낼때
+  KB은행에서 계산작업(update)
+  신한은행에서는 계산작업(update)
+  갑짜기 정전 또는 기계고장으로 일부분 쿼리만 수행되는 경우
+  rollback 해야 합니다
+
+TCL은 데이터의 일관성을 유지하면서 안정적으로 데이터를 복구시키기 위해서 사용합니다.
+트랜잭션은 여러 개의 DML 명령문들을 하나의 논리적인 작업 단위로 묶어놓은 집합으로
+정상적으로 처리되면 정상종료 하도록 하고
+여러 개의 명령어 중에서 하나의 명령어라도 잘못되었다면 전체를 취소하기위해 TCL를 사용합니다 
+
+◆DCL: Data Control Language ( 제어 )
+
+grant ( 데이터베이스에 대한 일련의 권한 부여)
+revoke ( 권한 취소)
+
+사용자이름 : system
+암호 :j12345
+ 
+c:\>sqlplus system/j12345   ..... 시스템  관리자로 들어간다 
+
+create user   user77         ....user
+identified by user77;        ....pwd
+
+create user   user77
+identified by user77; 
+
+grant connect, resource
+to    user77;
+
+c:\>sqlplus user77/user77
+
+create table test5(name varchar2(20), addr varchar2(50));
+insert into test5 values('홍길동','서울 마포구');
+select * from test5;
+
+ctrl + c
+c:\>sqlplus system/j12345   ..... 시스템  관리자로 들어간다 
+revoke connect from user77;//  권한 취소 
+
+ctrl + C
+c:\>sqlplus user77/user77  ... 권한 취소 되어서 들어 갈수 없습니다 
+
+33
+SQL...
+SQL *Plus ....
+
+◆SQL(Structured Query Launguage ) : 관계형 DB(oracle,mysql,,등등)를 처리하기 위한 언어 입니다
+조회,입력,수정,삭제등( select, insert, update, delete)
+
+
+◆SQL *plus : SQL언어를 구현하여 오라클 RDBMS를 관리할 수 있는 오라클사의
+              클라이언트 툴 제품명
+
+◆SQL *plus 실습
+C:/>sqlplus scott/tiger
+
+select ename,sal from emp ;
+/
+r
+
+/ 는 명령을 바로 수행하고 
+R 은 명령을 수행하기 전에 명령 버퍼에 저장된 내용을 다시 한번 출력하고 수행한다
+
+SQL> ed
+Buffer에 있는 내용을 메모장으로 편집하기 위한 명령어 (ED)
+
+메모장
+--------------------------------------
+select ename,sal from emp 
+/
+select * from tept;
+select * from salgrade;
+--------------------------------------
+저장하고
+종료하고
+창닫기
+
+sql>/
+
+●DOS 프롬프트로 나가는 명령어 HOST
+sql>host
+
+c:\>dir *.buf
+C:\>notepad afiedt.buf  ==> 메모장 열기 
+
+c:\>exit ( 다시 SQL 로 돌아오기)
+
+
+SQL> select ename,sal
+      FROM emp
+
+SQL> SAVE a001  ...............a001.sql파일로 저장 
+file a001.sql(이)가 생성되었습니다
+
+SQL>host
+c:\>dir *.sql
+c:\>exit
+
+SQL>@a001 ( a001.sql 문을 수행… @이를 붙이면 실행됨 )
+
+SQL> SELECT * FROM emp;
+SQL> SAVE temp.sql .........temp.sql로 저장 
+  temp.sql(이)가 생성되었습니다
+
+
+SQL> SELECT * FROM dept;
+SQL> SAVE temp.sql;
+//SP2-0540: "temp.sql" 파일은 이미 존재합니다.
+
+
+SQL> SAVE temp.sql REPLACE;// ( temp.sql 파일에 덮어쓰기 된다 )    
+
+● GET 문을 사용하여 쿼리문을 가져오기
+   SAVE 명령어로 저장한 SQL명령을 다시 사용하기 위해 
+
+SQL>GET a001
+SQL>/         ( 불러온 쿼리문을 실행하기 위해 / 명령을 입력한다 )
+
+
+●SQL문의 실행 결과를 저장하기 위한 SPOOL 명령어
+
+SQL> SPOOL b001
+SQL> select * FROM emp;
+SQL> select * FROM dept;
+SQL> SPOOL OFF
+
+SQL>HOST
+C:\>dir b001.*
+b001.LST
+C:\>notepad b001.lst................메모장으로 보기 
+
+●●●●●●●●●●●●●●●●●●●●●●●●
+
+
+●HEADING OFF/ON : 컬럼 제목 출력 여부
+
+SQL> SET HEADING OFF;
+SQL> select * FROM dept;
+
+SET HEADING ON;
+select * FROM dept;
+
+●LINESIZE : SQL명령문의 실행 결과 표시되는 
+  행의 크기(길이=폭) 지정(기본값 80 )
+
+SQL> DESC emp;
+
+SQL> set LINESIZE 50
+SQL> DESC emp;
+
+●PAGESIZE : 한페이지에 출력되는 페이지 크기지정
+(10으로 지정하면 7개출력된다=>header 부분 3줄 )
+
+
+SQL> set LINESIZE 120
+SQL> SET PAGESIZE 10
+SQL> SELECT * FROM emp;
+
+
+● 컬럼제목을 설정하기 
+
+SQL> COLUMN empno HEADING '사원번호'
+SQL> SELECT empno,ename FROM emp;
+
+
+●컬럼제목의 출력형식을 변경하기 위한 COUMN FORMAT
+
+SQL> SELECT * FROM dept;
+
+SQL> COLUMN dname FORMAT A15;  ( 컬럼폭 크기를 15으로 지정)
+SQL> SELECT * FROM dept;
+ 
+●숫자 데이터에 대해서도 출력형식을 지정할 수 있다 
+SQL> COLUMN sal FORMAT 0,000,000     =>9자리이며, 앞의 무효의 0도 출려된다
+SQL> SELECT empno,ename,sal FROM emp;
+
+
+●원상 복귀 
+SQL> COLUMN sal FORMAT 99999
+SQL> SELECT empno,ename,sal FROM emp;
+
+SQL> COLUMN sal FORMAT 9,999,999
+SQL> SELECT empno,ename,sal FROM emp;
+

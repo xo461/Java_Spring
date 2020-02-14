@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move 2 elements to &apos;jsp&apos;&#x0D;&#x0A;- Original project: &apos;05_jstl&apos;&#x0D;&#x0A;- Destination element: &apos;jsp&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     standard.jar&#x0D;&#x0A;     jstl.jar&#x0D;&#x0A;- Update references to refactored element" description="Move files" element1="WebContent/WEB-INF/lib/standard.jar" element2="WebContent/WEB-INF/lib/jstl.jar" files="2" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1577063122416" target="/05_servlet_jsp/WebContent/jsp" units="0" version="1.0"/>
+</session>

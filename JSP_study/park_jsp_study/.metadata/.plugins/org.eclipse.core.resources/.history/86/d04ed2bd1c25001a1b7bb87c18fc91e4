@@ -1,0 +1,37 @@
+<%@page import="java.util.Vector"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<h2>Let's use vector!!!</h2>
+<h3>
+<%= request.getAttribute("user")%>, what's in your cart? 
+
+</h3>
+<h3>${user }, you wanna buy these?:)</h3>
+
+<ol>
+<%
+Vector vec = (Vector) request.getAttribute("vec");
+for(int i=0; i<vec.size(); i++){
+	%>
+	<li><%=vec.get(i) %>
+	<%
+}//for
+%>
+</ol>
+
+<!-- el사용 -->
+<!-- hashmap -->
+<h3>${user2 }, you have these in your cart:)</h3>
+pum1:${map. }
+
+
+</body>
+</html>

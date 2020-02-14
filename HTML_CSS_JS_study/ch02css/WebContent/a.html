@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+/* a태그 상황과 상관없이 모든 글자색을 핫핑크로 만든다. */
+a{color : hotpink; font-weight: bolder; font-size:xx-large; font-family: Masque; }
+
+/* 상태에 따른 css 적용 - 전체보다 우선한다 */
+/* link, visited 먼저 적용 - hover - active 순서에 맞춰야 적당하게 동작을 한다. */
+/* 미방문링크 - 전체보다 우선한다. */
+a:link {
+	color : green;
+}
+
+
+/* 링크를 마우스클릭하고 잇는 상테 */
+a:active{
+color: blue;
+}
+
+/* /* 방문한 링크 */ */
+/* a:visited{ */
+/* color: aqua;} */
+
+/* 마우스가 링크 위에 올라간 상태 */
+a:hover{
+color: orange;
+}
+
+
+#Masque{
+	font-family: Masque;
+}
+@FONT-FACE{
+font-family: Masque;
+src: url("MASQUE__.ttf");
+}
+
+</style>
+</head>
+<body>
+
+<a href="exCss01.html">external Css PRACTICE</a><br/>
+<a href="font.html">Font practice</a><br/>
+<a href="bgimage.html">background image practice</a><br/>
+<a href="naver.com">naver</a><br/>
+</body>
+</html>

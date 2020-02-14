@@ -1,0 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+메서드방식
+표현식 <%=request.getMethod() %>
+표현언어 ${pageContext.request.method }
+<br>
+ 요청시 헤더부분의 정보 알아보기 <p>
+  표현식<%=request.getHeader("host")%><p>
+  표현언어 ${header.host}<p>
+  표현언어 ${header["host"]}<p>
+  표현언어 ${headerValues}<p>

@@ -1,0 +1,23 @@
+[퇴근미션 작업 순서]
+1. project 생성 - Dynamic Web Project : project1120 - web.xml을 함께 만들도록 설정한다.
+2. 라이브러리 등록 - jdbc8.jar, jstl-1.2.jar
+/WEB-INF/lib폴더에 복사 붙여넣기.
+3. com.webjjang.main.FrontController -> servlet -> service() 작성
+4. web.xml에 servlet과 servlet-mapping 등록 : mainServlet
+5. interface 작성 - Controller, Service
+6. com.webjjang.board.dto.BoardDTO - no, title, content, writer, writeDate, hit
+7. com.webjjang.board.dao.BoardDAO.list() - List<BoardDTO>
+8. com.webjjang.board.service.BoardListService.service()
+9. Bean.init() - Servlet을 이용한 서버 실행할 때 객체생성(loadOnStartUp = 1)
+   - dao 생성, service 생성
+10. com.webjjang.board.controller.BoardController.execute() - String
+11. Execute.service(service, object ... objs)
+12. com.webjjang.board.controller.BoardController.execute() 완성
+13. Beans.init()에서 BoardController 생성한다. DI 적용
+14. jsp쪽으로 forward하기 위해서 ViewResolver.forward()
+ViesResoler.getJsp(String jsp) -> PREFIX + jsp + SERFIX
+15. FrontController 완성
+16. /WB-INF/views/board/list.jsp  작성
+17. 서버 생성 및 설정
+<실습 : 위의 작업에 따라 새로운 프로젝트 : project11201을 만들어 보세요>
+http://naver.me/52PEYgqV

@@ -1,0 +1,51 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+request.setCharacterEncoding("utf-8");
+%>
+
+메서드방식
+표현식 <%=request.getMethod() %>
+표현언어 ${pageContext.request.method }
+<br>
+ 요청시 헤더부분의 정보 알아보기 <p>
+  표현식<%=request.getHeader("host")%><p>
+  표현언어 ${header.host}<p>
+  표현언어 ${header["host"]}<p>
+  표현언어 ${headerValues}<p>
+  
+  <%
+  session.setAttribute("id", "minnie");
+  session.setAttribute("pw", 1111);
+  
+  %>
+  표현식 <%=session.getAttribute("id")%>님 환영 합니다<br>
+
+표현언어 ${sessionScope.id}님 환영 합니다<p>
+
+
+<form action="test03.jsp" method="post" >
+
+	<table>
+      <tr>
+        <td>이름</td>
+        <td><input type="text" name="name" id="name" size="20" value="미니"></td>
+      </tr>
+      
+            <tr>
+        <td>취미</td>
+        <td><input type="checkbox" name="hobby" value="영화">
+        <input type="checkbox" name="hobby" value="네일아트">
+        <input type="checkbox" name="hobby" value="쇼핑">
+        
+        </td>
+      </tr>
+      <tr>
+      <td>
+      <input type="submit" value="전송">
+      <input type="reset" value="취소">
+      </td>
+      </tr>
+	</table>
+
+</form>

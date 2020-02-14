@@ -1,0 +1,210 @@
+package boardmysql;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import javax.naming.*;
+
+// DAO - DB처리하는 business logic
+public class BoardDAO {
+   
+   Connection con = null;
+   PreparedStatement pstmt = null;
+   Statement stmt = null;
+   ResultSet rs = null;
+   
+   String sql = "";
+   
+   // Singletone 객체 생성 - 메모리 절약 효과를 위해
+   private static BoardDAO dao = new BoardDAO();
+   
+   // private default constructor - 외부에서 객체를 생성하지 못 하도록
+   // 다른 패키지에서 new로 객체 생성 불가
+   private BoardDAO() {};
+   
+   // JSP에서 dao 객체를 사용하기 위해 method 작성
+   public static BoardDAO getDao(){
+      return dao;
+   }// end of getDao()
+   
+   // get connection - method로 작성해서 호출
+   private Connection getCon() throws Exception{
+      Context ct = new InitialContext();
+      DataSource ds = (DataSource)ct.lookup("java:comp/env/jdbc/mysql");
+      
+      return ds.getConnection();
+   }// end of getCon()
+   
+   // 원글, 답글 쓰기
+   public void insertArticle(BoardDTO dto) throws Exception{
+      System.out.println("BoardDAO.insertArtcle().dto : "+dto);
+      // 0이면 원글, 0이 아니면 답글
+      int num = dto.getNum();
+      // 답글이면 값이 넘어온다.
+      int ref = dto.getRef();
+      // 답글이면 값이 넘어온다.
+      int re_step = dto.getRe_step();
+      // 답글이면 값이 넘어온다.
+      int re_level = dto.getRe_level();
+      System.out.println("BoardDAO.insertArticle().num : "+num);
+      System.out.println("BoardDAO.insertArticle().ref : "+ref);
+      System.out.println("BoardDAO.insertArticle().re_step : "+re_step);
+      System.out.println("BoardDAO.insertArticle().re_level : "+re_level);
+      
+      // 글 그룹 처리하기 위한 변수
+      int number = 0;
+      
+      try{
+         // get Connection
+         con = getCon();
+         // DB의 그룹함수 - count, max, min, avg
+         // 최대 글 번호 얻기
+         pstmt = con.prepareStatement("select max(num) from board");
+         rs = pstmt.executeQuery();
+         
+         // 글이 존재하면
+         if(rs.next()){
+            number = rs.getInt(1)+1;
+            
+         // 처음 쓴 글일 때
+         } else {
+            number = 1; // ref = number
+         }
+         
+         if(num!=0){
+        	 sql="update board set re_step=re_step+1 where ref=? and re_step>?";
+        	 pstmt=con.prepareStatement(sql);
+        	 //?값 채우기
+        	 pstmt.setInt(1, ref);
+        	 pstmt.setInt(2, re_step);
+        	 pstmt.executeUpdate();
+        	 
+        	 re_step=re_step+1;//글순서
+        	 re_level=re_level+1;//글깊이=들여쓰기
+        	 
+         }else{
+         	ref=number;
+         	re_step=0;
+         	re_level=0;
+         }//end else
+         //mysql: now()  
+         //mysql: curdate()
+         //oracle: sysdate()
+         
+         sql="insert into board(writer, email, subject, passwd, "
+         		+ " reg_date, ref, re_step, re_level, content, ip) "
+        		 + " values(?,?,?,?,now(),?,?,?,?,?)";
+      
+         pstmt=con.prepareStatement(sql);//생성자인자 들어간다.
+         
+         pstmt.setString(1, dto.getWriter());
+         pstmt.setString(2, dto.getEmail());
+         pstmt.setString(3, dto.getSubject());
+         pstmt.setString(4, dto.getPasswd());
+         pstmt.setInt(5, ref);
+         pstmt.setInt(6, re_step);
+         pstmt.setInt(7, re_level);
+         pstmt.setString(8, dto.getContent());
+         pstmt.setString(9, dto.getIp());
+         
+         pstmt.executeUpdate();//쿼리실행
+      
+      }catch(Exception ex1){
+         System.out.println("BoardDAO.insertArticle() 예외 : "+ex1);
+      
+      } finally {
+         try{
+            if(rs != null)
+               rs.close();
+            if(pstmt != null)
+               pstmt.close();
+            if(con != null)
+               con.close();
+         }catch(Exception ex3){}
+      }// end of try - catch - finally
+      
+   }// end of insertArticle()
+   
+   
+   
+   public int getArticlCount() throws Exception{
+	   int x=0;
+	   try {
+		   con=getCon();//커넥션 얻기
+		   pstmt=con.prepareStatement("select count(*) from board");
+		   rs=pstmt.executeQuery();
+		   if(rs.next()){
+			   x=rs.getInt(1);//글개수할당
+		   }//endif
+		   
+	} catch (Exception ex1) {
+		System.out.println("getArticleCount()에서예외"+ex1);
+		
+	}finally{
+		try{
+			if(rs!=null){rs.close();}
+			if(pstmt!=null){pstmt.close();}
+			if(con!=null){con.close();}
+		}catch(Exception ex2){}
+	}//end finally
+	   return x;
+   }//end getarticlecount()
+   
+   //리스트==============
+   public List getList(int start, int cnt) throws Exception{
+	   List<BoardDTO> list=null;
+	   try {
+		con=getCon();//커넥션 얻기
+		sql="select * from board order by ref desc, re_step asc limit ?,?"; //?번째부터 ?갯수만큼 보여줌 (0부터 시작)
+		pstmt=con.prepareStatement(sql);//생성시 인자 들어간다
+		pstmt.setInt(1, start-1); //0에서 시작해서 .
+		pstmt.setInt(2, cnt);
+		rs=pstmt.executeQuery();//쿼리실행
+		
+		if(rs.next()){//글이 있으면
+			list=new ArrayList<BoardDTO>();
+			do{
+				BoardDTO dto=new BoardDTO();
+				dto.setNum(rs.getInt("num"));
+				dto.setWriter(rs.getString("writer"));
+				dto.setEmail(rs.getString("email"));
+				dto.setSubject(rs.getString("subject"));
+				dto.setPasswd(rs.getString("passwd"));
+			
+				dto.setReg_date(rs.getTimestamp("reg_date"));
+				
+				System.out.println("날짜"+rs.getDate("reg_date"));
+				System.out.println("날짜"+rs.getString("reg_date"));
+				System.out.println("날짜"+rs.getTimestamp("reg_date"));
+				
+				dto.setReadcount(rs.getInt("readcount"));
+				dto.setRef(rs.getInt("ref"));
+				dto.setRe_step(rs.getInt("re_step"));
+				dto.setRe_level(rs.getInt("re_level"));
+				dto.setContent(rs.getString("content"));
+				dto.setIp(rs.getInt("ip"));
+				
+				list.add(dto);//dto를 통째로 list 에 넣음. 밑에서 list를 리턴.
+				
+			}while(rs.next());
+		}
+	   
+	   } catch (Exception e) {
+		System.out.println("getList()에서예외:"+e);
+	}finally{
+		try{
+			if(rs!=null){rs.close();}
+			if(pstmt!=null){pstmt.close();}
+			if(con!=null){con.close();}
+		}catch(Exception ex2){}
+	}//end finally
+	   return list;
+   }//end getlist()
+   
+}// end of BoardDAO class

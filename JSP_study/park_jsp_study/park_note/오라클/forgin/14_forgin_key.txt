@@ -1,0 +1,81 @@
+sqlplus
+system
+j12345
+
+
+create user   j01 
+identified by j01
+default   tablespace users
+temporary tablespace temp;
+
+grant connect, resource
+to    j01;
+------------------------------------
+sqlplus system/j12345
+------------------------------------
+create user   user77
+identified by user77;
+default   tablespace users
+temporary tablespace temp;
+
+grant connect, resource
+to    user77;
+------------------------------------
+sqlplus user77/user77
+------------------------------------
+DROP TABLE DEPT07;
+CREATE TABLE DEPT07 (
+DEPTNO NUMBER(2),
+DNAME VARCHAR2(15) UNIQUE , -- 부서명은 유일성 가져야 함
+LOC VARCHAR2(15)
+);
+
+INSERT INTO DEPT07 VALUES (11,'영업부','서울');
+INSERT INTO DEPT07 VALUES (12,'영업부','서울') -- UNIQUE에 위배된다.;
+ 
+INSERT INTO DEPT07 VALUES (11,null,'서울') -- NULL값 추가 잘됨;
+INSERT INTO DEPT07 VALUES (11,null,'서울') -- NULL값 추가 잘됨;
+
+select * from dept07;
+DEPTNO DNAME           LOC
+------ --------------- ------
+    11 영업부          서울
+    11                 서울
+    11                 서울
+
+------------------------------------------
+set linesize 150;
+column owner format a20;
+column CONSTRAINT_NAME format a30;
+------------------------------------------
+
+# CHECK
+: 지정된 값이나 지정된 범위만 입력되는 것.
+
+DROP TABLE emp08;
+
+CREATE TABLE emp08 (
+EMPNO NUMBER(4) CONSTRAINT emp08_EMPNO_PK  PRIMARY  KEY,
+ENAME VARCHAR2(15),
+SAL NUMBER(7,2) CONSTRAINT emp08_SAL_CK CHECK(SAL BETWEEN 500 AND 5000)
+-- SAL의 숫자입력범위는 500에서 5000이다.
+);
+
+insert into emp08 (empno,ename,sal)
+values(1111,'홍길동',700);
+
+insert into emp08 (empno,ename,sal)
+values(1111,'홍길동',6000);
+
+●제약사항 확인
+SELECT OWNER, CONSTRAINT_NAME, CONSTRAINT_TYPE, TABLE_NAME
+FROM USER_CONSTRAINTS;
+
+
+OWNER                CONSTRAINT_NAME                C TABLE_NAME
+-------------------- ------------------------------ - ------------
+USER77               EMP08_SAL_CK                   C EMP08
+USER77               SYS_C0011117                   U DEPT07
+USER77               EMP08_EMPNO_PK                 P EMP08
+
+

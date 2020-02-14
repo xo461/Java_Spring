@@ -1,0 +1,4 @@
+오라클 DB 명 보기 
+
+C:\oracle\ora92\network\admin>edit listener.ora
+

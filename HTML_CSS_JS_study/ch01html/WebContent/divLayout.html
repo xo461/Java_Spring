@@ -1,0 +1,92 @@
+<!-- table보다는 div로 테이블처럼 만드는 것이 더 나음. -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Div Layout</title>
+<style type="text/css">
+#divHeader {
+	font-weight:bold;
+	font-family:Verdana;
+	font-size:3em;
+	height: 150px;
+	border: 20px dotted #ff66a3;
+	background: #ccff99;
+}
+
+#divMenu {
+font-weight:bold;
+	font-family:Verdana;
+	font-size:3em;
+	height: 50px;
+	border: 20px dotted #ff66a3;
+	background: #ccff99;
+}
+
+#divBody {
+font-weight:bold;
+	font-family:Verdana;
+	font-size:3em;
+	height: 400px;
+	width: 55%;
+	border: 20px dotted #ff66a3;
+	background: #ccff99;
+	float: left;
+	border: 20px dotted #ff66a3;
+}
+
+#divHot {
+font-weight:bold;
+	font-family:Verdana;
+	font-size:3em;
+	height: 400px;
+	width: 23%;
+	border: 20px dotted #ff66a3;
+	background: #ccff99;
+	float: right
+}
+
+.container {
+	clear: both;
+}
+
+#divFooter {
+font-weight:bold;
+	font-family:Verdana;
+	font-size:3em;
+	height: 100px;
+	border: 20px dotted #ff66a3;
+	background: #ccff99;
+	clear: both; /*float 제거*/
+}
+</style>
+</head>
+<body>
+	<h1>THIS IS THE TABLE -</h1>
+	<h2>THAT YOU'VE BEEN LOOKING FOR</h2>
+
+	<div id="divHeader" class="container">header</div>
+	<div id="divMenu" class="container">menu</div>
+
+	<div class="container" style="border: 20px dotted #ff66a3;">
+		<div id="divBody">body</div>
+		<div id="divHot">hot</div>
+
+	</div>
+
+	<div id="divFooter" class="container">footer</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</body>
+</html>

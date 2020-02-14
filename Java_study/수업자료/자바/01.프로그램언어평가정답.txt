@@ -1,0 +1,43 @@
+1~4교시 평가 준비 : 
+평가 범위
+자바 1 ~ 5장
+오라클 create 관련
+
+평가 5~8교시
+
+자바 10문항 2페이지(양면)
+오라클 6문항 1페이지
+
+1.
+public static void main(String[] args) { }
+public static void main(String args[]) { }
+2.
+short - 2byte 정수, int - 4byte 정수
+작->큰 데이터 손실이 없으므로 자동캐스팅 시켜준다.
+3.
+name1.equals(name2) , name2.equals(name1)
+주소비교 -> 별도프로그램 작성=>equals()이다.
+4.
+26: 출력하기전에 선 증가
+31: 변수 i에 5를더해서 결과를 i에 다시 넣는다.
+5.
+(int)(Math.random() * 10) + 1
+6.
+  - 1. new Scanner(System.in)
+  - 2. scanner.nextLine()
+  - 3. Integer.parseInt(input)
+7. for(int i = 1; i <= 10; i++)
+      System.out.println(i)
+8.
+ - 1. menu
+ - 2. break
+ - 3. defualt
+9.
+ - 1. {10, 20, 30} 또는 new int[]{10, 20, 30}
+ - 2. int d : nums
+ - 3. d
+10.
+ - 1. (int)(d * 100 + 0.5) / 100.0
+   또는 (int)Math.round(d * 100) / 100.0
+ - 2. d
+ - 3. result
