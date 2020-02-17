@@ -1,0 +1,33 @@
+package org.zerock.board.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.zerock.board.service.BoardService;
+
+@Controller //맵핑시켜줌
+public class BoardController {
+
+	@Autowired
+	private BoardService boardService;
+	
+	@RequestMapping("/board/list.do") //Request(url)을 맵핑 시켜야 주소 입력했을떄 페이지가 이동됨...
+	public String list(Model model) { 	//Model : 이 안에 HttpServletRequest request가 포함되어있다....
+		
+		model.addAttribute("list", boardService.list());
+		
+		// viewResolver에서 "/WEB-INF/views/"+"board/list"+".jsp"
+		//"redirect:~~"붙으면 redirect실행, 없으면 forward된다.
+		return "board/list";
+		
+	}
+	
+	@RequestMapping("/board/view.do")
+	public String view(Model model) {
+		int no = model.`
+		model.addAttribute("view", boardService.view(null));
+		return "board/view";
+	}
+	
+}

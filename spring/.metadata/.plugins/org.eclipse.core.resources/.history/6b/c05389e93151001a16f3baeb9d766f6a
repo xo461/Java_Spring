@@ -1,0 +1,10 @@
+package org.zerock.board.mapper;
+
+import java.util.List;
+
+import org.zerock.board.controller.BoardDTO;
+
+public interface BoardMapper {
+
+	public List<BoardDTO> list();
+}

@@ -1,0 +1,9 @@
+package org.zerock.board.controller;
+
+import org.springframework.stereotype.Controller;
+
+@Controller //맵핑시켜줌
+public class BoardController {
+
+	//dto만들기
+}

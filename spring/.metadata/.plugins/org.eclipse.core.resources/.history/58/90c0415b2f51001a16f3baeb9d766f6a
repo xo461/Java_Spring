@@ -1,0 +1,16 @@
+package org.zerock.board.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+
+@Controller //맵핑시켜줌
+public class BoardController {
+
+	//처리되는데이터모델과 모형에 사용되는 모형을 맞춘다....이 안에 request가 포함되어있다....
+	public String list(Model model) {
+		// viewResolver에서 "/WEB-INF/views/"+"board/list"+".jsp"
+		//"redirect:~~"붙으면 redirect실행, 없으면 forward된다.
+		return "board/list";
+		
+	}
+}

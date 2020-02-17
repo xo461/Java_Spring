@@ -1,0 +1,20 @@
+package org.zerock.board.service;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+import org.zerock.board.controller.BoardDTO;
+import org.zerock.board.mapper.BoardMapper;
+
+@Service
+public class BoardService {
+
+	@Inject  //autowired와 같음. 자동으로 들어오게.
+	private BoardMapper boardMapper; //service에서 dao생성해주듯. mapper가 dao역할을 함
+	
+	public List<BoardDTO> list(){ //리스트 가져오는 메소드이므로 리턴타입은 리스트 컬렉션
+		return boardMapper.list(); //dao의 list메소드를 실행해서 나온 결과를 리턴함
+	}
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:component-scan
+		base-package="org.zerock">
+	</context:component-scan>
+
+	<!-- 여기에 등록하면 서버 시작할때 돈다. 히카리라이브러리 여기에 등록하면 서버 시작할때 여러개의 커넥션을 만들어서 dbcp(커넥션풀)에 
+		넣어준다. -->
+	<!-- bean태그 만들면 자동생성이 된다. -->
+	<!-- pom.xml에 hikari다운받았으므로 class에 입력한다. -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName"
+			value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="jdbcUrl"
+			value="jdbc:oracle:thin:@402-oracle:1521:orcl"></property>
+		<property name="username" value="c##java14"></property>
+		<property name="password" value="java14"></property>
+	</bean>
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
+		destroy-method="close">
+		<constructor-arg ref="hikariConfig" /> <!-- 생성자에의해서 파라메터로 hikariConfig받아온다. -->
+	</bean>
+	<!-- Mybatis연동 dao코드 자동생성 factorybean. bean을생성하는 공장. .hikari를 여기에 넣어준다.-->
+	<!-- mapper Interface(메서드이름) - mapper xml(sql) -->
+	<bean id="sqlSessionFactory" 
+	class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+</beans>

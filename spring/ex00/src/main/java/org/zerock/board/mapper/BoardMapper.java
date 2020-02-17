@@ -1,0 +1,15 @@
+package org.zerock.board.mapper;
+
+import java.util.List;
+
+import org.zerock.board.dto.BoardDTO;
+
+public interface BoardMapper {
+
+	//메소드 선언만 하고 구현은 .xml에서 한다. 
+	//List 컬렉션
+	//list 컬렉션은 객체를 일렬로 늘어놓은 구조로 이루어져 있다. 객체를 인덱스로 관리하기 때문에 List 컬렉션에 객체를 추가하면 자동 인덱스가 부여된다. 인덱스는 객체를 검색, 삭제할 때 사용한다. List 컬렉션은 객체 자체를 저장하는 것이 아닌 객체의 번지를 참조한다.
+	public List<BoardDTO> list();
+	public BoardDTO view(int no);
+	
+}
