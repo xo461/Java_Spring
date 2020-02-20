@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.notice.mapper.NoticeMapper">
+
+	<select id="list" resultType="org.zerock.notice.dto.NoticeDTO">
+		select * from (
+			select rownum rnum, no, title, startDate, endDate, writeDate, updateDate, hit from(
+				select no, title, startDate, endDate, writeDate, updateDate, hit 
+					from notice order by no desc)
+		) where rnum between 1 and 10
+	</select>
+
+	<insert id="write">
+		insert into notice(no, title, content, startDate, endDate)
+		values(notice_seq.nextval, #{title}, #{content}, #{startDate}, #{endDate})
+	</insert>
+</mapper>
