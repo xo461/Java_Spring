@@ -1,38 +1,41 @@
 package org.zerock.notice.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.zerock.notice.dto.NoticeDTO;
+import org.zerock.notice.service.NoticeService;
+
 
 @Controller
+@RequestMapping("/notice")
 public class NoticeController {
+	
+	@Autowired
+	private NoticeService service;
+	
+	private final String MODULE = "notice"; //상수로 정의 ->대문자
 
-	@RequestMapping(value = "/notice/list.do", method = RequestMethod.GET)
-	public String list() {
-		return "notice/list";
+	@RequestMapping("/list.do")
+	public String list(Model model) {
+		model.addAttribute("list", service.list());
+		return MODULE + "/list";
 	}
-	@RequestMapping(value = "/notice/view.do", method = RequestMethod.GET)
-	public String view() {
-		return "notice/view";
-	}
-	@RequestMapping(value = "/notice/write.do", method = RequestMethod.GET)
+	
+	@GetMapping("/write.do")
 	public String writeForm() {
-		return "notice/write";
+		return MODULE + "/write";
 	}
-	@RequestMapping(value = "/notice/write.do", method = RequestMethod.POST)
-	public String write() {
-		return "notice/write";
+
+	
+	@PostMapping("/write.do")
+	public String write(NoticeDTO dto) {
+		System.out.println("NoticeController.write().dto:"+dto);
+		service.write(dto);
+		return "redirect:list.do";
 	}
-	@RequestMapping(value = "/notice/update.do", method = RequestMethod.GET)
-	public String updateForm() {
-		return "notice/update";
-	}
-	@RequestMapping(value = "/notice/update.do", method = RequestMethod.POST)
-	public String update() {
-		return "notice/update";
-	}
-	@RequestMapping(value = "/notice/delete.do", method = RequestMethod.POST)
-	public String delete() {
-		return "notice/delete";
-	}
+	
 }

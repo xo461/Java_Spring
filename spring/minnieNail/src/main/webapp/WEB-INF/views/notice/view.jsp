@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>notice/view.do</h1>
+<h1>게시판 글보기</h1>
+<a href="update.jsp"><button type="button" class="btn btn-primary">수정</button></a>
+<a href="delete.jsp"><button type="button" class="btn btn-primary">삭제</button></a>
+<a href="list.jsp"><button type="button" class="btn btn-primary">목록</button></a>
+
 </body>
 </html>

@@ -5,7 +5,7 @@
 
 <!-- 중복을 배제하기 위해 namespace설정한다. 그렇지않으면 프로그램돌때 TimeMapper이름이중복되면 충돌이 일어날 수있다. -->
 <mapper namespace="org.zerock.mapper.TimeMapper"> 
-<!-- TimeMapper.java 인터페이스의 메서드와 같은 이름을 id로 써야 인식된다. 리턴타입은 스트링으로 맞춰준다. 그럼자바에서 스트링으로 쓴다.-->
+<!-- TimeMapper.java 인터페이스의 메서드와 같은 이름을 id로 써야 인식된다. 리턴타입은 스트링으로 맞춰준다. 그럼자바에서 스트링으로 쓴다. 태그안에 sql문장을 쓴다. 참고로 dual은 오라클에서 기본 제공되는 테이블로 간단한 테스트를 할때 사용할수있다.-->
 <select id="getTime" resultType="java.lang.String">
 	select sysdate from dual
 </select>

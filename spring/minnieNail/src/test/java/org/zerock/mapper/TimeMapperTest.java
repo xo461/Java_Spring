@@ -25,4 +25,10 @@ public class TimeMapperTest {
 		log.info("getTime");
 		log.info(timeMapper.getTime()); //메서드호출해서 실행
 	}
+	
+	@Test
+	public void testGetTimeAN() {
+		log.info("getTimeAN");
+		log.info(timeMapper.getTimeAN()); //메서드호출해서 실행
+	}
 }
