@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 리스트 -->
+<!-- 중복을 배제하기 위해 namespace설정한다. 그렇지않으면 프로그램돌때 TimeMapper이름이중복되면 충돌이 일어날 수있다. -->
+<mapper namespace="com.webjjang.board.mapper.BoardMapper">
+	<!-- TimeMapper.java 인터페이스의 메서드와 같은 이름을 id로 써야 인식된다. 리턴타입은 스트링으로 맞춰준다. 그럼자바에서 
+		스트링으로 쓴다. 태그안에 sql문장을 쓴다. 참고로 dual은 오라클에서 기본 제공되는 테이블로 간단한 테스트를 할때 사용할수있다. -->
+	<!-- 쿼리문: 정렬해서가져오고 - 글번호 붙이고 - 1부터 10까지 가져온다. -->
+	<!-- resultType: 리스트, 글보기에서 select쿼리로 가져온 결과를 Java의 어떤 타입으로 변환하여 반환할지 지정 -->
+	<select id="list" resultType="com.webjjang.board.dto.BoardDTO">
+		select * from (
+		select rownum rnum, no, title, writer, writeDate, hit, reply_cnt
+		from (
+		select no, title, writer, writeDate, hit, reply_cnt
+		from board order by no desc)
+		)
+		where rnum between 1 and 10
+	</select>
+
+	<!-- 글쓰기 -->
+	<!-- #중괄호가 물음표로 바꿔치기된다.jsp로 넘어갈떄는 dto.으로 넘어간다. -->
+	<insert id="write">
+		insert into board(no, title, content, writer, pw)
+		values(board_seq.nextval, #{title}, #{content}, #{writer}, #{pw})
+	</insert>
+
+	<!-- 글보기 -->
+	<!-- dto 모델과 똑같이 써야 한다.  -->
+	<select id="view" resultType="com.webjjang.board.dto.BoardDTO">
+		select no, title, content, writer, writeDate , hit
+		from board where no = #{no}
+	</select>
+
+	<!-- 글보면 조회수 1 증가 --><!-- trigger는 데이터가 변경되야 처리가능한 반면 글보기는 데이터 변경은 아니므로 db딴에서는 처리 못하고 java딴에서 처리한다. -->
+	<update id="increaseHit">
+		update board set hit = hit + 1
+		where no = #{no}
+	</update>
+
+	<!-- 글수정 : 본인글만 수정가능 pw 확인-->
+	<update id="update">
+		update board
+		set title = #{title}, content = 
+		#{content}, writer = #{writer}
+		where no = #{no} and pw = #{pw}
+	</update>
+
+	<!-- 글삭제 -->
+	<delete id="delete">
+		delete from board
+		where no = #{no} and pw = #{pw}
+	</delete>
+
+</mapper>
