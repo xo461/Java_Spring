@@ -25,7 +25,7 @@ public interface BoardMapper {
 	public Integer update(BoardDTO dto);
 
 	//**** 글삭제 - delete ****
-	public Integer delete(int no);
+	public Integer delete(BoardDTO dto);
 
 	//**** fileUpload ****
 	public void insertFile(Map<String, Object> map) throws Exception;

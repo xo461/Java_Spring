@@ -19,7 +19,7 @@ public class FileUtils {
 
 	private static final String filePath = "D:\\Workspace\\spring\\minnieNail\\src\\main\\webapp\\upload\\boardFile"; // 파일이 저장될 위치
 	
-	public List<Map<String, Object>> parseInsertFileInfo(BoardFileDTO fdto, BoardDTO dto, 
+	public List<Map<String, Object>> parseInsertFileInfo(BoardDTO dto, 
 			MultipartHttpServletRequest mpRequest) throws Exception{
 
 		/*
@@ -28,8 +28,8 @@ public class FileUtils {
 			Iterator을 이용하여 Map에 있는 데이터들을 while문을 이용하여 순차적으로 접근합니다.
 		*/
 
-		Iterator<String> iterator = mpRequest.getFileNames();
-		
+//		Iterator<String> iterator = mpRequest.getFileNames();
+		List<MultipartFile> list2 = mpRequest.getFiles("file");
 		MultipartFile multipartFile = null;
 		String originalFileName = null;
 		String originalFileExtension = null;
@@ -38,15 +38,15 @@ public class FileUtils {
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		Map<String, Object> listMap = null;
 		
-		int no = dto.getNo();
+		int no = dto.getNo(); //Board 번호
 		
 		File file = new File(filePath);
 		if(file.exists() == false) {
 			file.mkdirs();
 		}
 		
-		while(iterator.hasNext()) {
-			multipartFile = mpRequest.getFile(iterator.next());
+		for(int i=0; i<list2.size(); i++) {
+			multipartFile = list2.get(i);
 			if(multipartFile.isEmpty() == false) {
 				originalFileName = multipartFile.getOriginalFilename();
 				originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));

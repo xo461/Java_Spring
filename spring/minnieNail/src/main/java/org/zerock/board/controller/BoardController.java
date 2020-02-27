@@ -1,26 +1,27 @@
 package org.zerock.board.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.zerock.board.dto.BoardDTO;
-import org.zerock.board.dto.BoardFileDTO;
 import org.zerock.board.service.BoardService;
 
+import lombok.extern.log4j.Log4j;
+
 @Controller // 맵핑시켜줌
+@Log4j
 @RequestMapping("/board") // 보드로 들어가고 밑에 메소드위에 @requestmapping에 상세 주소만 쓰면된다.
 //class위에 쓰는 Requestmapping은 get, post중요하지 않지만, 밑에 메소드위에 쓰는 Request
 public class BoardController {
 
 	@Autowired
+	@Qualifier("bs")
 	private BoardService service;
 
 	private final String MODULE = "board"; // 상수로 정의 ->대문자
@@ -34,13 +35,14 @@ public class BoardController {
 	// 디폴트값을 지정해야줘한다. (원래는 param이름이같으면 @RequestParam 없어도 매칭시켜준다...)
 	// model: 개발자는 처리를 해서 데이터를 만든다 -> 디자인하는 jsp에서는 데이터를 사용한다. -->
 	// dispatcherservlet에서
-	public String list(@RequestParam(defaultValue = "1") int page, Model model) { // Model : 이 안에 HttpServletRequest
-																					// request가 포함되어있다.... //jsp파일명넘겨주므로
-																					// 리턴타입
-																					// String이다.//mapper->service->에서
-																					// 가져온 내용 model에 담야아한다...
-		model.addAttribute("list", service.list()); // 요기 "list"가 jsp에 넘겨주는 "list"와 이름 동일해야 함.(noticeservice에서 가져온 내용
-													// model에 담기)
+	//jsp파일명넘겨주므로 리턴타입 String이다.
+	public String list(@RequestParam(defaultValue = "1") int page, Model model) { 
+		// mapper->service->에서 가져온 내용 model에 담야아한다...
+		// Model을 파라메터로 받아야 데이터를 뷰로 넘길수있다.(리스트, 글보기, 글수정에서 데이터 사용자에게 보여줘야함)
+		// model 안에 HttpServletRequest request가 포함되어있다.... 
+		model.addAttribute("list", service.list()); 
+		// key:value형태. list라는 이름으로 데이터 넘겨줌.
+		// jsp에서  "list"이름을 써서 데이터를 받는다.(el객체)
 		// viewResolver에서 "/WEB-INF/views/"+"board/list"+".jsp"
 		// "redirect:~~"붙으면 redirect실행, 없으면 forward된다.
 		return MODULE + "/list"; // jsp파일명
@@ -55,15 +57,10 @@ public class BoardController {
 
 	// **** 게시판글쓰기처리post ****
 	@PostMapping("/write.do") // 글써서 넘기므로 post
-	// 스프링(DispatcherServlet)이 웹에서 넘어오는 데이터를 BoardDTO 생성하고, BoardDTO 프로퍼티 이름과 같은 항이
-	// 있으면 바로 넣어주고 넘겨준다.
-	public String write(BoardDTO dto, MultipartHttpServletRequest mpRequest) throws Exception {
-		// DB처리
-		// 넘어오는 데이터 확인
+	// jsp에서 form으로 넘겨온 데이터를 아래와같이 parameter에 dto로 받으면: 스프링(DispatcherServlet)이 자동으로 name속성과 dto변수명이 같은걸 맞춰서 넣어준다.
+	public String write(BoardDTO dto, MultipartHttpServletRequest mpReq) throws Exception {
 		System.out.println("BoardController.write().dto:" + dto);
-		String[] files = mpRequest.getParameterValues("file");
-		System.out.println(files);
-//		service.write(dto, mpRequest);
+		service.write(dto, mpReq);
 		// 게시판리스트로 자동이동
 		return "redirect:list.do";
 
@@ -115,11 +112,11 @@ public class BoardController {
 	@GetMapping("/delete.do") // 삭제는 form으로 post로 넘기는게 따로 없으므로 get
 	// 스프링(DispatcherServlet)이 웹에서 넘어오는 데이터를 BoardDTO 생성하고, BoardDTO 프로퍼티 이름과 같은 항이
 	// 있으면 바로 넣어주고 넘겨준다.
-	public String delete(int no) {
+	public String delete(BoardDTO dto) {
 		// 넘어오는 데이터 확인
-		System.out.println("BoardController.delete().no:" + no);
+		System.out.println("BoardController.delete().dto:" + dto);
 		// DB처리
-		service.delete(no);
+		service.delete(dto);
 		// 게시판리스트로 자동이동
 		return "redirect:list.do?page=1&perPageNo=10"; // 10 나중에 수정요망
 	}
