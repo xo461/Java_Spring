@@ -23,7 +23,6 @@ public class BoardController {
 	@Autowired
 	@Qualifier("bs")
 	private BoardService service;
-
 	private final String MODULE = "board"; // 상수로 정의 ->대문자
 
 	// **** 게시판글리스트 ****

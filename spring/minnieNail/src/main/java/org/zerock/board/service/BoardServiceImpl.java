@@ -14,7 +14,7 @@ import org.zerock.board.mapper.BoardMapper;
 
 @Service
 @Qualifier("bs")
-public class BoardServiceImpl {
+public class BoardServiceImpl implements BoardService {
 
 	@Inject  //autowired와 같음. 자동으로 들어오게.
 	private BoardMapper boardMapper; //service에서 dao생성해주듯. mapper가 dao역할을 함

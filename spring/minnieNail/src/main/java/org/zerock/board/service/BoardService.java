@@ -11,7 +11,7 @@ public interface BoardService {
 	public List<BoardDTO> list();
 	
 	//***2.글쓰기 처리 - write(dto)
-	public Integer write(BoardDTO dto, MultipartHttpServletRequest mpReq);
+	public void write(BoardDTO dto, MultipartHttpServletRequest mpReq) throws Exception;
 	
 	//***3.글보기 - view(no) / increaseHit(no)
 	public BoardDTO view(int no);
