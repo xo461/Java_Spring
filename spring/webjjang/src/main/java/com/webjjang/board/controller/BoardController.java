@@ -41,7 +41,7 @@ public class BoardController {
 	//2. 게시판 글보기
 	@GetMapping("/view.do")
 	public String view(Model model, int no) {
-		model.addAttribute("view", service.view(no));
+		model.addAttribute("dto", service.view(no));
 		return module + "/view";
 	}
 	
@@ -69,11 +69,14 @@ public class BoardController {
 	//4-1. 게시판 수정 처리(사용자가 수정한 데이터 dto로 받는다.)
 	@PostMapping("/update.do")
 	public String update(BoardDTO dto) {
-		service.update(dto);
-		return "redirect:view.do?no="+dto.getNo();
+		int result = service.update(dto); //글수정 성공시 1 리턴, 실패시 0 리턴
+		if(result > 0)//성공적으로 수정되어 1이 리턴되면
+			return "redirect:view.do?no="+dto.getNo();
+		else 
+			return "error/error_pw"; //오류페이지jsp로 이동 
 	}
 	
-	//5. 게시판 글삭제(글번호, 비밀번호 필요-->따로받으면 번거로우므로 한꺼번에 dto로 받는다.)
+	//5. 게시판 글삭제(글번호, 비밀번호 필수로 받는다.-->따로받으면 번거로우므로 dto로 함께 받는다.)
 	//비밀번호때문에 post로 넘겨야함.->ajax나 formtag로 넘겨야 한다.
 	@PostMapping("/delete.do")
 	public String delete(BoardDTO dto) {
