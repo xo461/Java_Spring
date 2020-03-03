@@ -1,5 +1,10 @@
 package org.zerock.board.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.zerock.board.dto.BoardDTO;
 import org.zerock.board.service.BoardService;
+import org.zerock.member.dto.UsersDTO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -51,15 +57,23 @@ public class BoardController {
 //	@RequestMapping(value = "/write.do", method = RequestMethod.GET) // 글쓰기 폼이니까 get방식 -> 글써서 넘겨야 post
 	@GetMapping("/write.do") // 글쓰기 폼이니까 get방식 -> 글써서 넘겨야 post
 	public String writeForm() {
+		
 		return MODULE + "/write";
 	}
 
 	// **** 게시판글쓰기처리post ****
 	@PostMapping("/write.do") // 글써서 넘기므로 post
 	// jsp에서 form으로 넘겨온 데이터를 아래와같이 parameter에 dto로 받으면: 스프링(DispatcherServlet)이 자동으로 name속성과 dto변수명이 같은걸 맞춰서 넣어준다.
-	public String write(BoardDTO dto, MultipartHttpServletRequest mpReq) throws Exception {
+	public String write(BoardDTO dto, MultipartHttpServletRequest mpReq, HttpSession session) throws Exception {
 		System.out.println("BoardController.write().dto:" + dto);
+		
 		service.write(dto, mpReq);
+
+		System.out.println(session.getAttributeNames());
+		System.out.println(session.getId());
+		System.out.println(session.getServletContext());
+		
+//		System.out.println("logindto:" + udto);
 		// 게시판리스트로 자동이동
 		return "redirect:list.do";
 

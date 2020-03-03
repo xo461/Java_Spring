@@ -28,8 +28,8 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-			/WEB-INF/spring/appServlet/servlet-context.xml
-			/WEB-INF/spring/context-common.xml
+				/WEB-INF/spring/appServlet/servlet-context.xml
+				/WEB-INF/spring/context-common.xml
 			</param-value>
 		</init-param>
 		<!-- 404 error처리위해 추가 -->
@@ -66,7 +66,8 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- 레이아웃 잡는 sitemesh library등록.(버전을 잘 맞추어야 한다. 현재 2.4.2버전 사용) 필터쪽에서 분해하고 다시 조립하므로  web.xml에 filter에서 등록해야함 -->
+	<!-- 레이아웃 잡는 sitemesh library등록.(버전을 잘 맞추어야 한다. 현재 2.4.2버전 사용) 필터쪽에서 분해하고 
+		다시 조립하므로 web.xml에 filter에서 등록해야함 -->
 	<filter>
 		<filter-name>sitemesh</filter-name><!-- 필터name은 바꿔도 무방함 -->
 		<filter-class>
@@ -75,7 +76,17 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>sitemesh</filter-name>
-		<!-- url패턴: 1.확장자기반: *.확장자    2. 위치기반 . 두종류를 섞으면 안된다.-->
+		<!-- url패턴: 1.확장자기반: *.확장자 2. 위치기반 . 두종류를 섞으면 안된다. -->
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
+	<!-- 로그인 권한처리 필터 : 여기 등록해야 정상 작동 -->
+	<filter>
+		<filter-name>AuthoryFilter</filter-name>
+		<filter-class>org.zerock.util.filter.AuthoryFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthoryFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 </web-app>

@@ -26,9 +26,9 @@ public class JDBCTests {
 	// 객체에서 사용할 DB 정보 -> list(), view()... 다른 메서드에서 다필요로 하기 때문에
 	// 전역변수로 선언한다.
 	// 바뀌면 안돼서 static final로 선언. 내용이 바뀌면 시스템이 바뀐다는 뜻.
-	private static final String url = "jdbc:oracle:thin:@402-oracle:1521:orcl";
-	private static final String id = "c##java14";
-	private static final String pw = "java14";
+	private static final String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	private static final String id = "minnienail";
+	private static final String pw = "minnienail";
 
 	// 연결 테스트 메서드
 	@Test

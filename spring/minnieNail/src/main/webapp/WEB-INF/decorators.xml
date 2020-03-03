@@ -14,6 +14,8 @@
 		<pattern>/message/*</pattern>
 		<pattern>/image/*</pattern>
 		<pattern>/qna/*</pattern>
+		<pattern>/login/*</pattern>
+		<pattern>/home</pattern>
 
 	</decorator>
 	<!-- 여러형태의 레이아웃을 사용하려면 decorator 태그를 여러개 만들면 된다. admin용 데코레이터 별도로 만듦 -->

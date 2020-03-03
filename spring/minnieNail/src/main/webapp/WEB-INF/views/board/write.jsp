@@ -60,6 +60,7 @@
 		<form action="write.do" method="post" id="writeForm"
 			enctype="multipart/form-data">
 			<div class="form-group">
+			<input type="hidden" value="${login.id }" name="id">
 				<label for="title">Title</label>
 				<!-- 입력한 데이터의 앞뒤 공백문자는 제거(trim())
     			 id, class : 화면 컨트롤을 위해서(빠른 선택), name : 넘어가는 데이터 이름 -->

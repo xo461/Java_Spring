@@ -27,6 +27,7 @@
 	<!-- 글쓰기 -->
 	<!-- #중괄호가 물음표로 바꿔치기된다.jsp로 넘어갈떄는 dto.으로 넘어간다. -->
 	<insert id="write" parameterType="org.zerock.board.dto.BoardDTO">
+		<!-- 여기에 글번호가 먼저 생성되어야 boardfile에서 받아서 삽입가능하다. -->
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
 			SELECT BOARD2_SEQ.NEXTVAL FROM DUAL
 		</selectKey>

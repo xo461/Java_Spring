@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.login.MemberMapper">
+	<select id="userList"
+		resultType="org.zerock.member.dto.UsersDTO">
+		select u.id, u.username, u.email, u.nickname, u.sns_id,
+		u.sns_type, u.sns_profile, u.create_date, u.modify_date,
+		s.state,
+		s.stateName, g.gradeNo, g.gradeName
+		from users u, state s, grade g
+		where (u.state = s.state) and (g.gradeNo = u.gradeNo)
+		order by id desc
+	</select>
+
+	<!--db에 회원추가 -->
+	<insert id="insertNormalUser"
+		parameterType="org.zerock.member.dto.UsersDTO">
+		insert into users(id, email, nickname, sns_id, sns_type, gradeNo,
+		state)
+		values(users_seq.nextval, #{email}, #{nickname}, #{sns_id},
+		'naver', 1, 1)
+		<!-- select users_seq.nextval, #{email}, #{nickname}, #{sns_id}, 'naver' 
+			from dual where not exists (select * from users where email = #{email}) -->
+	</insert>
+
+	<select id="emailCheck" resultType="string">
+		select email from users where
+		email = #{email}
+	</select>
+
+	<!--관리자: 회원 등급, 상태 관리 -->
+	<update id="manage" parameterType="org.zerock.member.dto.UsersDTO">
+		update users set state = #{state}, gradeNo = #{gradeNo}
+		where id = #{id};
+	</update>
+
+
+
+</mapper>

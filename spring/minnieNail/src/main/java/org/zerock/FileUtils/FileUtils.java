@@ -16,8 +16,8 @@ import org.zerock.board.dto.BoardFileDTO;
 
 @Component("fileUtils")
 public class FileUtils {
-
-	private static final String filePath = "D:\\Workspace\\spring\\minnieNail\\src\\main\\webapp\\upload\\boardFile"; // 파일이 저장될 위치
+	private static final String filePath = "C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\spring\\minnieNail\\src\\main\\webapp\\upload\\boardFile"; // 파일이 저장될 위치
+	//private static final String filePath = "C:\\Workspace\\spring\\minnieNail\\src\\main\\webapp\\upload\\boardFile"; // 파일이 저장될 위치
 	
 	public List<Map<String, Object>> parseInsertFileInfo(BoardDTO dto, 
 			MultipartHttpServletRequest mpRequest) throws Exception{

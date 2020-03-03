@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -7,14 +8,17 @@
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<!-- 운영하는 위치로 변경해서 사용한다.  -->
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<!-- css 적용되게 맵핑: 기본위치webapp아래 url에 css폴더밑에 관련 파일에 들어오면 css가 적용되게 맵핑 , 그 외 javascript도 마찬가지로 적용.-->
+	<!-- 운영하는 위치로 변경해서 사용한다. -->
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
+	<!-- css 적용되게 맵핑: 기본위치webapp아래 url에 css폴더밑에 관련 파일에 들어오면 css가 적용되게 맵핑 , 그 
+		외 javascript도 마찬가지로 적용. -->
 	<!-- 이게 연결적용이 되면 웹페이지 f12 source탭에서 적용된 폴더가 보인다. -->
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/js/**" location="/js/" />
@@ -22,25 +26,34 @@
 	<!-- fileupload를 위한 설정 -->
 	<resources mapping="/upload/**" location="/upload/" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
-	<!-- fileupload를 위한 설정을 위한 객체(파일을 올리면 임시폴더에 저장하고 copy명령으로 원하는 위치에 복사하게 된다.)-->
-	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="defaultEncoding" value="utf-8"/>
-		<beans:property name="maxUploadSize" value="10485756000"/> <!-- 한번에 올리는 전체용량 제한: 1gb로 설정 -->
-		<beans:property name="maxUploadSizePerFile" value="209715200"/> <!-- 한개파일의 용량제한: 200mb -->
-		<beans:property name="uploadTempDir" value="file:/C:/tmp"/> <!-- 이렇게 쓰고 c드라이브가서 tmp폴더 만들어야 함. //서버에 파일 올리면 저장될 임시 폴더.-->
-		<beans:property name="maxInMemorySize" value="10485756"/> <!-- upload되는파일의 크기가 1m이내인 경우는 임시파일을 사용하지 않고 메인메모리를 사용한다. -->
+
+	<!-- fileupload를 위한 설정을 위한 객체(파일을 올리면 임시폴더에 저장하고 copy명령으로 원하는 위치에 복사하게 된다.) -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="utf-8" />
+		<beans:property name="maxUploadSize"
+			value="10485756000" /> <!-- 한번에 올리는 전체용량 제한: 1gb로 설정 -->
+		<beans:property name="maxUploadSizePerFile"
+			value="209715200" /> <!-- 한개파일의 용량제한: 200mb -->
+		<beans:property name="uploadTempDir"
+			value="file:/C:/tmp" /> <!-- 이렇게 쓰고 c드라이브가서 tmp폴더 만들어야 함. //서버에 파일 올리면 저장될 임시 폴더. -->
+		<beans:property name="maxInMemorySize" value="10485756" /> <!-- upload되는파일의 크기가 1m이내인 경우는 임시파일을 사용하지 않고 메인메모리를 사용한다. -->
 	</beans:bean>
-	
+
+	 
 	<!-- 프로젝트 운영하는 상위 위치로 변경해서 사용한다. -->
 	<!-- 자동스캔 설정. org.zerock까지만 설정하면 그 밑에도 다 적용됨 -->
-	<context:component-scan base-package="org.zerock" />
-	
-	
-	
+	<context:component-scan
+		base-package="org.zerock" />
+
+	<!-- 네이버아이디로 로그인 -->
+	 <beans:bean id="naverLoginBO" class="org.zerock.login.NaverLoginBO" />
+ 
 </beans:beans>

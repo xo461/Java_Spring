@@ -85,8 +85,8 @@ article {
 </style>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-	});
+$(document).ready(function() {
+});
 </script>
 <decorator:head />
 <!-- head안에 있어야 잘 동작 -->
@@ -101,38 +101,36 @@ article {
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="${absUri }">MinnieNail</a>
+					<a class="navbar-brand" href="/main/main.do">MinnieNail</a>
 					<a href="https://www.instagram.com/minnienailarts/"><i class='fab fa-instagram' style='font-size:35px;color:white'></i></a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
 						<li><a href="${absUri }/notice/list.do">Notice</a></li>
 						<li><a href="${absUri }/board/list.do">Board</a></li>
-						<li><a href="${absUri }/teacher/list.do">Nail Pics</a></li>
-						<li><a href="${absUri }/reserve/list.do">QnA</a></li>
+						<li><a href="${absUri }/image/list.do">Nail Pics</a></li>
 						<li><a href="${absUri }/reserve/list.do">Message</a></li>
-						<li><a href="${absUri }/reserve/list.do">Member</a></li>
-						<c:if test="${!empty login }">
+						<li><a href="${absUri }/member/list.do">Member</a></li>
+						<%-- <c:if test="${!empty login }">
 							<c:if test="${login.gradeNo==9 }">
 								<li><a href="${absUri }/member/list.do">회원관리</a></li>
 								<li><a href="${absUri }/schedule/view.do">스케줄 관리</a></li>
 							</c:if>
-						</c:if>
+						</c:if> --%>
 						<!-- 요기에 관리자메뉴 작성한다. -->
 						<%-- <c:if test="${login.gradeNo==9 }"> --%>
 						<%-- </c:if> --%>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<c:if test="${empty login }">
-							<li><a href="${absUri }/member/writeForm.do">Sign-up</a></li>
-							<li><a href="${absUri }/member/login.do"><span
+							<li><a href="${absUri }/login/signup.do">Sign-up</a></li>
+							<li><a href="${absUri }/login/login.do"><span
 									class="glyphicon glyphicon-log-in"></span> Sign-in</a></li>
 						</c:if>
 						<c:if test="${!empty login }">
-							<li id="welcome">${login.name}Welcome, [${login.gradeName }]</li>
-							<li><a href="${absUri }/member/view.do?id=${login.id}">MyPage</a></li>
-							<li><a href="${absUri }/member/logoutProcess.do"><span
-									class="glyphicon glyphicon-log-in"></span> Sign-out</a></li>
+							<li id="welcome">Welcome, ${login.nickname}! <a href="${absUri }/member/view.do?id=${login.id}">MyPage</a></li>
+							<li><a href="${absUri }/login/signout.do" ><span
+									class="glyphicon glyphicon-log-in" id="signout"></span> Sign-out</a></li>
 						</c:if>
 					</ul>
 				</div>

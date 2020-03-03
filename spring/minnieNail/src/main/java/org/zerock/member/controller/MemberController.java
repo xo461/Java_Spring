@@ -1,42 +1,37 @@
 package org.zerock.member.controller;
 
+import javax.inject.Inject;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
-
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.zerock.board.controller.BoardController;
+import org.zerock.member.dto.UsersDTO;
 import org.zerock.member.service.MemberService;
 
-import lombok.extern.log4j.Log4j;
-
 @Controller
-@Log4j
 @RequestMapping("/member")
 public class MemberController {
 
-	@Autowired
+	@Inject
 	private MemberService service;
-	private final String Module = "member";
 	
-	public String list() {
-		return Module + "/list";
+	@GetMapping("/list.do")
+	public String mList(Model model) {
+		model.addAttribute("list", service.list());
+		return "member/list";
 	}
 	
-	@RequestMapping(value="login.do", method=RequestMethod.GET)
-	public String loginGET() {
-		return "member/login";
+	@GetMapping("/manage.do")
+	public String mManageForm(Model model) {
+		model.addAttribute("list", service.list());
+		return "member/manage";
 	}
-	
-	@RequestMapping(value="loginPostNaver.do", method=RequestMethod.GET)
-	public String loginPOSTNaver(HttpSession session) {
-		return "member/loginPostNaver";
+
+	@PostMapping("/manage.do")
+	public String mManage(UsersDTO udto) {
+		service.manage(udto);
+		return "redirect:list.do";
 	}
-	
-	
 }
