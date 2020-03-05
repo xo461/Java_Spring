@@ -148,7 +148,7 @@ body {
 	<script>
 		var naverLogin = new naver.LoginWithNaverId({
 			clientId : "e5mCPDnVvHz5Ekhetc6r",
-			callbackUrl : "http://localhost/member/loginPostNaver.do",
+			callbackUrl : "http://localhost/login/callback.do",
 			isPopup : false,
 			loginButton : {
 				color : "green",

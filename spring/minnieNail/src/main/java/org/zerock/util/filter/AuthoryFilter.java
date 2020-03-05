@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.zerock.member.dto.Sns_infoDTO;
 import org.zerock.member.dto.UsersDTO;
+import org.zerock.member.service.MemberService;
 
 //web.xml에 필터 등록해야 정상 작동함..
 
@@ -30,9 +30,11 @@ public class AuthoryFilter implements Filter {
 
 	// 로그인 처리가 되어야 하는 URL을 저장하는 변수
 	private List<String> loginList = new ArrayList<String>();
-	// URL에 따른 권한을 저장하는 변수
+	// URL에 따른 권한을 저장하는 변수key, value
 	private Map<String, Integer> authMap = new HashMap<String, Integer>();
 
+	private MemberService service ;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -47,7 +49,13 @@ public class AuthoryFilter implements Filter {
 		loginList.add("/notice/update.do");
 		loginList.add("/notice/delete.do");
 
-		// 권한 map에 권한이 필요한 URL 등록 - 일반회원(1)은 등록하지 않는다.(로그인이 되어 있는지로 확인가능)
+		//map<key, value>: (권한이 필요한 URL, uri에서 요구하는 회원등급)
+		authMap.put("/notice/write.do", 9);
+		authMap.put("/notice/update.do", 9);
+		authMap.put("/notice/delete.do", 9);
+		
+		authMap.put("/member/list.do", 9);
+		authMap.put("/member/manage.do", 9);
 
 	}
 
@@ -61,17 +69,8 @@ public class AuthoryFilter implements Filter {
 
 	
 	
-	
-	
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		// place your code here
-
-		System.out.println("AuthorityFilter.doFilter");
 
 		// 객체 캐스팅 : ServletRequest -> HttpServletRequest
 		HttpServletRequest req = (HttpServletRequest) request;
@@ -81,12 +80,12 @@ public class AuthoryFilter implements Filter {
 		HttpSession session = req.getSession();
 
 		// req에서 session 꺼내와서 Login 정보 가져오기
-		UsersDTO login = (UsersDTO) session.getAttribute("login");
-		System.out.println("AuthorityFilter.doFilter().login:" + login);
-
+		UsersDTO login = (UsersDTO) session.getAttribute("login"); //logincontroller에서 저장해놓은것
+		System.out.println("AuthorityFilter.doFilter().session에저장된loginDTO:" + login);		
+				
 		// URI 가져오기
 		String uri = req.getServletPath();
-		System.out.println("AuthorityFilter.doFilter().uri:" + uri);
+//		System.out.println("AuthorityFilter.doFilter().uri:" + uri);
 
 		// 로그인이 안되 있고 로그인이 필요한 경우 바로 로그인 페이지로 이동시킨다.
 		if (login == null && loginRequre(uri)) {
@@ -98,6 +97,16 @@ public class AuthoryFilter implements Filter {
 			return;
 		}
 		
+		//-------------------------------------------------------
+		// 지정한 권한 미만인 경우 권한 부족 페이지로 이동시킨다.
+		// 네이버아이디로로그인이므로 세션에서 가져오면 거기에 회원등급정보는 없다. -> logincontroller에서 로그인할때 네이버에서 주는 세션정보 이미 db에 있으면 아무처리안하고 없으면 db에 저장시킨 후에 sns_id와 동일한 데이터를 dto형태로 가져와서 세션에 저장시킨다.
+		if (login != null && !checkAuth(login.getGradeNo(), uri)) { //로그인을 했고, uri에서 요구하는 회원등급보다 낮으면(false)
+			System.out.println("AuthorityFilter.doFilter().loginDTO.getGradeNo():" + login.getGradeNo());		
+			res.sendRedirect("/member/noAuth.do");
+			return; // 아래 부분은 처리가 안된다.
+		}
+
+		//----------------------------------------------
 		// 여기가 요청한 처리로 이동하게 하는 부분
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
@@ -119,5 +128,13 @@ public class AuthoryFilter implements Filter {
 		return false; //로그인이 필요하지않다.
 	}
 	
+
+	// 권한이 있는지 알아 내는 메서드
+	private boolean checkAuth(int userGrade, String uri) {
+		Integer pageGrade = authMap.get(uri); //key에 해당하는 value(회원등급)가져와서 변수저장 (해당uri가 요구하는 회원등급)
+		if (pageGrade == null || userGrade >= pageGrade) //uri에서 요구하는 회원등급이 없거나, 있어도 사용자의회원등급보다 낮으면 true 리턴(uri서비스 이용 가능)
+			return true;
+		return false;
+	}
 	
 }

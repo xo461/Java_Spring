@@ -34,9 +34,18 @@
 	<!--관리자: 회원 등급, 상태 관리 -->
 	<update id="manage" parameterType="org.zerock.member.dto.UsersDTO">
 		update users set state = #{state}, gradeNo = #{gradeNo}
-		where id = #{id};
+		where id = #{id}
 	</update>
 
-
+	<!--권한 처리 위한 등급 확인  -->
+	<select id="authCheck" parameterType="integer" resultType="integer">
+		select gradeNo from users where sns_id = #{sns_id}
+	</select>
+	
+	<!-- 회원정보 가져오기. 세션저장용 -->
+	<select id="selectUser" resultType="org.zerock.member.dto.UsersDTO">
+		select id, username, sns_id, sns_type, email, nickname, state, gradeNo
+		from users where sns_id = #{sns_id}
+	</select>
 
 </mapper>

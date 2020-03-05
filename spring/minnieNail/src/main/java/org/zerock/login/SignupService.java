@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.naming.spi.DirStateFactory.Result;
 
 import org.springframework.stereotype.Service;
 import org.zerock.member.dto.UsersDTO;
@@ -27,11 +28,9 @@ public class SignupService {
 			return mapper.insertNormalUser(udto);
 		else
 			return 0;
-			
-//		return mapper.insertNormalUser(udto);
-		
-//		System.out.println("SignupService.insertNormalUser().userList(): " + mapper.userList());
-//		UsersDTO userlist = mapper.userList();
-		
+	}
+	
+	public UsersDTO selectUser(UsersDTO udto) {
+		return mapper.selectUser(udto);
 	}
 }

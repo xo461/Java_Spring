@@ -5,6 +5,8 @@
 <!doctype html>
 <html lang="ko">
 <head>
+<!-- 3초 뒤 메인페이지로 이동 -->
+<meta http-equiv="refresh" content="3; url=/main/main.do">
 <script type="text/javascript"
     src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js"
     charset="utf-8"></script>

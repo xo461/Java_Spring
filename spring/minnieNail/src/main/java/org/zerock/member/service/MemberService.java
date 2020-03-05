@@ -21,4 +21,9 @@ public class MemberService {
 	public Integer manage(UsersDTO udto) {
 		return mapper.manage(udto);
 	}
+	
+	public Integer authCheck(Integer sns_id) {
+		System.out.println("MemberService.authCheck: mapper.authCheck(udto): "+ sns_id);
+		return mapper.authCheck(sns_id);
+	}
 }

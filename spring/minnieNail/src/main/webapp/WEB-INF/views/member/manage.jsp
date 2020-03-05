@@ -22,7 +22,20 @@
 	height: 0;
 	visibility: hidden;
 }
+
+.dropdown-item:hover {
+	background-color: #eee;
+}
 </style>
+<script type="text/javascript">
+	/*dropdown클릭하면 버튼의 내용을 dropdown내용으로 바꾸기*/
+	$(function() {
+		$(".dropdown-item").click(function() {
+			$("#gradeBtn").attr("value", $(this).text());
+		})
+	})
+</script>
+
 
 </head>
 <body>
@@ -58,39 +71,26 @@
 
 
 
-
-
-
-
-
-
-
 							<div class="row [B]rownav[/B]">
 								<!-- dropdown보이게 -->
 								<div class="twocol">
 									<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button"
-											data-toggle="dropdown">${dto.gradeName }<span
+										<input id="gradeBtn" type="button" value="${dto.gradeName }"
+											name="gradeName" class="btn btn-primary dropdown-toggle"
+											data-toggle="dropdown">
+										<!-- <button id="gradeBtn" class="btn btn-primary dropdown-toggle" type="button"
+											data-toggle="dropdown"><span
 												class="caret"></span>
-										</button>
-										<ul class="dropdown-menu" >
-											<li>Nail Customer</li>
-											<li>Self Nailer</li>
-											<li>Nail Shop</li>
-											<li>Admin</li>
+								</button> -->
+										<ul class="dropdown-menu">
+											<li class="dropdown-item">Nail Customer</li>
+											<li class="dropdown-item">Self Nailer</li>
+											<li class="dropdown-item">Nail Shop</li>
+											<li class="dropdown-item">Admin</li>
 										</ul>
 									</div>
 								</div>
 							</div>
-
-
-
-
-
-
-
-
-
 
 
 						</td>
@@ -105,7 +105,8 @@
 				</c:forEach>
 			</table>
 
-
+	<button>end managing
+	</button>
 
 
 

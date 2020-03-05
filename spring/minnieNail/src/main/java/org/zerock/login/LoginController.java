@@ -63,7 +63,7 @@ public class LoginController {
 
 		// 네이버
 		model.addAttribute("url", naverAuthUrl);
-
+		
 		/* 생성한 인증 URL을 View로 전달 */
 		return "login/login";
 	}
@@ -95,19 +95,23 @@ public class LoginController {
 		String sns_id = (String) response_obj.get("id");
 
 		// 로그인한 사용자 정보 dto에 담기 -> 사용자의 이메일이 db에 없으면 db에 저장하기 
-		UsersDTO userDTO = new UsersDTO();
-		userDTO.setSns_id(sns_id);
-		userDTO.setNickname(nickname);
-		userDTO.setEmail(email);
-		int result = signupService.insertNormalUser(userDTO);
+		UsersDTO udto = new UsersDTO();
+		udto.setSns_id(sns_id);
+		udto.setNickname(nickname);
+		udto.setEmail(email);
+		int result = signupService.insertNormalUser(udto);
 		
 		// db에 저장됐으면 1, 아니면 0 출력
 		System.out.println("=============================================");
 		System.out.println("loginController:db에 insert성공여부:" + result);
 		System.out.println("=============================================");
 
-		// 사용자 정보 세션에 저장
-		session.setAttribute("login", userDTO);
+		//-------------------------------------------------
+		// 사용자 정보 세션에 저장 (나중에  grade별 권한 처리할때도 필요함)
+		//-------------------------------------------------------
+		udto = signupService.selectUser(udto); //sns_id일치하는 사용자의 데이터 가져오기
+		System.out.println("LoginController.callback().userDTO: "+udto);
+		session.setAttribute("login", udto);
 		model.addAttribute("result", apiResult);
 
 		/* 네이버 로그인 성공 페이지 View 호출 */
@@ -131,4 +135,7 @@ public class LoginController {
 			res.sendRedirect("/main/main.do"); 
 		}
 	}
+	
+
+	
 }

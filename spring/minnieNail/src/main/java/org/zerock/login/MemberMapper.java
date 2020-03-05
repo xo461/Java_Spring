@@ -18,4 +18,8 @@ public interface MemberMapper {
 	public String emailCheck(String email);
 
 	public Integer manage(UsersDTO udto);
+
+	public Integer authCheck(Integer sns_id);
+
+	public UsersDTO selectUser(UsersDTO udto);
 }
