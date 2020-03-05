@@ -43,7 +43,7 @@
 		<h1>MinnieNail Admin Page</h1>
 		<h4>MinnieNail Member List</h4>
 		<br /> <br />
-		<form action="manage.do" method="post">
+		<form action="manage.do" method="post" id="mangeForm">
 			<table class="table">
 				<tr>
 					<th>id</th>
@@ -62,15 +62,14 @@
 				<c:forEach items="${list }" var="dto">
 					<tr class="dataRow">
 						<td class="id">${dto.id }</td>
+						<td><input type="hidden" name="id" value="${dto.id }" /></td>
 						<td>${dto.email }</td>
 						<td>${dto.username }</td>
 						<td>${dto.nickname }</td>
 						<td>${dto.sns_type }</td>
 						<td>${dto.sns_profile }</td>
 						<td>
-
-
-
+							<%-- 
 							<div class="row [B]rownav[/B]">
 								<!-- dropdown보이게 -->
 								<div class="twocol">
@@ -91,10 +90,32 @@
 									</div>
 								</div>
 							</div>
+ --%> <select name="gradeNo">
+								<option value="1"
+									${(dto.gradeNo == "1")? "selected='selected'":""}>Nail
+									Customer</option>
+								<option value="3"
+									${(dto.gradeNo == "3")? "selected='selected'":""}>Self
+									Nailer</option>
+								<option value="5"
+									${(dto.gradeNo == "5")? "selected='selected'":""}>Nail
+									Shop</option>
+								<option value="9"
+									${(dto.gradeNo == "9")? "selected='selected'":""}>Admin</option>
+						</select>
 
 
 						</td>
-						<td>${dto.stateName }</td>
+						<td><select name="state">
+								<option value="1"
+									${(dto.state == "1")? "selected='selected'":""}>멤버</option>
+								<option value="2"
+									${(dto.state == "2")? "selected='selected'":""}>탈퇴</option>
+								<option value="3"
+									${(dto.state == "3")? "selected='selected'":""}>휴면</option>
+								<option value="4"
+									${(dto.state == "4")? "selected='selected'":""}>강퇴</option>
+						</select></td>
 						<td><fmt:formatDate value="${dto.create_date }"
 								pattern="yyyy-MM-dd" /></td>
 						<td><fmt:formatDate value="${dto.modify_date }"
@@ -105,8 +126,7 @@
 				</c:forEach>
 			</table>
 
-	<button>end managing
-	</button>
+			<button id="send">end managing</button>
 
 
 

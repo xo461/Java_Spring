@@ -3,10 +3,13 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!-- 받아오는데이터 case sensitive 주의 -->
 <mapper namespace="org.zerock.login.MemberMapper">
+
+	<!-- 멤버리스트 -->
 	<select id="userList"
 		resultType="org.zerock.member.dto.UsersDTO">
-		select u.id, u.username, u.email, u.nickname, u.sns_id,
+		select u.id, u.userName, u.email, u.nickName, u.sns_id,
 		u.sns_type, u.sns_profile, u.create_date, u.modify_date,
 		s.state,
 		s.stateName, g.gradeNo, g.gradeName
@@ -15,15 +18,22 @@
 		order by id desc
 	</select>
 
-	<!--db에 회원추가 -->
+	<!--네이버로 회원가입 -->
+	<insert id="insertNaverUser"
+		parameterType="org.zerock.member.dto.UsersDTO">
+		insert into users(id, email, nickName, sns_id, sns_type, gradeNo,
+		state)
+		values(users_seq.nextval, #{email}, #{nickName}, #{sns_id},
+		'naver', 1, 1)
+		<!-- select users_seq.nextval, #{email}, #{nickName}, #{sns_id}, 'naver' 
+			from dual where not exists (select * from users where email = #{email}) -->
+	</insert>
+
+	<!--일반 회원가입 -->
 	<insert id="insertNormalUser"
 		parameterType="org.zerock.member.dto.UsersDTO">
-		insert into users(id, email, nickname, sns_id, sns_type, gradeNo,
-		state)
-		values(users_seq.nextval, #{email}, #{nickname}, #{sns_id},
-		'naver', 1, 1)
-		<!-- select users_seq.nextval, #{email}, #{nickname}, #{sns_id}, 'naver' 
-			from dual where not exists (select * from users where email = #{email}) -->
+		insert into users(id, userName, pw, email, nickName, gradeNo, state)
+		values(users_seq.nextval, #{userName}, #{pw}, #{email}, #{nickName}, 1, 1)
 	</insert>
 
 	<select id="emailCheck" resultType="string">
@@ -32,7 +42,7 @@
 	</select>
 
 	<!--관리자: 회원 등급, 상태 관리 -->
-	<update id="manage" parameterType="org.zerock.member.dto.UsersDTO">
+	<update id="mManage" parameterType="org.zerock.member.dto.UsersDTO">
 		update users set state = #{state}, gradeNo = #{gradeNo}
 		where id = #{id}
 	</update>
@@ -44,8 +54,10 @@
 	
 	<!-- 회원정보 가져오기. 세션저장용 -->
 	<select id="selectUser" resultType="org.zerock.member.dto.UsersDTO">
-		select id, username, sns_id, sns_type, email, nickname, state, gradeNo
+		select id, userName, sns_id, sns_type, email, nickName, state, gradeNo
 		from users where sns_id = #{sns_id}
 	</select>
+	
+	
 
 </mapper>

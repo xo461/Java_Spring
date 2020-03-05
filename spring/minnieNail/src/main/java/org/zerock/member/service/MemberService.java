@@ -5,8 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
-import org.zerock.login.MemberMapper;
 import org.zerock.member.dto.UsersDTO;
+import org.zerock.member.mapper.MemberMapper;
 
 @Service
 public class MemberService {
@@ -18,12 +18,13 @@ public class MemberService {
 		return mapper.userList();
 	}
 
-	public Integer manage(UsersDTO udto) {
-		return mapper.manage(udto);
+	public Integer mManage(UsersDTO udto) {
+		return mapper.mManage(udto);
 	}
 	
 	public Integer authCheck(Integer sns_id) {
 		System.out.println("MemberService.authCheck: mapper.authCheck(udto): "+ sns_id);
 		return mapper.authCheck(sns_id);
 	}
+
 }

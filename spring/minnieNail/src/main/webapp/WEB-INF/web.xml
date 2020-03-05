@@ -79,8 +79,9 @@
 		<!-- url패턴: 1.확장자기반: *.확장자 2. 위치기반 . 두종류를 섞으면 안된다. -->
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
+
 	<!-- 로그인 권한처리 필터 : 여기 등록해야 정상 작동 -->
-	<filter>
+<!-- 	<filter>
 		<filter-name>AuthoryFilter</filter-name>
 		<filter-class>org.zerock.util.filter.AuthoryFilter</filter-class>
 	</filter>
@@ -88,5 +89,5 @@
 		<filter-name>AuthoryFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+ -->
 </web-app>

@@ -1,14 +1,10 @@
 package org.zerock.login;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.io.IOException;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -23,8 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.member.dto.UsersDTO;
+import org.zerock.member.service.SignupService;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
@@ -97,9 +93,9 @@ public class LoginController {
 		// 로그인한 사용자 정보 dto에 담기 -> 사용자의 이메일이 db에 없으면 db에 저장하기 
 		UsersDTO udto = new UsersDTO();
 		udto.setSns_id(sns_id);
-		udto.setNickname(nickname);
+		udto.setNickName(nickname);
 		udto.setEmail(email);
-		int result = signupService.insertNormalUser(udto);
+		int result = signupService.insertNaverUser(udto);
 		
 		// db에 저장됐으면 1, 아니면 0 출력
 		System.out.println("=============================================");

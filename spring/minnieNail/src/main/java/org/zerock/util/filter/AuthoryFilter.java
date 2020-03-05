@@ -41,21 +41,21 @@ public class AuthoryFilter implements Filter {
 	public AuthoryFilter() {
 		// TODO Auto-generated constructor stub
 		// 로그인 해야할 URL 등록
-		loginList.add("/board/write.do");
-		loginList.add("/board/update.do");
-		loginList.add("/board/delete.do");
-
-		loginList.add("/notice/write.do");
-		loginList.add("/notice/update.do");
-		loginList.add("/notice/delete.do");
-
-		//map<key, value>: (권한이 필요한 URL, uri에서 요구하는 회원등급)
-		authMap.put("/notice/write.do", 9);
-		authMap.put("/notice/update.do", 9);
-		authMap.put("/notice/delete.do", 9);
-		
-		authMap.put("/member/list.do", 9);
-		authMap.put("/member/manage.do", 9);
+//		loginList.add("/board/write.do");
+//		loginList.add("/board/update.do");
+//		loginList.add("/board/delete.do");
+//
+//		loginList.add("/notice/write.do");
+//		loginList.add("/notice/update.do");
+//		loginList.add("/notice/delete.do");
+//
+//		//map<key, value>: (권한이 필요한 URL, uri에서 요구하는 회원등급)
+//		authMap.put("/notice/write.do", 9);
+//		authMap.put("/notice/update.do", 9);
+//		authMap.put("/notice/delete.do", 9);
+//		
+//		authMap.put("/member/list.do", 9);
+//		authMap.put("/member/manage.do", 9);
 
 	}
 

@@ -1,4 +1,4 @@
-package org.zerock.login;
+package org.zerock.member.mapper;
 
 import java.util.List;
 
@@ -12,14 +12,16 @@ public interface MemberMapper {
 	// 파라미터 따로따로 보낼때는 @Param이라고 해야됨
 	//	public Integer insertNormalUser(@Param("nickname") String nickname, @Param("email") String email, @Param("sns_id") String sns_id);
 
+	public Integer insertNaverUser(UsersDTO udto);
 	
 	public Integer insertNormalUser(UsersDTO udto);
 
 	public String emailCheck(String email);
 
-	public Integer manage(UsersDTO udto);
+	public Integer mManage(UsersDTO udto);
 
 	public Integer authCheck(Integer sns_id);
 
 	public UsersDTO selectUser(UsersDTO udto);
+
 }

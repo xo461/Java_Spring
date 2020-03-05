@@ -39,6 +39,12 @@
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
+<!-- ajax modal용 라이브러리 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+ 
+
 <style type="text/css">
 header, footer {
 	background: AntiqueWhite;

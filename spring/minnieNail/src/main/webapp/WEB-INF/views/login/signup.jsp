@@ -17,6 +17,15 @@
 	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
 	crossorigin="anonymous">
 
+<!-- modal용 library -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+
 <style type="text/css">
 .header, body {
 	padding-bottom: 20px
@@ -88,6 +97,9 @@ body {
 }
 </style>
 
+
+
+
 </head>
 
 <body>
@@ -101,93 +113,199 @@ body {
 		<div class="jumbotron">
 			<h1>SIGN UP</h1>
 			<p class="lead">
-				네이버 아이디로 로그인 Javascript 샘플 페이지.<br> 간단한 적용 예제를 포함합니다.
+				Select sign-up format<br>
 			</p>
 			<!-- (1) 버튼 event 처리를 위하여 id를 지정 id=loginButton -->
 			<p></p>
 			<div id="naverIdLogin">
-				<a id="naverIdLogin_loginButton" href="${url}"> <img
+				<a id="naverIdLogin_loginButton" href="/login/login.do"> <img
 					src="https://static.nid.naver.com/oauth/big_g.PNG?version=js-2.0.0"
 					height="60"></a>
 			</div>
-			<!-- ajax로 처리하기 -->
-			<a href=""><img alt="" src="" height="60">Sign-up without Social Media Service</a>
+
+			<!-- 일반회원가입: ajax 띄우기 -->
+			<a class="btn" href="#sup"><button>Sign-up without SNS</button></a>
+
+			<!-- 회원가입폼 : 모달로 뜬다. -->
+			<div id="sup" class="modal">
+				Please fill out the form.
+				<div>
+					<label>userName</label> <input type="text" name="userName"
+						id="userName">
+				</div>
+				<div>
+					<label>password</label> <input type="text" name="pw" id="pw">
+				</div>
+				<div>
+					<label>email</label> <input type="text" name="email" id="email">
+				</div>
+				<div>
+					<label>nickname</label> <input type="text" name="nickName"
+						id="nickName">
+				</div>
+				<button id="sendInfo">send</button>
+			</div>
+
+			<script>
+				//일반회원가입하기 클릭시 모달창띄우기
+				$('a[href="#sup"]').click(function(event) {
+					event.preventDefault();
+					$(this).modal({
+						fadeDuration : 250
+					});
+				});
+
+				//회원가입버튼누르면 콘드롤러로 데이터전송하기
+				$('#sendInfo').click(function() {
+					$.ajax({
+						type : "POST",
+						url : "/member/signup.do",
+						data : {
+							"userName" : $('#userName').val(),
+							"pw" : $('#pw').val(),
+							"email" : $('#email').val(),
+							"nickName" : $('#nickName').val()
+						}
+					});
+				});
+
+				/* 회원가입 성공,실패시 처리 어케?	$.modal.close();*/
+			</script>
+
 			<p></p>
 		</div>
 
 		<div class="row marketing">
 			<div class="col-lg-6">
-				<h4>네이버 아이디로 로그인</h4>
-				<p>별도의 아이디, 비밀번호없이 네이버 아이디로 간편하게 외부 서비스에 로그인 할 수 있도록 하는 서비스입니다.
-					이용자는 복잡하고 번거로운 회원 가입 절차 없이 편하게 서비스를 이용하고, 사업자는 회원 가입, 로그인에 대한 허들을
-					낮춰 회원수가 늘고 매출은 오르는 경험을 할 수 있습니다.</p>
-
-				<h4>다양한 사용자 정보를 손쉽게 조회</h4>
-				<p>이름, 이메일, 별명, 생일, 연령대, 성별 등을 API로 간단한 조회를 통해 많은 사용자의 정보를 손쉽게
-					얻을 수 있습니다. 또한 블로그 등 다양한 네이버 서비스 들로 매시업이 가능합니다.</p>
+				<h4>Minnie</h4>
+				<p>Nail</p>
 			</div>
-
 			<div class="col-lg-6">
-				<h4>4,200만 네이버 회원을 여러분의 사용자로!</h4>
-				<p>네이버 회원이라면, 여러분의 사이트를 간편하게 이용할 수 있습니다. 전 국민 모두가 가지고 있는 네이버 아이디
-					한개만 있으면 별도 가입없이 어떤 플랫폼에서도 간편하게 로그인할 수 있습니다.</p>
-
-				<h4>빠른개발, 간편한 운영</h4>
-				<p>플랫폼 별 SDK를 제공하여 쉽고 빠르게 개발할 수 있도록 지원합니다. 또한 환경별 로그인, 누적 사용자 등
-					다양한 통계를 제공하여 성과를 확인할 수 있습니다.</p>
+				<h4>Minnie</h4>
+				<p>Nail</p>
 			</div>
 		</div>
-
 	</div>
-	<!-- /container -->
-	<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-	<!-- (2) LoginWithNaverId Javscript SDK -->
-	<script src="/js/naveridlogin_js_sdk_2.0.0.js"></script>
 
-	<!-- (3) LoginWithNaverId Javscript 설정 정보 및 초기화 -->
+
+
+
+
+	<!-- --------------------------- -->
+	<%-- 	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog"
+		aria-labelledby="login-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h1>로그인</h1>
+					<br> <label for="login-id">아이디</label> <input
+						class="form-control" type="text" id="login-id" name="username"
+						placeholder="아이디" required="required"> <br /> <label
+						for="login-pw">암호</label> <input class="form-control"
+						type="password" id="login-pw" name="password" placeholder="비밀번호"
+						required="required"> <br />
+					<button type="button" id="login-btn" name="login"
+						class="btn btn-default">로그인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="board-modal" tabindex="-1" role="dialog"
+		aria-labelledby="board-modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h1>글쓰기</h1>
+					<br> <label for="login-id">제목</label> <input
+						class="form-control" type="text" id="title" name="title"
+						placeholder="제목" required="required"> <br /> <label
+						for="login-pw">내용</label>
+					<textarea class="form-control" name="editor" id="editor" rows="15"
+						cols="80"></textarea>
+					<script>
+						CKEDITOR.replace('editor');
+					</script>
+					<br /> <input type="hidden" id="adminid" value="${id}">
+					<button type="button" id="create" name="create"
+						class="btn btn-default">제출</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	<script>
-		var naverLogin = new naver.LoginWithNaverId({
-			clientId : "e5mCPDnVvHz5Ekhetc6r",
-			callbackUrl : "http://localhost/member/loginPostNaver.do",
-			isPopup : false,
-			loginButton : {
-				color : "green",
-				type : 3,
-				height : 60
-			}
-		});
-		/* (4) 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
-		naverLogin.init();
-
-		/* (4-1) 임의의 링크를 설정해줄 필요가 있는 경우 */
-		$("#gnbLogin").attr("href", naverLogin.generateAuthorizeUrl());
-		/* (5) 현재 로그인 상태를 확인 */
-		window.addEventListener('load', function() {
-			naverLogin.getLoginStatus(function(status) {
-				if (status) {
-					/* (6) 로그인 상태가 "true" 인 경우 로그인 버튼을 없애고 사용자 정보를 출력합니다. */
-					setLoginStatus();
-				}
+		$(document).ready(function() {
+			$('#home').click(function() {
+				$('#notice').removeClass("active");
+				$(this).addClass("active");
+				$('#myBoard').hide();
+				$('.jumbotron').slideDown();
+			});
+			$('#notice').click(function() {
+				$('#home').removeClass("active");
+				$(this).addClass("active");
+				$('.jumbotron').slideUp(function() {
+					$('#myBoard').show();
+				});
+			});
+			$('#login-btn').click(function() {
+				$.ajax({
+					type : "POST",
+					url : "/loginProcessing",
+					data : {
+						"username" : $('#login-id').val(),
+						"password" : $('#login-pw').val()
+					},
+					success : function() {
+						alert('로그인 성공');
+						location.reload();
+					},
+					error : function() {
+						alert('로그인 정보가 올바르지 않습니다.');
+					}
+				});
+			});
+			$('#create').click(function() {
+				CKupdate();
+				$.ajax({
+					type : "POST",
+					url : "/createBoard",
+					data : {
+						"title" : $('#title').val(),
+						"text" : $('#editor').val(),
+						"id" : $('#adminid').val()
+					},
+					success : function() {
+						alert('게시글 등록 성공');
+						location.reload();
+					},
+					error : function() {
+						alert('게시글 등록 실패');
+					}
+				});
 			});
 		});
-		/* (6) 로그인 상태가 "true" 인 경우 로그인 버튼을 없애고 사용자 정보를 출력합니다. */
-		function setLoginStatus() {
-			var profileImage = naverLogin.user.getProfileImage();
-			var nickName = naverLogin.user.getNickName();
-			$("#naverIdLogin_loginButton").html(
-					'<br><br><img src="' + profileImage + '" height=50 /> <p>'
-							+ nickName + '님 반갑습니다.</p>');
-			$("#gnbLogin").html("Logout");
-			$("#gnbLogin").attr("href", "#");
-			/* (7) 로그아웃 버튼을 설정하고 동작을 정의합니다. */
-			$("#gnbLogin").click(function() {
-				naverLogin.logout();
-				location.reload();
-			});
+		function CKupdate() {
+			for (instance in CKEDITOR.instances)
+				CKEDITOR.instances[instance].updateElement();
 		}
 	</script>
+
+
+
+
+
+ --%>
+
+	<!--------------------------------  -->
+
+
+
+
+
+
+
 </body>
 </html>
