@@ -2,7 +2,6 @@ package org.zerock.member.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.zerock.member.dto.UsersDTO;
 
 public interface MemberMapper {

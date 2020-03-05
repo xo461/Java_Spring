@@ -34,8 +34,8 @@
 				<tr class="dataRow">
 					<td class="id">${dto.id }</td>
 					<td>${dto.email }</td>
-					<td>${dto.username }</td>
-					<td>${dto.nickname }</td>
+					<td>${dto.userName }</td>
+					<td>${dto.nickName }</td>
 					<td>${dto.sns_type }</td>
 					<td>${dto.sns_profile }</td>
 					<td>${dto.gradeName }</td>

@@ -1,4 +1,4 @@
-package org.zerock.FileUtils;
+package org.zerock.util.fileutils;
 
 import java.io.File;
 import java.util.ArrayList;

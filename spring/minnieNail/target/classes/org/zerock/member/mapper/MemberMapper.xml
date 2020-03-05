@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 받아오는데이터 case sensitive 주의 -->
-<mapper namespace="org.zerock.login.MemberMapper">
+<mapper namespace="org.zerock.member.mapper.MemberMapper">
 
 	<!-- 멤버리스트 -->
 	<select id="userList"

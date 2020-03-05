@@ -134,7 +134,7 @@ $(document).ready(function() {
 									class="glyphicon glyphicon-log-in"></span> Sign-in</a></li>
 						</c:if>
 						<c:if test="${!empty login }">
-							<li id="welcome">Welcome, ${login.nickname}! <a href="${absUri }/member/view.do?id=${login.id}">MyPage</a></li>
+							<li id="welcome">Welcome, ${login.nickName}! <a href="${absUri }/member/view.do?id=${login.id}">MyPage</a></li>
 							<li><a href="${absUri }/login/signout.do" ><span
 									class="glyphicon glyphicon-log-in" id="signout"></span> Sign-out</a></li>
 						</c:if>

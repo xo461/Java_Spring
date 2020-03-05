@@ -8,9 +8,9 @@ import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.zerock.FileUtils.FileUtils;
 import org.zerock.board.dto.BoardDTO;
 import org.zerock.board.mapper.BoardMapper;
+import org.zerock.util.fileutils.FileUtils;
 
 @Service
 @Qualifier("bs")
