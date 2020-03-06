@@ -16,11 +16,13 @@ import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.zerock.login.NaverLoginBO;
 import org.zerock.member.dto.UsersDTO;
+import org.zerock.member.service.MemberService;
 import org.zerock.member.service.SignupService;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -31,23 +33,47 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 @Controller
 public class LoginController {
 
-	/* NaverLoginBO */
-	private NaverLoginBO naverLoginBO;
 	@Inject
 	private SignupService signupService;
+	@Inject // 의존성주입을 하지 않고 서비스 실행시 : return값이 null일 경우 nullpointexception오류난다.
+	private MemberService mService;
+	/* NaverLoginBO */
+	private NaverLoginBO naverLoginBO;
 	private String apiResult = null;
 
-	@Autowired
+	@Autowired //이방법의 의존성주입이 더 추천됨
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
 		this.naverLoginBO = naverLoginBO;
 	}
 
+	
+	// 회원가입 ------------------------------------------------
 	@GetMapping("/login/signup.do")
 	public String signup() {
 		return "login/signup";
 	}
 
-	// 로그인 첫 화면 요청 메소드
+	// 일반 로그인 : 세션에 저장해야된다.------------------------------------------------
+	@PostMapping("/login/normallogin.do")
+	public String normalLogin(UsersDTO udto, Model model, HttpSession session) {
+
+		System.out.println("loginController.normallogin().udto:" + udto);// 뷰에서받은 userName, pw
+	
+		if (signupService.selectNormalUser(udto) == null) { // userName, pw가 일치하는 db가 없으면 로그인 안됨 에러
+			model.addAttribute("msg", "Please enter correct username or password.");
+			return "login/login";
+		} else { //로그인성공시
+			// -------------------------------------------------
+			// 사용자 정보 세션에 저장 ★★★
+			// -------------------------------------------------------
+			udto = signupService.selectNormalUser(udto);
+			session.setAttribute("login", udto); //이렇게 key, value로 세션에 저장해놓으면 뷰에서 ${login.nickname}등으로 갖다 쓴다.
+			System.out.println("session.getAttribute(\"login\"): "+session.getAttribute("login"));
+			return "redirect:/main/main.do";
+		}
+	}
+
+	// 네이버로 로그인 첫 화면 요청 메소드-------------------------------
 	@RequestMapping(value = "/login/login.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(Model model, HttpSession session) {
 
@@ -60,19 +86,19 @@ public class LoginController {
 
 		// 네이버
 		model.addAttribute("url", naverAuthUrl);
-		
+
 		/* 생성한 인증 URL을 View로 전달 */
 		return "login/login";
 	}
 
-	// 네이버 로그인 성공시 callback호출 메소드
+	// 네이버 로그인 성공시 callback호출 메소드--------------------------------
 	@RequestMapping(value = "/login/callback.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
 			throws IOException, ParseException {
 		System.out.println("여기는 callback");
 		OAuth2AccessToken oauthToken;
 		oauthToken = naverLoginBO.getAccessToken(session, code, state);
-		
+
 		// 1. 로그인 사용자 정보를 읽어온다.
 		apiResult = naverLoginBO.getUserProfile(oauthToken); // String형식의 json데이터
 
@@ -91,23 +117,23 @@ public class LoginController {
 		String email = (String) response_obj.get("email");
 		String sns_id = (String) response_obj.get("id");
 
-		// 로그인한 사용자 정보 dto에 담기 -> 사용자의 이메일이 db에 없으면 db에 저장하기 
+		// 로그인한 사용자 정보 dto에 담기 -> 사용자의 이메일이 db에 없으면 db에 저장하기
 		UsersDTO udto = new UsersDTO();
 		udto.setSns_id(sns_id);
 		udto.setNickName(nickname);
 		udto.setEmail(email);
 		int result = signupService.insertNaverUser(udto);
-		
+
 		// db에 저장됐으면 1, 아니면 0 출력
 		System.out.println("=============================================");
 		System.out.println("loginController:db에 insert성공여부:" + result);
 		System.out.println("=============================================");
 
-		//-------------------------------------------------
-		// 사용자 정보 세션에 저장 (나중에  grade별 권한 처리할때도 필요함)
-		//-------------------------------------------------------
-		udto = signupService.selectUser(udto); //sns_id일치하는 사용자의 데이터 가져오기
-		System.out.println("LoginController.callback().userDTO: "+udto);
+		// -------------------------------------------------
+		// 사용자 정보 세션에 저장 (나중에 grade별 권한 처리할때도 필요함, navbar에 환영합니다xxx님.등 회원 관련 정보 처리하려면.)
+		// -------------------------------------------------------
+		udto = signupService.selectNaverUser(udto); // sns_id일치하는 사용자의 데이터 가져오기
+		System.out.println("LoginController.callback().userDTO: " + udto);
 		session.setAttribute("login", udto);
 		model.addAttribute("result", apiResult);
 
@@ -115,7 +141,7 @@ public class LoginController {
 		return "login/naverSuccess";
 	}
 
-	// 로그아웃
+	// 로그아웃-----------------------------------------------------
 	@GetMapping("/login/signout.do")
 	public void signOut(HttpSession session, HttpServletRequest req, HttpServletResponse res) throws IOException {
 		session.invalidate();
@@ -126,13 +152,12 @@ public class LoginController {
 		String uri = req.getHeader("REFERER"); // 로그아웃버튼 클릭 전 uri 얻어오기
 		System.out.println("loginCongroller.signOut().uri:" + uri);
 
-		if (uri.indexOf("callback.do") == -1) { //로그인성공해서 콜백된 페이지에서 바로 로그아웃하면 response가 비어서 nullpointexception. -> 이경우 바로 메인페이지로 보내기. 그게 아니면 로그아웃버튼 클릭하기 바로 전 페이지로 보내기
+		if (uri.indexOf("callback.do") == -1) { // 로그인성공해서 콜백된 페이지에서 바로 로그아웃하면 response가 비어서 nullpointexception. -> 이경우
+												// 바로 메인페이지로 보내기. 그게 아니면 로그아웃버튼 클릭하기 바로 전 페이지로 보내기
 			res.sendRedirect(uri);
 		} else {
-			res.sendRedirect("/main/main.do"); 
+			res.sendRedirect("/main/main.do");
 		}
 	}
-	
 
-	
 }

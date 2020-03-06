@@ -32,9 +32,36 @@
 	<!--일반 회원가입 -->
 	<insert id="insertNormalUser"
 		parameterType="org.zerock.member.dto.UsersDTO">
-		insert into users(id, userName, pw, email, nickName, gradeNo, state)
-		values(users_seq.nextval, #{userName}, #{pw}, #{email}, #{nickName}, 1, 1)
+		insert into users(id, userName, pw, email, nickName,
+		gradeNo, state)
+		values(users_seq.nextval, #{userName}, #{pw}, #{email},
+		#{nickName}, 1, 1)
 	</insert>
+
+	<!-- 일반 로그인시: 회원정보 가져오기 -->
+	<select id="selectNormalUser"
+		parameterType="org.zerock.member.dto.UsersDTO"
+		resultType="org.zerock.member.dto.UsersDTO">
+		select u.id, u.userName, u.pw, u.email, u.nickName,
+		sns_profile,
+		u.create_date, u.modify_date,
+		u.state, s.stateName,
+		u.gradeNo, g.gradeName
+		from users u, state s, grade g
+		where (u.userName
+		= #{userName} and u.pw = #{pw}) and (u.gradeNo =
+		g.gradeNo) and
+		(u.state = s.state)
+	</select>
+
+
+	<!-- 네이버로그인시: 회원정보 가져오기. 세션저장용 -->
+	<select id="selectNaverUser"
+		resultType="org.zerock.member.dto.UsersDTO">
+		select id, userName, sns_id, sns_type, email, nickName,
+		state, gradeNo
+		from users where sns_id = #{sns_id}
+	</select>
 
 	<select id="emailCheck" resultType="string">
 		select email from users where
@@ -42,22 +69,19 @@
 	</select>
 
 	<!--관리자: 회원 등급, 상태 관리 -->
-	<update id="mManage" parameterType="org.zerock.member.dto.UsersDTO">
+	<update id="mManage"
+		parameterType="org.zerock.member.dto.UsersDTO">
 		update users set state = #{state}, gradeNo = #{gradeNo}
 		where id = #{id}
 	</update>
 
-	<!--권한 처리 위한 등급 확인  -->
-	<select id="authCheck" parameterType="integer" resultType="integer">
+	<!--권한 처리 위한 등급 확인 -->
+	<select id="authCheck" parameterType="integer"
+		resultType="integer">
 		select gradeNo from users where sns_id = #{sns_id}
 	</select>
-	
-	<!-- 회원정보 가져오기. 세션저장용 -->
-	<select id="selectUser" resultType="org.zerock.member.dto.UsersDTO">
-		select id, userName, sns_id, sns_type, email, nickName, state, gradeNo
-		from users where sns_id = #{sns_id}
-	</select>
-	
-	
+
+
+
 
 </mapper>

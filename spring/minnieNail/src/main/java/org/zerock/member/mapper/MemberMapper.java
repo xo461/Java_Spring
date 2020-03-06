@@ -11,9 +11,9 @@ public interface MemberMapper {
 	// 파라미터 따로따로 보낼때는 @Param이라고 해야됨
 	//	public Integer insertNormalUser(@Param("nickname") String nickname, @Param("email") String email, @Param("sns_id") String sns_id);
 
-	public Integer insertNaverUser(UsersDTO udto);
-	
 	public Integer insertNormalUser(UsersDTO udto);
+
+	public Integer insertNaverUser(UsersDTO udto);
 
 	public String emailCheck(String email);
 
@@ -21,6 +21,10 @@ public interface MemberMapper {
 
 	public Integer authCheck(Integer sns_id);
 
-	public UsersDTO selectUser(UsersDTO udto);
+	public UsersDTO login(UsersDTO udto);
+
+	public UsersDTO selectNormalUser(UsersDTO udto);
+
+	public UsersDTO selectNaverUser(UsersDTO udto);
 
 }

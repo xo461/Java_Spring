@@ -37,8 +37,14 @@ public class SignupService {
 			return 0;
 	}
 	
-	public UsersDTO selectUser(UsersDTO udto) {
-		return mapper.selectUser(udto);
+	//일반 로그인 시 세션저장용
+	public UsersDTO selectNormalUser(UsersDTO udto) {
+		return mapper.selectNormalUser(udto);
+	}
+
+	//네이버 로그인 시 세션저장용
+	public UsersDTO selectNaverUser(UsersDTO udto) {
+		return mapper.selectNaverUser(udto);
 	}
 
 }
