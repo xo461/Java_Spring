@@ -25,7 +25,11 @@
 	<resources mapping="/css/**" location="/css/" />
 	<!-- fileupload를 위한 설정 -->
 	<resources mapping="/upload/**" location="/upload/" />
-
+	<!-- ckeditor 등록 -->
+	<resources location="/WEB-INF/views/ckeditor/"
+		mapping="/ckeditor/**"></resources>
+	<!-- ckeditor 이미지등록 -->
+	<resources mapping="/ckEditorImg/**" location="/resources/ckEditorImg/" />
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
 	<beans:bean
@@ -47,13 +51,14 @@
 		<beans:property name="maxInMemorySize" value="10485756" /> <!-- upload되는파일의 크기가 1m이내인 경우는 임시파일을 사용하지 않고 메인메모리를 사용한다. -->
 	</beans:bean>
 
-	 
+
 	<!-- 프로젝트 운영하는 상위 위치로 변경해서 사용한다. -->
 	<!-- 자동스캔 설정. org.zerock까지만 설정하면 그 밑에도 다 적용됨 -->
 	<context:component-scan
 		base-package="org.zerock" />
 
 	<!-- 네이버아이디로 로그인 -->
-	 <beans:bean id="naverLoginBO" class="org.zerock.login.NaverLoginBO" />
- 
+	<beans:bean id="naverLoginBO"
+		class="org.zerock.login.NaverLoginBO" />
+
 </beans:beans>

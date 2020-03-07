@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>글쓰기 폼</title>
+<!-- ckeditor cdn -->
+<script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
 <!-- jquery lib는 default_decorator.jsp에서 등록 -->
 <!-- bootstrap lib는 site-mesh 프로그램을 적용하지 않는 경우는 아래와같이 반드시 등록 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -53,6 +55,51 @@
 </script>
 </head>
 <body>
+
+
+
+	<form action="write.do" method="post" enctype="multipart/form-data">
+		<input type="hidden" value="${login.id }" name="id"> 
+		<input
+			type="text" id="title" name="title"
+			title="제목을 4~100 글자 사이로 입력하셔야 합니다.">
+		<input type="text"
+			id="writer" name="writer" title="작성자는 2~10 글자 사이로 입력하셔야 합니다.">
+		<textarea name="content" id="editor1" rows="10" cols="80">
+                This is my textarea to be replaced with CKEditor.
+        </textarea>
+		<script>
+
+	        
+			// Replace the <textarea id="editor1"> with a CKEditor
+			// instance, using default configuration.
+			CKEDITOR.replace('editor1',{
+		        filebrowserImageUploadUrl: '/board/imageUpload.do'	
+				});
+		</script>
+
+		<input type="submit">
+
+	</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<div class="container">
 		<!-- container가 있어야 자동레이아웃을 잡아줘서 사이드에 여백이 생긴다. -->
 		<h1>글쓰기</h1>
@@ -60,8 +107,8 @@
 		<form action="write.do" method="post" id="writeForm"
 			enctype="multipart/form-data">
 			<div class="form-group">
-			<input type="hidden" value="${login.id }" name="id">
-				<label for="title">Title</label>
+				<input type="hidden" value="${login.id }" name="id"> <label
+					for="title">Title</label>
 				<!-- 입력한 데이터의 앞뒤 공백문자는 제거(trim())
     			 id, class : 화면 컨트롤을 위해서(빠른 선택), name : 넘어가는 데이터 이름 -->
 				<!-- 			<input type="text" class="form-control" id="title" name="title" -->
@@ -85,7 +132,7 @@
 				<label for="file">File</label> <a href="#this" onclick="addFile()"
 					class="fileAdd_btn">파일추가</a>
 				<div id="file-list">
-					<input type="file" name="file"/> <a href='#this'
+					<input type="file" name="file" /> <a href='#this'
 						name='file-delete'>삭제</a>
 				</div>
 			</div>
