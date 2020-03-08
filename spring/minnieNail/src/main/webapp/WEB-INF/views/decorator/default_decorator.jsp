@@ -32,7 +32,6 @@
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- icons: w3schools에서 복붙. Awesome5, 4, Bootstrap, Google iCOn -->
-<script src="https://kit.fontawesome.com/yourcode.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet"
@@ -89,7 +88,7 @@ article {
 	margin: 0 auto;
 }
 </style>
-<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 });

@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -79,54 +80,6 @@ public class BoardController {
 
 	}
 
-	
-	
-	
-	//이미지 받을 컨뜨롤러
-	@RequestMapping(value="/imageUpload.do")
-	public void imageUpload(HttpServletRequest request, HttpServletResponse response,
-			 @RequestParam MultipartFile upload ) throws Exception{
-		//CKEditor 에서 파일을 넘겨주는 이름이 upload 로 설정 되어 있다. 반드시 upload 로 설정
-		//헤더 설정
-		System.out.println("imageUpload.do");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=utf-8");
-		
-		OutputStream out =null;
-		PrintWriter printWriter =null;
-		
-		String fileName =upload.getOriginalFilename(); //첨부 파일 이름
-		System.out.println("fileName"+fileName);
-		byte[] bytes =upload.getBytes(); //첨부파일을 바이트 배열로 저장
-	    
-
-		//String uploadPath ="업로드할 디렉토리 경로" + fileName; //물리적 실제 저장소
-	    String uploadPath =UploadPath.path(request) +fileName;
-		System.out.println("uploadPath"+uploadPath);
-	    out=new FileOutputStream(new File(uploadPath));
-	    out.write(bytes); //서버에 파일 업로드
-	    
-	    
-	    String callback =request.getParameter("CKEditorFuncNum");
-	    
-	    printWriter=response.getWriter();
-	    //URL 상에서 볼수 있는 이미지 경로
-	   // String fileUrl =request.getContextPath()+"/upload/"+ fileName;
-	    String fileUrl ="/resources/upload/"+ fileName;
-	    
-	    String script="<script>window.parent.CKEDITOR.tools.callFunction(";
-	    script +=callback;
-	    script +=", '";
-	    script +=fileUrl;
-	    script +=" ' , '이미지를 업로드 했습니다.'";
-	    script +=") </script>";
-	    
-	    printWriter.println(script);
-	    printWriter.flush();    
-	}
-	
-
-	
 	
 	
 	

@@ -4,9 +4,60 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>글쓰기 폼</title>rnote
+<!-- include libraries(jQuery, bootstrap) -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+	<link href="./dist/summernote.css" rel="stylesheet">
+	<script src="./dist/summernote.js"></script>
+ 	<script type="text/javascript">
+        /* summernote에서 이미지 업로드시 실행할 함수 */
+	 	function sendFile(file, editor) {
+            // 파일 전송을 위한 폼생성
+	 		data = new FormData();
+	 	    data.append("uploadFile", file);
+	 	    $.ajax({ // ajax를 통해 파일 업로드 처리
+	 	        data : data,
+	 	        type : "POST",
+	 	        url : "./summernote_imageUpload.jsp",
+	 	        cache : false,
+	 	        contentType : false,
+	 	        processData : false,
+	 	        success : function(data) { // 처리가 성공할 경우
+                    // 에디터에 이미지 출력
+	 	        	$(editor).summernote('editor.insertImage', data.url);
+	 	        }
+	 	    });
+	 	}
+	</script>
+
+ 
+ 
+ 
+ 
+<%--  
+ 
+ 
+ <!--<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
 <title>글쓰기 폼</title>
 <!-- ckeditor cdn -->
-<script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.14.0/standard-all/ckeditor.js"></script>
+
+
+<!-- <script src=${path}/ckeditor/ckeditor.js"></script> -->
 <!-- jquery lib는 default_decorator.jsp에서 등록 -->
 <!-- bootstrap lib는 site-mesh 프로그램을 적용하지 않는 경우는 아래와같이 반드시 등록 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,29 +107,34 @@
 </head>
 <body>
 
-
-
 	<form action="write.do" method="post" enctype="multipart/form-data">
-		<input type="hidden" value="${login.id }" name="id"> 
-		<input
+		<input type="hidden" value="${login.id }" name="id"> <input
 			type="text" id="title" name="title"
-			title="제목을 4~100 글자 사이로 입력하셔야 합니다.">
-		<input type="text"
+			title="제목을 4~100 글자 사이로 입력하셔야 합니다."> <input type="text"
 			id="writer" name="writer" title="작성자는 2~10 글자 사이로 입력하셔야 합니다.">
 		<textarea name="content" id="editor1" rows="10" cols="80">
                 This is my textarea to be replaced with CKEditor.
         </textarea>
 		<script>
-
-	        
 			// Replace the <textarea id="editor1"> with a CKEditor
 			// instance, using default configuration.
-			CKEDITOR.replace('editor1',{
-		        filebrowserImageUploadUrl: '/board/imageUpload.do'	
-				});
+			CKEDITOR.replace('editor1', {
+				filebrowserImageUploadUrl : '${path}/image/imageupload.do' //이 경로로 파일 전달
+			});
+/* 	window.parent.CKEDITOR.tools.callFunction('${CKEditorFuncNum}',
+					"${url}", "전송완료");  */
+			 
 		</script>
+		<script type='text/javascript'>
 
-		<input type="submit">
+ 		
+/*    			window.parent.CKEDITOR.tools.callFunction(" + 
+    		callback + ",'" + fileUrl + "','이미지를 업로드 하였습니다.'" + ")
+ */		</script>
+
+
+		<input type="file" name="file" id="file"> <input type="submit">
+		<script src="${pageContext.request.contextPath}/resources/ckeditor.js"></script>
 
 	</form>
 
@@ -143,4 +199,47 @@
 		</form>
 	</div>
 </body>
-</html>
+</html>  -->
+
+
+
+
+<!-- <script src=${path}/ckeditor/ckeditor.js"></script> -->
+<!-- jquery lib는 default_decorator.jsp에서 등록 -->
+<!-- bootstrap lib는 site-mesh 프로그램을 적용하지 않는 경우는 아래와같이 반드시 등록 -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="/js/regExUtil.js"></script>
+
+</head>
+<body>
+	<div class="container">
+
+
+	<form name="writeForm" action="./summernote_insert.jsp" method="post">
+		<textarea id="summernote">Hello Summernote</textarea>
+        <script>
+            $(document).ready(function() {
+                $('#summernote').summernote({ // summernote를 사용하기 위한 선언
+                    height: 400,
+					callbacks: { // 콜백을 사용
+                        // 이미지를 업로드할 경우 이벤트를 발생
+					    onImageUpload: function(files, editor, welEditable) {
+						    sendFile(files[0], this);
+						}
+					}
+				});
+			});
+		</script>
+</form>
+
+
+	</div>
+</body>
+</html> --%>

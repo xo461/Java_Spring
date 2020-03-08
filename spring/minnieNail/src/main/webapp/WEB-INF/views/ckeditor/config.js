@@ -67,4 +67,7 @@ CKEDITOR.editorConfig = function(config) {
 	config.extraPlugins = 'codesnippet';
 	// config.extraPlugins = 'youtube';
 
+	config.filebrowserUploadUrl = '${pageContext.request.contextPath}/image/imageupload.do';
+	
+	config.filebrowserUploadMethod = 'form';
 };
