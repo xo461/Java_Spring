@@ -12,14 +12,10 @@
 	<!-- resultType: 리스트, 글보기에서 select쿼리로 가져온 결과를 Java의 어떤 타입으로 변환하여 반환할지 지정 -->
 	<select id="list" resultType="com.webjjang.board.dto.BoardDTO">
 		select * from (
-		select rownum rnum,
-		no, title, writer, writeDate, hit,
-		reply_cnt
+		select rownum rnum, no, title, writer, writeDate, hit, reply_cnt
 		from (
-		select no, title,
-		writer, writeDate, hit, reply_cnt
-		from
-		board
+		select no, title, writer, writeDate, hit, reply_cnt
+		from board
 		<!-- word 프로퍼티가 null이나 ""가 아니면 검색을 한다. -->
 		<!-- mybatis에서 문자열이나 문자 데이터는 "'" 사용하는데 글자가 하나인 경우 char로 취급 -> .toString()함수를 
 			통해 문자열로 바꿔줘야함. -->
@@ -30,20 +26,22 @@
 		</if>
 		order by no desc)
 		)
-		where
-		rnum between 1 and 10
+		where rnum between #{startRow} and #{endRow}
 	</select>
+	<!-- 데이터총개수 가져오기: 검색어로 필터링되면 된대로 개수 가져오기 -->
 	<select id="getTotalRow" resultType="java.lang.Integer">
-		select count(*) from board where (1=0
+		select count(*) from board
+		<if test="word != null and word != ''.toString()">
+		 where (1=0
 		<include refid="searchCondition" />
 		)
+		</if>
 	</select>
 
 	<!-- 검색에 필요한 조건 -->
 	<!-- sql태그: 다른 태그에 삽입해서 재사용(include태그) -->
 	<sql id="searchCondition">
-		<!-- mybatis에서 문자열이나 문자 데이터는 "'" 사용하는데 글자가 하나인 경우 char로 취급 -> .toString()함수를 
-			통해 문자열로 바꿔줘야함. -->
+		<!-- mybatis에서 문자열이나 문자 데이터는 "'" 사용하는데 글자가 하나인 경우 char로 취급 -> .toString()함수를 통해 문자열로 바꿔줘야함. -->
 		<!-- %word% 앞뒤에 무슨 내용이 오든 안에 word가 있으면. -->
 		<if test="key.toString().indexOf('t')>=0">
 			or title like '%' || #{word} || %'
@@ -66,8 +64,7 @@
 	<!-- 글보기 -->
 	<!-- dto 모델과 똑같이 써야 한다. -->
 	<select id="view" resultType="com.webjjang.board.dto.BoardDTO">
-		select no, title, content, writer,
-		writeDate , hit
+		select no, title, content, writer, writeDate, hit
 		from board where no = #{no}
 	</select>
 
@@ -81,15 +78,13 @@
 	<!-- 글수정 : 본인글만 수정가능 pw 확인 -->
 	<update id="update">
 		update board
-		set title = #{title}, content =
-		#{content}, writer = #{writer}
+		set title = #{title}, content = #{content}, writer = #{writer}
 		where no = #{no} and pw = #{pw}
 	</update>
 
 	<!-- 글삭제 -->
 	<delete id="delete">
-		delete from board
-		where no = #{no} and pw = #{pw}
+		delete from board where no = #{no} and pw = #{pw}
 	</delete>
 
 </mapper>

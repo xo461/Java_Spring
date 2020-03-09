@@ -3,12 +3,14 @@ package com.webjjang.board.mapper;
 import java.util.List;
 
 import com.webjjang.board.dto.BoardDTO;
+import com.webjjang.util.page.PageObject;
 
 //src/main/resources 안에 com/webjjang/board/mapper 폴더 각각 만들고 (이 패키지 이름하고 동일하게) 이름은 이 파일과 동일하게 boardmapper.xml로 만들어야 하고, 태그의 아이디는 메서드이름과 동일하게 써야 한다. 
 public interface BoardMapper {
 
 	//***1.리스트 - list()
-	public List<BoardDTO> list();
+	public List<BoardDTO> list(PageObject pageObject);
+	public int getTotalRow();
 	
 	//***2.글쓰기 처리 - write(dto)
 	public Integer write(BoardDTO dto);
@@ -22,5 +24,6 @@ public interface BoardMapper {
 	
 	//***5.글삭제 - delete(dto) ==> no와 pw:post 방식
 	public Integer delete(BoardDTO dto);
+
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.webjjang.board.dto.BoardDTO;
 import com.webjjang.board.mapper.BoardMapper;
+import com.webjjang.util.page.PageObject;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -23,9 +24,13 @@ public class BoardServiceImpl implements BoardService{
 	private BoardMapper mapper;
 	
 	@Override
-	public List<BoardDTO> list() {
-		// TODO Auto-generated method stub
-		return mapper.list();
+	public List<BoardDTO> list(PageObject pageObject) {
+		// 넘어온 페이지의 첫번째와 마지막 게시글의 글번호 구하는 메서드
+		pageObject.calcuPageInfo();
+		// jsp의 페이지네이션을 위한 계산 -> jsp에 전달이 되어야 한다. request에 담는다.
+		pageObject.setTotalRow(mapper.getTotalRow()); //db에서 전체데이터개수가져와서(검색해서필터링되면 된대로) => 전체페이지수및 페이지그룹의시작페이지,끝페이지 구하기.
+		System.out.println("BoardServiceImpl.list().pageObject : "+pageObject);
+		return mapper.list(pageObject);
 	}
 
 	@Override

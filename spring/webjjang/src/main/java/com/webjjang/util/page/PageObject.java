@@ -30,11 +30,10 @@ public class PageObject {
 	// 페이지그룹 5개면  ---1 2 3 4 5----나타나고 그 뒷장에 6 7 8 9 10 ..이런식으로
 	private int perGroupPageNum;
 	
-	// 페이지 그룹에 나타나는 처음와 끝 페이지 - 현재 페이지에 따라 다른게 설정된다.
-	// totalPage가 나오면 계산할 수 있다. - totalPage가 25면 endPage가 30으로 셋팅되는 경우
-	//                     - endPage가 totalPage를 넘는 경우는 endPage를 totalPage로 변경
-	private int startPage;
-	private int endPage;
+	// pagenation에서 보이는 페이지그룹 - 현재 페이지에 따라 다른게 설정된다.
+	// 12345 678910 이런식으로 다셧개씩 묶여있으면 만약 현재페이지가 6이면 678910이 보인다. 이떄 startPage가 6 endPage가 10 만약 totalpage가 8이면 endpage도 8이 된다.
+	private int startPage; //페이지그룹의 첫번째페이지 
+	private int endPage; //endPage가 totalPage를 넘는 경우는 endPage를 totalPage로 변경
 	
 	// ======= 검색에 필요한 데이터 변수===============================================================
 	private String key; //t, c, w
@@ -57,7 +56,8 @@ public class PageObject {
 		// 현재 페이지와 한 페이지당 표시하는 데이터의 갯수를 전달받아서 처리한다.
 		this(page, perPageNum, 10);
 	}
-		
+	
+	//한 그룹당 몇개의페이지가 보일지까지 셋팅하는 이 메소드는 활용안한다.
 	public PageObject(int page, int perPageNum, int perGroupPageNum) {
 		this.page = page; //이 클래스의 page 변수에 뷰에서 받은 파라메터 값(사용자가 클릭한 페이지) 넣는다.
 		this.perPageNum = perPageNum;
@@ -107,24 +107,23 @@ public class PageObject {
 		this.endRow = endRow;
 	}
 
-	// 넘어온 페이지에 맞는 가져올 데이터 계산하는 메서드 작성
+	// 넘어온 페이지에 해당하는 게시글의 글번호 구하는 메서드
+	// 뷰에서 넘어온 page, perPageNum 있으면 구할수있다.
 	public void calcuPageInfo() {
-		// 현재 페이지의 시작 줄번호 계산.
-		// 시작 줄번호 = 이전페이지의 갯수를 넘긴 다음 번호 : (page-1)*perPageNum + 1
+		// 현재 페이지의 첫번째 글번호 :
 		startRow = (page - 1) * perPageNum + 1;
-		// 끝 줄번호 = 시작 줄번호에다가 한페이지당 표시하는 데이터의 갯수 더하면 다음 페이지의 시작 번호가 되는데
-		// 여기서 1 빼주면 현재 페이지의 마지막 번호가 된다.
-		// startRow + perPageNum - 1
+		// 현재페이지의 마지막 게시글의 글번호:
 		endRow = startRow + perPageNum - 1;
-		
 	}
 	
 	public int getTotalRow() {
 		return totalRow;
 	}
 
-	// 전체 데이터의 갯수(totalRow)가 정해지면 전체 페이지를 구할 수 있다.
-	// 전체 페이지가 구해지면 리스트 화면 하단부분 페이지 네이션에 시작 페이지와 끝 페이지를 계산할 수 있다.
+	// 전체페이지수, 페이지그룹의 startpage, endpage구하기
+	// db에서 전체 데이터의 갯수(totalRow)가 넘어오고, 
+	// 뷰에서 현재페이지page, 페이지당데이터수(10개)가 넘어오고
+	// 페이지그룹당페이지수(10페이지)가 정해지면 구할 수 있다. 
 	// service에서 계산하는 것으로 한다.
 	public void setTotalRow(int totalRow) {
 		this.totalRow = totalRow;

@@ -35,7 +35,7 @@ public class BoardController {
 	//1. 게시판 리스트
 	@GetMapping("/list.do")
 	public String list(Model model, PageObject pageObject) { //PageObject타입의 pageObject변수명으로 쓰겠다.
-		model.addAttribute("list", service.list());
+		model.addAttribute("list", service.list(pageObject));
 		model.addAttribute("pageObject", pageObject);
 		// WEB-INF/views/(prefix) + board/list + .jsp(surfix)
 		return module + "/list";
