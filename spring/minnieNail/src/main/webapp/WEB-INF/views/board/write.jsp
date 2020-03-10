@@ -5,9 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>글쓰기 폼</title>
-<!-- ckeditor cdn -->
-<script src="https://cdn.ckeditor.com/4.14.0/standard-all/ckeditor.js"></script>
-<!-- <script src=${path}/ckeditor/ckeditor.js"></script> -->
+<!--   ckeditor 연결  -->
+<!--  <script src="https://cdn.ckeditor.com/4.14.0/standard-all/ckeditor.js"></script> -->
+ <script src="/resources/ckeditor/ckeditor.js"></script>
 
 <!-- jquery lib는 default_decorator.jsp에서 등록 -->
 <!-- bootstrap lib는 site-mesh 프로그램을 적용하지 않는 경우는 아래와같이 반드시 등록 -->
@@ -63,33 +63,37 @@
 
 			<input type="hidden" value="${login.id }" name="id">
 			<div class="form-group">
-				<input type="text" id="title" name="title"
+				<label for="title">Title</label> 
+				<input type="text" id="title" name="title" class="form-control"
 					title="제목을 4~100 글자 사이로 입력하셔야 합니다.">
 			</div>
 			<div class="form-group">
-				<input type="text" id="writer" name="writer"
+				<label for="writer">Writer</label> 
+				<input type="text" id="writer" name="writer" class="form-control"
 					title="작성자는 2~10 글자 사이로 입력하셔야 합니다.">
 			</div>
 			<div class="form-group">
-				<textarea name="content" id="content" rows="10" cols="80">
-                This is my textarea to be replaced with CKEditor.
-        </textarea>
+				<textarea name="content" id="content" rows="10" cols="80" class="form-control">
+                	This is my textarea to be replaced with CKEditor.
+        		</textarea>
 			</div>
 			<script>
 				// Replace the <textarea id="content"> with a CKEditor
 				// instance, using default configuration.
 				CKEDITOR.replace('content', {
-					filebrowserImageUploadUrl : '${path}/image/imageupload.do' //이 경로로 파일 전달
-				});
+					filebrowserImageUploadUrl : '${path}/image/imageupload.do', //이 경로로 파일 전달
+					extraPlugins: 'autoembed,embedsemantic,image2,uploadimage,uploadfile',
+
+						});
 				/* 	window.parent.CKEDITOR.tools.callFunction('${CKEditorFuncNum}',"${url}", "전송완료");  */
 			</script>
 
 			<div class="form-group">
-				<label for="file">File</label> <a href="#this" onclick="addFile()"
-					class="fileAdd_btn">Add a file</a>
+				<label for="file">File</label> 
+				<a href="#this" onclick="addFile()" class="fileAdd_btn">Add a file</a>
 				<div id="file-list">
-					<input type="file" name="file" /> <a href='#this'
-						name='file-delete'>Remove</a>
+					<input type="file" name="file" class="form-control"/> 
+					<a href='#this' name='file-delete'>Remove</a>
 				</div>
 			</div>
 			<button>Submit</button>
@@ -97,11 +101,6 @@
 			<button type="button" onclick="history.back()">Back to list</button>
 
 
-
-
-
-			<script
-				src="${pageContext.request.contextPath}/resources/ckeditor.js"></script>
 		</form>
 	</div>
 
