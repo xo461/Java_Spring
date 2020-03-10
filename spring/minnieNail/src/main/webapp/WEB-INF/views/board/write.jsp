@@ -57,81 +57,55 @@
 </script>
 </head>
 <body>
-
-	<form action="write.do" method="post" enctype="multipart/form-data">
-		<input type="hidden" value="${login.id }" name="id"> <input
-			type="text" id="title" name="title"
-			title="제목을 4~100 글자 사이로 입력하셔야 합니다."> <input type="text"
-			id="writer" name="writer" title="작성자는 2~10 글자 사이로 입력하셔야 합니다.">
-		<textarea name="content" id="editor1" rows="10" cols="80">
-                This is my textarea to be replaced with CKEditor.
-        </textarea>
-		<script>
-			// Replace the <textarea id="editor1"> with a CKEditor
-			// instance, using default configuration.
-			CKEDITOR.replace('editor1', {
-				filebrowserImageUploadUrl : '${path}/image/imageupload.do' //이 경로로 파일 전달
-			});
-/* 	window.parent.CKEDITOR.tools.callFunction('${CKEditorFuncNum}',
-					"${url}", "전송완료");  */
-			 
-		</script>
-		<script type='text/javascript'>
-
- 		
-/*    			window.parent.CKEDITOR.tools.callFunction(" + 
-    		callback + ",'" + fileUrl + "','이미지를 업로드 하였습니다.'" + ")
- */		</script>
-
-
-		<input type="file" name="file" id="file"> <input type="submit">
-		<script src="${pageContext.request.contextPath}/resources/ckeditor.js"></script>
-
-	</form>
-
-
-
 	<div class="container">
-		<!-- container가 있어야 자동레이아웃을 잡아줘서 사이드에 여백이 생긴다. -->
-		<h1>글쓰기</h1>
-		<!-- url 작성시 *.do :  spring 3.1까지의 기본 url에 *.do pattern 기본으로 사용 -->
 		<form action="write.do" method="post" id="writeForm"
 			enctype="multipart/form-data">
+
+			<input type="hidden" value="${login.id }" name="id">
 			<div class="form-group">
-				<input type="hidden" value="${login.id }" name="id"> <label
-					for="title">Title</label>
-				<!-- 입력한 데이터의 앞뒤 공백문자는 제거(trim())
-    			 id, class : 화면 컨트롤을 위해서(빠른 선택), name : 넘어가는 데이터 이름 -->
-				<!-- 			<input type="text" class="form-control" id="title" name="title" -->
-				<!-- 				required="required" pattern="^.{4,100}$" -->
-				<!-- 				title="제목을 4~100 글자 사이로 입력하셔야 합니다."> -->
-				<input type="text" class="form-control" id="title" name="title"
+				<input type="text" id="title" name="title"
 					title="제목을 4~100 글자 사이로 입력하셔야 합니다.">
 			</div>
 			<div class="form-group">
-				<label for="content">Content</label>
-				<textarea class="form-control" rows="5" id="content" name="content"></textarea>
-			</div>
-			<div class="form-group">
-				<label for="writer">Writer</label>
-				<!-- 입력한 데이터의 앞뒤 공백문자는 제거(trim())
-    			 id, class : 화면 컨트롤을 위해서(빠른 선택), name : 넘어가는 데이터 이름 -->
-				<input type="text" class="form-control" id="writer" name="writer"
+				<input type="text" id="writer" name="writer"
 					title="작성자는 2~10 글자 사이로 입력하셔야 합니다.">
 			</div>
 			<div class="form-group">
+				<textarea name="content" id="content" rows="10" cols="80">
+                This is my textarea to be replaced with CKEditor.
+        </textarea>
+			</div>
+			<script>
+				// Replace the <textarea id="content"> with a CKEditor
+				// instance, using default configuration.
+				CKEDITOR.replace('content', {
+					filebrowserImageUploadUrl : '${path}/image/imageupload.do' //이 경로로 파일 전달
+				});
+				/* 	window.parent.CKEDITOR.tools.callFunction('${CKEditorFuncNum}',"${url}", "전송완료");  */
+			</script>
+
+			<div class="form-group">
 				<label for="file">File</label> <a href="#this" onclick="addFile()"
-					class="fileAdd_btn">파일추가</a>
+					class="fileAdd_btn">Add a file</a>
 				<div id="file-list">
 					<input type="file" name="file" /> <a href='#this'
-						name='file-delete'>삭제</a>
+						name='file-delete'>Remove</a>
 				</div>
 			</div>
-
 			<button>Submit</button>
 			<!-- form tag안에 있으니 default type은 submit이므로 별도로 설정해주지 않아도 된다. -->
 			<button type="button" onclick="history.back()">Back to list</button>
+
+
+
+
+
+			<script
+				src="${pageContext.request.contextPath}/resources/ckeditor.js"></script>
 		</form>
 	</div>
+
+
+
 </body>
-</html> 
+</html>

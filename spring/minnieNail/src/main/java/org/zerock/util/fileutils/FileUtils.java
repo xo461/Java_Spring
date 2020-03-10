@@ -3,7 +3,6 @@ package org.zerock.util.fileutils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -12,12 +11,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.zerock.board.dto.BoardDTO;
-import org.zerock.board.dto.BoardFileDTO;
 
 @Component("fileUtils")
 public class FileUtils {
-	private static final String filePath = "C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\spring\\minnieNail\\src\\main\\webapp\\upload\\board"; // 파일이 저장될 위치
-	//private static final String filePath = "C:\\Workspace\\spring\\minnieNail\\src\\main\\webapp\\upload\\boardFile"; // 파일이 저장될 위치
+//	private static final String filePath = "C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\spring\\minnieNail\\src\\main\\webapp\\upload\\board"; // 파일이 저장될 위치
+	private static final String filePath = "C:\\Users\\hong\\Documents\\GitHub\\Java_Spring\\spring\\minnieNail\\src\\main\\webapp\\upload\\board";
 	
 	public List<Map<String, Object>> parseInsertFileInfo(BoardDTO dto, 
 			MultipartHttpServletRequest mpRequest) throws Exception{

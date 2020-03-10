@@ -62,7 +62,6 @@ public class BoardController {
 		System.out.println("BoardController.write().dto:" + dto);
 		service.write(dto, mpReq);
 		return "redirect:list.do";
-
 	}
 
 	
