@@ -19,6 +19,7 @@
 		<!-- word 프로퍼티가 null이나 ""가 아니면 검색을 한다. -->
 		<!-- mybatis에서 문자열이나 문자 데이터는 "'" 사용하는데 글자가 하나인 경우 char로 취급 -> .toString()함수를 
 			통해 문자열로 바꿔줘야함. -->
+		<!-- 동적쿼리if. if 문자열이 들어오는 경우에만 안에 쿼리 넣는다.include -->
 		<if test="word != null and word != ''.toString()">
 			where (1=0
 			<include refid="searchCondition" />
@@ -43,14 +44,15 @@
 	<sql id="searchCondition">
 		<!-- mybatis에서 문자열이나 문자 데이터는 "'" 사용하는데 글자가 하나인 경우 char로 취급 -> .toString()함수를 통해 문자열로 바꿔줘야함. -->
 		<!-- %word% 앞뒤에 무슨 내용이 오든 안에 word가 있으면. -->
+		<!-- 동적쿼리. t가 있으면 안에 쿼리 적용 -->
 		<if test="key.toString().indexOf('t')>=0">
-			or title like '%' || #{word} || %'
+			or title like '%' || #{word} || '%'
 		</if>
-		<if test="key.indexOf('t')>=0">
-			or content like '%' || #{word} || %'
+		<if test="key.toString().indexOf('c')>=0">
+			or content like '%' || #{word} || '%'
 		</if>
-		<if test="key.indexOf('t')>=0">
-			or writer like '%' || #{word} || %'
+		<if test="key.toString().indexOf('w')>=0">
+			or writer like '%' || #{word} || '%'
 		</if>
 	</sql>
 

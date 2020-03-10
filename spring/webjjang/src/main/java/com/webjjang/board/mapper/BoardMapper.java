@@ -10,7 +10,7 @@ public interface BoardMapper {
 
 	//***1.리스트 - list()
 	public List<BoardDTO> list(PageObject pageObject);
-	public int getTotalRow();
+	public int getTotalRow(PageObject pageObject);
 	
 	//***2.글쓰기 처리 - write(dto)
 	public Integer write(BoardDTO dto);

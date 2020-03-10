@@ -44,6 +44,8 @@ public class PageObject {
 	// 처음 들어가거나 현재페이지,페이지당데이터를 설정안하면 - 뷰에서 넘어오는 데이터 없음 - 파라메터가 없는 기본 생성자가 적용된다.
 	public PageObject() {
 		// 현재 1 페이지, 페이지당 게시글 10 개 보이게.(개발자가 정한다.)
+		// this괄호 열고로 시작하면 자신의 생성자를 호출하는 것이다.
+		// 자기 자신의 생성자를 호출함으로써 비슷한 코드가 중복되서 나오는 것을 방지할 수 있다.
 		this(1,10);
 		// 기본생성자밖에 없었다면 아래와 같이 값넣을 변수를 지정해줘야 하지만, 밑에 추가 생성자가 있어서, 거기에 선언해준 애들이 override된다.
 		//	this.page = 1;
@@ -56,8 +58,8 @@ public class PageObject {
 		// 현재 페이지와 한 페이지당 표시하는 데이터의 갯수를 전달받아서 처리한다.
 		this(page, perPageNum, 10);
 	}
+
 	
-	//한 그룹당 몇개의페이지가 보일지까지 셋팅하는 이 메소드는 활용안한다.
 	public PageObject(int page, int perPageNum, int perGroupPageNum) {
 		this.page = page; //이 클래스의 page 변수에 뷰에서 받은 파라메터 값(사용자가 클릭한 페이지) 넣는다.
 		this.perPageNum = perPageNum;
@@ -165,6 +167,7 @@ public class PageObject {
 		return word;
 	}
 
+	// 검색어에서 공백은 제거한다.
 	public void setWord(String word) {
 		this.word = word.trim();
 	}

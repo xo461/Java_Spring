@@ -36,6 +36,17 @@
 			<param-value>true</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		<!-- 파일업로드 정보-->
+		<multipart-config>
+			<!-- 임시 파일 저장 위치 -->
+			<location>C:\\Users\\hong\\Documents\\GitHub\\Java_Spring\\spring\\webjjang\\src\\main\\webapp\\tmp
+			</location>
+			<!-- 최대업로드 크기 약 200mb -->
+			<max-file-size>209715200</max-file-size>
+			<!-- 한번에 올릴 수 있는 전체 데이터의 크기 : 약 400mb -->
+			<max-request-size>419430400</max-request-size>
+			<file-size-threshold>20971520</file-size-threshold>
+		</multipart-config>
 	</servlet>
 
 	<servlet-mapping>

@@ -108,10 +108,10 @@ article {
 					<ul class="nav navbar-nav">
 						<li><a href="${absUri }/notice/list.do">Notice</a></li>
 						<li><a href="${absUri }/board/list.do">Board</a></li>
-						<li><a href="${absUri }/teacher/list.do">Nail Pics</a></li>
-						<li><a href="${absUri }/reserve/list.do">QnA</a></li>
-						<li><a href="${absUri }/reserve/list.do">Message</a></li>
-						<li><a href="${absUri }/reserve/list.do">Member</a></li>
+						<li><a href="${absUri }/image/list.do">Image</a></li>
+						<li><a href="${absUri }/qna/list.do">QnA</a></li>
+						<li><a href="${absUri }/message/list.do">Message</a></li>
+						<li><a href="${absUri }/member/list.do">Member</a></li>
 						<c:if test="${!empty login }">
 							<c:if test="${login.gradeNo==9 }">
 								<li><a href="${absUri }/member/list.do">회원관리</a></li>
