@@ -23,14 +23,14 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/js/**" location="/js/" />
 	<resources mapping="/css/**" location="/css/" />
+	
 	<!-- fileupload를 위한 설정 -->
-	<resources mapping="/upload/**" location="/upload/" />
+	<resources mapping="/upload/**" location="/upload/"/>
 	<!-- ckeditor 등록 -->
-	<resources location="/WEB-INF/views/ckeditor/"
-		mapping="/ckeditor/**"></resources>
-	<!-- ckeditor 이미지등록 -->
-<!-- 	<resources mapping="/ckEditorImg/**" location="/resources/ckEditorImg/" />
- -->	<resources mapping="/image/imageupload.do" location="/upload/board/" />
+ 	<!-- <resources location="/WEB-INF/views/ckeditor/" mapping="/ckeditor/**"/>
+	ckeditor 이미지등록
+ 	<resources mapping="/image/imageupload.do" location="/upload/board/"/>
+	 -->
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
 	<beans:bean

@@ -1,14 +1,5 @@
 package org.zerock.board.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.zerock.board.dto.BoardDTO;
 import org.zerock.board.service.BoardService;
-import org.zerock.member.dto.UsersDTO;
-
-import lombok.extern.log4j.Log4j;
 
 @Controller // 맵핑시켜줌
-@Log4j
+//@Log4j
 @RequestMapping("/board") // 보드로 들어가고 밑에 메소드위에 @requestmapping에 상세 주소만 쓰면된다.
 //class위에 쓰는 Requestmapping은 get, post중요하지 않지만, 밑에 메소드위에 쓰는 Request
 public class BoardController {
@@ -74,7 +60,6 @@ public class BoardController {
 	// jsp에서 form으로 넘겨온 데이터를 아래와같이 parameter에 dto로 받으면: 스프링(DispatcherServlet)이 자동으로 name속성과 dto변수명이 같은걸 맞춰서 넣어준다.
 	public String write(BoardDTO dto, MultipartHttpServletRequest mpReq, HttpSession session) throws Exception {
 		System.out.println("BoardController.write().dto:" + dto);
-		
 		service.write(dto, mpReq);
 		return "redirect:list.do";
 
