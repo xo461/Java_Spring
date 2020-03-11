@@ -35,4 +35,18 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+
+	// 드래그앤드롭이미지용
+	config.extraPlugins = 'uploadimage';
+	config.extraPlugins = 'uploadwidget';
+	config.extraPlugins = 'notificationaggregator';
+	config.extraPlugins = 'notification';
+	config.extraPlugins = 'image2';
+
+	//에디터에서 이미지 드래그해서 사이즈 조정 가능하게
+	config.extraPlugins = 'imageresizerowandcolumn';
+	//리사이즈 방향 설정(좌 / 우 / 둘다)
+	myEditor.resize(width, height, true);
+
+
 };

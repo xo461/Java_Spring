@@ -23,16 +23,15 @@
 
 		<!-- log4j2사용을 위해 아래와 같이 수정 -->
 		 <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
- 	 	
- 	 	<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
-	 		
-		<!-- <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@402-oracle:1521:orcl"></property>
- -->
-		<!-- <property name="username" value="c##java14"></property>
-		<property name="password" value="java14"></property>		
- 	 -->	
+ 	
+ 	<!--  	<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
  		<property name="username" value="minnienail"></property>
-		<property name="password" value="minnienail"></property>
+		<property name="password" value="minnienail"></property> -->
+	 		
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@402-oracle:1521:orcl"></property>
+		<property name="username" value="c##java14"></property>
+		<property name="password" value="java14"></property>		
+ 		
 	
 	</bean>
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
