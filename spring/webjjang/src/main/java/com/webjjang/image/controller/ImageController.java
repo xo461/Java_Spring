@@ -1,5 +1,13 @@
 package com.webjjang.image.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
+import java.io.File;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -7,8 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.webjjang.image.dto.ImageDTO;
 import com.webjjang.image.service.ImageService;
+import com.webjjang.util.file.FileUtil;
 import com.webjjang.util.page.PageObject;
 
 //dispatcherservlet이 하는일:
@@ -32,6 +43,11 @@ public class ImageController {
 	//1. 이미지 게시판 리스트
 	@GetMapping("/list.do")
 	public String list(Model model, PageObject pageObject) { //PageObject타입의 pageObject변수명으로 parameter받겠다.
+		//이미지게시판은 8개씩 보이게 하자.
+		//pageObject를 model에 담기 전에 셋팅해야 한다.
+		//한줄에 나타나는 이미지개수 4개 * 2줄 = 총 보이는 이미지 개수 8개
+		pageObject.setPerPageNum(8);
+		
 		model.addAttribute("list", service.list(pageObject));
 		model.addAttribute("pageObject", pageObject);
 		return module + "/list";
@@ -50,9 +66,36 @@ public class ImageController {
 		return module + "/write";
 	}
 	
-	//3-1. 이미지 게시판 글쓰기 처리(사용자가 쓴 데이터 dto로 받는다. -이름같으면 스프링에서 자동맵핑시켜줌)
+	//3-1. 이미지 게시판 글쓰기 처리
+	//로그인: httpsession 파라메터로 받으면 - dispatcherservlet이 세션을 가져다준다.
 	@PostMapping("/write.do")
-	public String write(ImageDTO dto) {
+	public String write(ImageDTO dto, MultipartFile multiFile, HttpSession session, HttpServletRequest request) throws Exception {
+		System.out.println("dto"+dto);
+		//★ dto에 먼저 담은 뒤에 service처리해야 한다. 순서 중요. 
+		//있는 id로 강제로그인처리 
+		dto.setId("test");
+		
+		//파일은 dto property로 받아지지 않음 -> multipartFile로 따로 받은 뒤 dto에 저장한다.
+		dto.setMultiFile(multiFile);
+		
+		//1.서버경로 받기
+		//현재 서비스가 돌아가고 있는 서버의 웹서비스 디렉토리의 물리적 경로를 구하기(여기에 업로드함)
+		//방법: Httpservletrequest.getServletContext().getRealPath
+		String realPath = request.getServletContext().getRealPath("/upload/image");
+		
+		//2.서버경로+파일명 조립해서 만들기
+		//Fileutil에 파일명중복방지 메소드 사용
+		//D:\Workspace\spring\.metadata\.plugins\org.eclipse.wst.server.core\tmp2\wtpwebapps\webjjang\ upload\image\cutie1.jpg
+		File saveFile = FileUtil.removeDuplicateFileName(realPath, multiFile.getOriginalFilename());//(경로,원본파일명) 두개 합쳐서 업로드되는 파일경로만들어준다.
+		System.out.println("saveFile: "+saveFile);
+
+		//3.db에 저장할 파일명 셋팅
+		//하위경로+원본파일명 저장 : /upload/image/cutie.jpg
+		dto.setFileName("/upload/image/"+saveFile.getName());
+
+		//4. 업로드요청받은파일을 (경로)에 저장.
+		multiFile.transferTo(saveFile);
+		
 		service.write(dto);
 		return "redirect:list.do";
 	}

@@ -16,7 +16,6 @@ public interface ImageMapper {
 	
 	//***3.글보기 - view(no) / increaseHit(no)
 	public ImageDTO view(int no);
-	public Integer increaseHit(int no); //수정되면 1리턴
 	
 	//***4.글수정 처리 - update(dto)
 	public Integer update(ImageDTO dto);

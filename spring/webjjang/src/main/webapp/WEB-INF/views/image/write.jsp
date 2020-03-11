@@ -4,12 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Webjjang:: Board Write</title>
+<title>Webjjang:: Gallary</title>
 </head>
 <body>
 	<div class="container">
-		<h3>Board Write</h3>
-		<form action="write.do" method="post" id="writeForm">
+		<h3>Upload Image</h3>
+		<form action="write.do" method="post" id="writeForm"
+			enctype="multipart/form-data">
 			<!-- bootstrap사용(w3schools): form그룹 안에 form-group만들어서 그안에 form-control이 있어야 한다. -->
 			<div class="form-group">
 				<label for="title">Title</label>
@@ -21,15 +22,12 @@
 				<label for="content">Content</label>
 				<textarea class="form-control" rows="5" id="content" name="content"></textarea>
 			</div>
+
+			<!-- login사용: controller에서 session사용 -->
+
 			<div class="form-group">
-				<label for="writer">Writer</label> <input type="text"
-					class="form-control" id="writer" name="writer" autocomplete="off"
-					title="작성자는 4~10 글자 사이로 입력하셔야 합니다.">
-			</div>
-			<div class="form-group">
-				<label for="pw">Password</label> <input type="password"
-					class="form-control" id="pw" name="pw" autocomplete="off"
-					title="비밀번호는 4~20 글자 사이로 입력하셔야 합니다." pattern="^.{4,20}$">
+				<label for="multiFile">File</label> <input type="file"
+					class="form-control" id="multiFile" name="multiFile" required="required">
 			</div>
 			<button>Submit</button>
 			<button type="reset">Reset</button>

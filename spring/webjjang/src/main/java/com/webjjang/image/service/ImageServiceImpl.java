@@ -32,13 +32,11 @@ public class ImageServiceImpl implements ImageService{
 
 	@Override
 	public Integer write(ImageDTO dto) {
-		// TODO Auto-generated method stub
 		return mapper.write(dto);
 	}
 
 	@Override
 	public ImageDTO view(int no) {
-		mapper.increaseHit(no); //나중에 수정해야됨.
 		return mapper.view(no);
 	}
 
@@ -53,5 +51,4 @@ public class ImageServiceImpl implements ImageService{
 		// TODO Auto-generated method stub
 		return mapper.delete(dto);
 	}
-
 }
