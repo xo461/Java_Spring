@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- pageNav.tag에서 taglibrary만들어서 가져다가 쓰기만 하면 돼서 편하다. -->
-<%@taglib prefix="tl" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><!-- fmt태그: 숫자, 날짜, 시간을 formatting하는 기능과 국제화, 다국어 지원 기능을 제공. prefix는 밑에서 쓸때 fmt이름으로 쓰겠다는 뜻 -->
+<!-- paging 처리를 위한 taglib. tagdir는 tag가 위치한 곳 -->
+<%@ taglib prefix="p" tagdir="/WEB-INF/tags"%>
 
 <!DOCTYPE html>
 <html>
@@ -12,10 +12,13 @@
 <title></title>
 <!-- bootstrap lib는 default_decorator에 적용했으므로 생략 -->
 <!-- bootstrap lib는 site-mesh 프로그램을 적용하지 않는 경우는 아래와같이 반드시 등록 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
 <style type="text/css">
@@ -133,11 +136,11 @@
 			<!-- 테이블의 한줄 -->
 			<!-- 항목의 제목 -->
 			<tr>
-				<th>글번호</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-				<th>조회수</th>
+				<th>No</th>
+				<th>Title</th>
+				<th>Writer</th>
+				<th>Write date</th>
+				<th>Hit</th>
 			</tr>
 			<!-- 데이터 표시줄 : 데이터가 있는 만큼 반복 처리한다. -->
 			<c:forEach items="${list }" var="dto">
@@ -145,7 +148,8 @@
 					<td class="no">${dto.no }</td>
 					<td>${dto.title }</td>
 					<td>${dto.writer }</td>
-					<td><fmt:formatDate value="${dto.writeDate }" pattern="yyyy-MM-dd"/></td>
+					<td><fmt:formatDate value="${dto.writeDate }"
+							pattern="yyyy-MM-dd" /></td>
 					<td>${dto.hit }</td>
 				</tr>
 			</c:forEach>
@@ -153,15 +157,17 @@
 			<!-- 페이지를 이동시키는 페이지네이션 -->
 			<!-- pageNav.tag에서 taglibrary 만들어놔서 바로 쓸수있다. -->
 			<tr>
-				<td colspan="5" align="center"><tl:pageNav page="${pageObject.page }"
-						startPage="${pageObject.startPage }"
+				<td colspan="5" align="center">
+				<p:pageNav
+						page="${pageObject.page }" startPage="${pageObject.startPage }"
 						endPage="${pageObject.endPage }"
 						totalPage="${pageObject.totalPage }">
-					</tl:pageNav></td>
+					</p:pageNav></td>
 			</tr>
 			<!-- 글쓰기 버튼 -->
 			<tr>
-				<td colspan="5"><a href="write.do?perPageNum=${pageObject.perPageNum }"><button>글쓰기</button></a>
+				<td colspan="5"><a
+					href="write.do?perPageNum=${pageObject.perPageNum }"><button>Wirte</button></a>
 					<a href="list.do?page=1&perPageNum=${pageObject.perPageNum }"><button>전체목록</button></a>
 				</td>
 			</tr>

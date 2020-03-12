@@ -65,7 +65,7 @@ public class LoginController {
 			udto = signupService.selectNormalUser(udto);
 			session.setAttribute("login", udto); //이렇게 key, value로 세션에 저장해놓으면 뷰에서 ${login.nickname}등으로 갖다 쓴다.
 			System.out.println("session.getAttribute(\"login\"): "+session.getAttribute("login"));
-			return "redirect:/main/main.do";
+			return "login/loginSuccess";
 		}
 	}
 
@@ -112,12 +112,14 @@ public class LoginController {
 		String nickname = (String) response_obj.get("nickname");
 		String email = (String) response_obj.get("email");
 		String sns_id = (String) response_obj.get("id");
+		String sns_profile = (String) response_obj.get("profile_image");
 
 		// 로그인한 사용자 정보 dto에 담기 -> 사용자의 이메일이 db에 없으면 db에 저장하기
 		UsersDTO udto = new UsersDTO();
 		udto.setSns_id(sns_id);
 		udto.setNickName(nickname);
 		udto.setEmail(email);
+		udto.setSns_profile(sns_profile);
 		int result = signupService.insertNaverUser(udto);
 
 		// db에 저장됐으면 1, 아니면 0 출력
@@ -134,7 +136,7 @@ public class LoginController {
 		model.addAttribute("result", apiResult);
 
 		/* 네이버 로그인 성공 페이지 View 호출 */
-		return "login/naverSuccess";
+		return "login/loginSuccess";
 	}
 
 	// 로그아웃-----------------------------------------------------

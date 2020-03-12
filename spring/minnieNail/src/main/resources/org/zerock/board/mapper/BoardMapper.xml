@@ -18,28 +18,66 @@
 		select no, title, writer,
 		writeDate, hit
 		from board2
-		order by no desc
+		<!-- word 프로퍼티가 null이나 ""가 아니면 검색을 한다. -->
+		<!-- mybatis에서 문자열이나 문자 데이터는 "'" 사용하는데 글자가 하나인 경우 char로 취급 -> .toString()함수를 
+			통해 문자열로 바꿔줘야함. -->
+		<!-- 동적쿼리if. if 문자열이 들어오는 경우에만 안에 쿼리 넣는다.include -->
+		<if test="word != null and word != ''.toString()">
+			where (1=0
+			<include refid="searchCondition" />
+			)
+		</if>
+		order by no desc)
 		)
-		)
-		where rnum between 1 and 10
+		where rnum between #{startRow} and #{endRow}
 	</select>
 
+	<!-- 데이터총개수 가져오기: 검색어로 필터링되면 된대로 개수 가져오기 -->
+	<select id="getTotalRow" resultType="java.lang.Integer">
+		select count(*) from board2
+		<if test="word != null and word != ''.toString()">
+			where (1=0
+			<include refid="searchCondition" />
+			)
+		</if>
+	</select>
+
+	<!-- 검색에 필요한 조건 -->
+	<!-- sql태그: 다른 태그에 삽입해서 재사용(include태그) -->
+	<sql id="searchCondition">
+		<!-- mybatis에서 문자열이나 문자 데이터는 "'" 사용하는데 글자가 하나인 경우 char로 취급 -> .toString()함수를 
+			통해 문자열로 바꿔줘야함. -->
+		<!-- %word% 앞뒤에 무슨 내용이 오든 안에 word가 있으면. -->
+		<!-- 동적쿼리. t가 있으면 안에 쿼리 적용 -->
+		<if test="key.toString().indexOf('t')>=0">
+			or title like '%' || #{word} || '%'
+		</if>
+		<if test="key.toString().indexOf('c')>=0">
+			or content like '%' || #{word} || '%'
+		</if>
+		<if test="key.toString().indexOf('w')>=0">
+			or writer like '%' || #{word} || '%'
+		</if>
+	</sql>
+
 	<!-- 글쓰기 -->
-	<!-- #중괄호가 물음표로 바꿔치기된다.jsp로 넘어갈떄는 dto.으로 넘어간다. -->
 	<insert id="write" parameterType="org.zerock.board.dto.BoardDTO">
 		<!-- 여기에 글번호가 먼저 생성되어야 boardfile에서 받아서 삽입가능하다. -->
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-			SELECT BOARD2_SEQ.NEXTVAL FROM DUAL
+			SELECT
+			BOARD2_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 		insert into board2(no, title,
 		content, writer)
-		values(#{no}, #{title}, #{content},
+		values(#{no}, #{title},
+		#{content},
 		#{writer})
 	</insert>
 
-	<!-- FileUpload -->
+	<!-- 글쓰기에서 FileUpload -->
 	<insert id="insertFile" parameterType="java.util.HashMap">
-		insert into boardFile (file_no, NO, ORG_FILE_NAME, STORED_FILE_NAME,
+		insert into boardFile
+		(file_no, NO, ORG_FILE_NAME, STORED_FILE_NAME,
 		FILE_SIZE)
 		values(boardFile_seq.nextval, #{NO}, #{ORG_FILE_NAME},
 		#{STORED_FILE_NAME}, #{FILE_SIZE})
@@ -51,9 +89,23 @@
 		writeDate , hit
 		from board2 where no = #{no}
 	</select>
-	
-	<!-- FileView -->
-	<select id="fileView" ></select>
+
+	<!-- 글보기에서 첨부파일 리스트 보여주기 -->
+	<select id="selectFiles" resultType="java.util.HashMap">
+		select file_no, NO,
+		ORG_FILE_NAME, STORED_FILE_NAME, ROUND(FILE_SIZE/1024, 1) AS FILE_SIZE
+		from boardFile
+		where NO=#{no} and DEL_GB='N'
+	</select>
+
+	<!-- 글보기에서 파일 다운로드 위해 1개 정보 가져오기 -->
+	<select id="selectAFile"
+		resultType="org.zerock.board.dto.BoardFileDTO">
+		select file_no, NO, ORG_FILE_NAME, STORED_FILE_NAME,
+		FILE_SIZE
+		from boardFile
+		where file_no=#{file_no}
+	</select>
 
 	<!-- 글수정 -->
 	<update id="update">
@@ -68,7 +120,7 @@
 		delete from board2
 		where no = #{no}
 	</delete>
-	
-	
+
+
 
 </mapper>

@@ -6,13 +6,17 @@
 <head>
 <meta charset="UTF-8">
 <title>게시판 글보기</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- bootstrap lib는 default_decorator에 적용했으므로 생략 -->
 <!-- bootstrap lib는 site-mesh 프로그램을 적용하지 않는 경우는 반드시 등록 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <style type="text/css">
 .modal-header, .modal-header h4, .close {
@@ -99,44 +103,61 @@
 
 </head>
 <body>
-<div class="container">
-	<h1>게시판 글보기</h1>
-	<table class="table">
-		<tr>
-			<th>글번호</th>
-			<td>${dto.no}</td>
-		</tr>
-		<tr>
-			<th>제목</th>
-			<td>${dto.title}</td>
-		</tr>
-		<tr>
-			<th>내용</th>
-			<td><pre>${dto.content}</pre></td>
-		</tr>
-		<tr>
-			<th>작성자</th>
-			<td>${dto.writer }</td>
-		</tr>
-		<tr>
-			<th>조회수</th>
-			<td>${dto.hit}</td>
-		</tr>
-		<tr>
-			<td colspan="2"><a
-				href="update.do?no=${dto.no }&page=${param.page }&perPageNum=${param.perPageNum}&key=${param.key}&word=${param.word}"><button>수정</button></a>
-				<a href="delete.do?no=${dto.no }&perPageNum=${param.perPageNum }"
-				id="deleteBtn"><button>삭제</button></a> <a
-				href="list.do?page=${param.page }&perPageNum=${param.perPageNum }&key=${param.key }&word=${param.word}"><button>목록</button></a>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<h3 style="border-bottom: 1px solid #ccc">댓글
-				<i class="fa fa-commenting-o" style="font-size:25px;color:red"></i>
-				</h3>
-				
-	</table>
-    </div>
+	<div class="container">
+		<h1>게시판 글보기</h1>
+		<table class="table">
+			<tr>
+				<th>글번호</th>
+				<td>${dto.no}</td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td>${dto.title}</td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td><pre>${dto.content}</pre></td>
+			</tr>
+			<tr>
+				<th>작성자</th>
+				<td>${dto.writer }</td>
+			</tr>
+			<tr>
+				<th>조회수</th>
+				<td>${dto.hit}</td>
+			</tr>
+
+			<!-- 여러개 파일 반복문으로 가져온다. -->
+			<tr>
+				<th>attached file</th>
+				<td>
+					<!-- c:foreach var명으로  el객체를 가져다 쓴다. --> 
+					<c:forEach var="fList" items="${fList}">
+					<!-- 첨부파일 다운로드하기 : 콘트롤러로 글번호와 파일번호를 넘긴다.-->
+						<form action="/board/downloadFile.do" id="download">
+							<input type="hidden" name="No" value="${dto.no }"> <input
+								type="hidden" name="file_no" value="${fList.FILE_NO }">
+							<button>${fList.ORG_FILE_NAME}(${fList.FILE_SIZE} kb)</button>
+							<br />
+						</form>
+					</c:forEach>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><a
+					href="update.do?no=${dto.no }&page=${param.page }&perPageNum=${param.perPageNum}&key=${param.key}&word=${param.word}"><button>수정</button></a>
+					<a href="delete.do?no=${dto.no }&perPageNum=${param.perPageNum }"
+					id="deleteBtn"><button>삭제</button></a> <a
+					href="list.do?page=${param.page }&perPageNum=${param.perPageNum }&key=${param.key }&word=${param.word}"><button>목록</button></a>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<h3 style="border-bottom: 1px solid #ccc">
+						댓글 <i class="fa fa-commenting-o"
+							style="font-size: 25px; color: red"></i>
+					</h3>
+		</table>
+	</div>
 </body>
 </html>

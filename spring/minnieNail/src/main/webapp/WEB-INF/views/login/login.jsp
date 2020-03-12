@@ -289,7 +289,8 @@ input[type=submit]:hover {
 	<script>
 		//네아로
 		var naverLogin = new naver.LoginWithNaverId({
-			clientId : "e5mCPDnVvHz5Ekhetc6r",
+			/* clientId : "e5mCPDnVvHz5Ekhetc6r",*/
+			clientId : "JBa7U4P0ATdyXYHr5WAg",
 			callbackUrl : "http://localhost/login/callback.do",
 			isPopup : false,
 			loginButton : {

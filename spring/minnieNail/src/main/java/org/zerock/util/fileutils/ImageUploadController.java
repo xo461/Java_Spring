@@ -40,7 +40,7 @@ public class ImageUploadController {
 		String rootPath = session.getServletContext().getRealPath("/");
 		
 		// 이미지 저장된 경로★ 
-		// D:\Workspace\spring\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\minnieNail\ upload\board\
+		// D:\Workspace\spring\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\minnieNail\ upload\
 		String uploadPath = rootPath + "upload\\board\\";
 		System.out.println("uploadpath: "+ uploadPath);
 		

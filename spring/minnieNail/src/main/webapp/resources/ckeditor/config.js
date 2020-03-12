@@ -46,7 +46,7 @@ CKEDITOR.editorConfig = function( config ) {
 	//에디터에서 이미지 드래그해서 사이즈 조정 가능하게
 	config.extraPlugins = 'imageresizerowandcolumn';
 	//리사이즈 방향 설정(좌 / 우 / 둘다)
-	myEditor.resize(width, height, true);
+	//myEditor.resize(width, height, true);
 
 
 };

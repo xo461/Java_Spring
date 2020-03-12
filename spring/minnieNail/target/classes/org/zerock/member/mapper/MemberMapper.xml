@@ -21,10 +21,9 @@
 	<!--네이버로 회원가입 -->
 	<insert id="insertNaverUser"
 		parameterType="org.zerock.member.dto.UsersDTO">
-		insert into users(id, email, nickName, sns_id, sns_type, gradeNo,
+		insert into users(id, email, nickName, sns_id, sns_type, sns_profile, gradeNo,
 		state)
-		values(users_seq.nextval, #{email}, #{nickName}, #{sns_id},
-		'naver', 1, 1)
+		values(users_seq.nextval, #{email}, #{nickName}, #{sns_id}, 'naver', #{sns_profile}, 1, 1)
 		<!-- select users_seq.nextval, #{email}, #{nickName}, #{sns_id}, 'naver' 
 			from dual where not exists (select * from users where email = #{email}) -->
 	</insert>
@@ -58,7 +57,7 @@
 	<!-- 네이버로그인시: 회원정보 가져오기. 세션저장용 -->
 	<select id="selectNaverUser"
 		resultType="org.zerock.member.dto.UsersDTO">
-		select id, userName, sns_id, sns_type, email, nickName,
+		select id, userName, sns_id, sns_type, sns_profile, email, nickName,
 		state, gradeNo
 		from users where sns_id = #{sns_id}
 	</select>

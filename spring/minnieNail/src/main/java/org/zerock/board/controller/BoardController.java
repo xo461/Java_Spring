@@ -1,7 +1,13 @@
 package org.zerock.board.controller;
 
+import java.io.File;
+import java.net.URLEncoder;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -11,8 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.board.dto.BoardDTO;
+import org.zerock.board.dto.BoardFileDTO;
 import org.zerock.board.service.BoardService;
+import org.zerock.util.page.PageObject;
 
 @Controller // 맵핑시켜줌
 //@Log4j
@@ -35,11 +44,12 @@ public class BoardController {
 	// model: 개발자는 처리를 해서 데이터를 만든다 -> 디자인하는 jsp에서는 데이터를 사용한다. -->
 	// dispatcherservlet에서
 	//jsp파일명넘겨주므로 리턴타입 String이다.
-	public String list(@RequestParam(defaultValue = "1") int page, Model model) { 
+	public String list(PageObject pageObject, Model model) { 
 		// mapper->service->에서 가져온 내용 model에 담야아한다...
 		// Model을 파라메터로 받아야 데이터를 뷰로 넘길수있다.(리스트, 글보기, 글수정에서 데이터 사용자에게 보여줘야함)
 		// model 안에 HttpServletRequest request가 포함되어있다.... 
-		model.addAttribute("list", service.list()); 
+		model.addAttribute("list", service.list(pageObject));
+		model.addAttribute("pageObject", pageObject);
 		// key:value형태. list라는 이름으로 데이터 넘겨줌.
 		// jsp에서  "list"이름을 써서 데이터를 받는다.(el객체)
 		// viewResolver에서 "/WEB-INF/views/"+"board/list"+".jsp"
@@ -76,15 +86,42 @@ public class BoardController {
 	// ?no=16처럼 글번호 넘어가야되는데 빠지면 오류)
 	// @RequestParam("no"):넘어오는 파라메터 이름이 no인 데이터 가져오기
 	// --> 파라메터 이름과 매개변수명이 같은 경우 생략할 수 있다. (나머지메소드에서는 다 생략했음.)
-	public String view(@RequestParam("no") int no, Model model) { // no는 jsp에서사용자가 보려는 글번호 넘어오므로 받는다, model은 넘길내용
+	public String view(@RequestParam("no") int no, Model model) throws Exception{ // no는 jsp에서사용자가 보려는 글번호 넘어오므로 받는다, model은 넘길내용
 		// 넘어오는 데이터 확인
 		System.out.println("BoardController.view().no: " + no);
+		
 		// DB처리 -> model에 "dto"라는 이름으로 담는다. -> jsp에서 "dto"이름으로 가져다 쓰면 됨.
-		model.addAttribute("dto", service.view(no));
+		model.addAttribute("dto", service.view(no).get("dto")); //글세부정보
+		model.addAttribute("fList", service.view(no).get("fList")); //글번호에 해당하는 파일리스트 hashmap 가져와서 담기
+		System.out.println("service.view(no): "+service.view(no));
+		System.out.println("service.view(no).get(\"fList\"): "+service.view(no).get("fList"));
 		// 게시판리스트로 자동이동
 		return MODULE + "/view";
 	}
 
+	// **** 첨부파일 다운로드
+	@RequestMapping(value="/downloadFile.do")
+	public void downloadFile(BoardFileDTO dto, HttpServletResponse response) throws Exception{
+	System.out.println("BoardController.downloadFile().BoardFileDTO: "+dto);
+	//다운로드할 파일의 원본명(사용자가 다운받는 이름이 된다.), 저장된이름(파일의 실제경로찾기위함) 가져오기
+	dto.setSTORED_FILE_NAME(service.selectAFile(dto).getSTORED_FILE_NAME());
+	dto.setORG_FILE_NAME(service.selectAFile(dto).getORG_FILE_NAME());
+	
+	//apache.commons.io패키지의 fileUtil클래스로 저장되어있는 파일을 읽어서 바이트로 저장
+	byte fileByte[] = FileUtils.readFileToByteArray(new File("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\spring\\minnieNail\\src\\main\\webapp\\upload\\board\\", dto.getSTORED_FILE_NAME()));
+	
+	//response에 전송할 데이터
+	response.setContentType("application/octet-stream");
+	response.setContentLength(fileByte.length);
+	//내용을 첨부파일로 하겠다. 사용자가 다운받을 파일명셋팅. 이부분 오타 주의.
+	response.setHeader("Content-Disposition", "attachment; fileName=\""+URLEncoder.encode(dto.getORG_FILE_NAME(), "UTF-8")+"\";");
+	response.setHeader("Content-Transfer-Encoding", "binary");
+	response.getOutputStream().write(fileByte);
+	response.getOutputStream().flush();
+	response.getOutputStream().close();
+	
+	}
+	
 	// **** 게시판수정폼get ****
 //	@RequestMapping(value = "/update.do", method = RequestMethod.GET) // 글쓰기 폼이니까 get방식 -> 글써서 넘겨야 post
 	@GetMapping("/update.do") // 글쓰기 폼이니까 get방식 -> 글써서 넘겨야 post
