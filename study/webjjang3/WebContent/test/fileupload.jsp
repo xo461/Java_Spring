@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%
+<%-- <%
 //여기가 자바입니다.
 //첨부파일의 용량제한
 int size = 100*1024*1024;
@@ -20,7 +20,7 @@ String fsName = multi.getFilesystemName("fileName"); //저장된위치
 //내컴터의 파일명
 String oName = multi.getOriginalFileName("fileName"); //
 
-%>
+%> --%>
 
 <!DOCTYPE html>
 <html>
@@ -31,8 +31,8 @@ String oName = multi.getOriginalFileName("fileName"); //
 <body>
 <h2>파일업로드 처리</h2>
 <p>파일 업로드 처리됨</p>
-<div>서버의 올라간 정보: <%=fsName %></div>
+<%-- <div>서버의 올라간 정보: <%=fsName %></div>
 <div>내컴퓨터의 올라가기 전 파일 정보: <%=oName %></div>
-<div><img alt="<%=fsName %>" src="/upload/<%=fsName%>"></div>
+<div><img alt="<%=fsName %>" src="/upload/<%=fsName%>"></div> --%>
 </body>
 </html>
