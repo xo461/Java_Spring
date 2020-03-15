@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,83 +26,27 @@
 	color: white;
 	font-size: 30px;
 }
+
+body {
+	margin-top: 20px;
+}
+
+.comment-wrapper .panel-body {
+	max-height: 650px;
+	overflow: auto;
+}
+
+.comment-wrapper .commentList .media img {
+	width: 64px;
+	height: 64px;
+	border: 2px solid #e5e7e8;
+}
+
+.comment-wrapper .commentList .media {
+	border-bottom: 1px dashed #efefef;
+	margin-bottom: 25px;
+}
 </style>
-
-<script type="text/javascript">
-	$(function() {
-		// 버튼 이벤트 처리
-		$("#deleteBtn").click(function() {
-			if (!confirm("정말 삭제하시겠습니까?"))
-				return false; // a tag의 href를 취소 시킨다. -> location.href를 변경하는 태그 a	
-		});
-
-		$("#writeBtn")
-				.click(
-						function() {
-							// 모달창 제목 셋팅
-							$(".modal-header > h4")
-									.html(
-											"<span class='glyphicon glyphicon-pencil'></span> 댓글 쓰기");
-
-							// 값을 비운다.
-							$("#modal_content").val("");
-							$("#modal_writer").val("");
-
-							//전송 버튼의 글자 셋팅
-							$("#updateModal_updateBtn").text("등록");
-
-							// 작성자 수정 가능르로 만든다.
-							$("#modal_writer").attr("disabled", false);
-
-							// 받는 url을 정한다.
-							$("#modal_form").attr("action", "replyWrite.do")
-
-							$("#updateModal").modal();
-						});
-
-		$(".updateBtns")
-				.click(
-						function() {
-							// 데이터 수집
-							var row = $(this).closest(".dataRow");
-							var rno = row.data("rno");
-							var writer = row.find(".writer").text();
-							var content = row.find(".content").text();
-
-							// 모달창 제목 셋팅
-							$(".modal-header > h4")
-									.html(
-											"<span class='glyphicon glyphicon-pencil'></span> 댓글 수정");
-
-							// 전송 버튼의 글자 셋팅
-							$("#updateModal_updateBtn").text("수정");
-
-							// 모달창에 셋팅
-							$("#modal_rno").val(rno);
-							$("#modal_content").val(content);
-							$("#modal_writer").val(writer);
-
-							// 작성자 수정 불가로 만든다.
-							$("#modal_writer").attr("disabled", true);
-
-							// 받는 url을 정한다.
-							$("#modal_form").attr("action", "replyUpdate.do")
-
-							$("#updateModal").modal();
-						});
-
-		$(".deleteBtns").click(function() {
-			var row = $(this).closest(".dataRow");
-			var rno = row.data("rno");
-			var content = row.find(".content").text();
-			$("#delete_modal_content").text(content);
-			$("#delete_modal_rno").val(rno);
-			$("#deleteModal").modal();
-		});
-
-	});
-</script>
-
 </head>
 <body>
 	<div class="container">
@@ -119,25 +65,29 @@
 				<td><pre>${dto.content}</pre></td>
 			</tr>
 			<tr>
-				<th>작성자</th>
-				<td>${dto.writer }</td>
+				<th>nickName</th>
+				<td>${dto.nickName }</td>
 			</tr>
 			<tr>
 				<th>조회수</th>
 				<td>${dto.hit}</td>
+			</tr>
+			<tr>
+				<th>좋아요수</th>
+				<td><button id="likeBtn">like me</button></td>
 			</tr>
 
 			<!-- 여러개 파일 반복문으로 가져온다. -->
 			<tr>
 				<th>attached file</th>
 				<td>
-					<!-- c:foreach var명으로  el객체를 가져다 쓴다. --> 
-					<c:forEach var="fList" items="${fList}">
-					<!-- 첨부파일 다운로드하기 : 콘트롤러로 글번호와 파일번호를 넘긴다.-->
+					<!-- c:foreach var명으로  el객체를 가져다 쓴다. --> <c:forEach var="fList"
+						items="${fList}">
+						<!-- 첨부파일 다운로드하기 : 콘트롤러로 글번호와 파일번호를 넘긴다.-->
 						<form action="/board/downloadFile.do" id="download">
 							<input type="hidden" name="No" value="${dto.no }"> <input
 								type="hidden" name="file_no" value="${fList.FILE_NO }">
-							<button>${fList.ORG_FILE_NAME}(${fList.FILE_SIZE} kb)</button>
+							<button>${fList.ORG_FILE_NAME}(${fList.FILE_SIZE}kb)</button>
 							<br />
 						</form>
 					</c:forEach>
@@ -158,6 +108,38 @@
 							style="font-size: 25px; color: red"></i>
 					</h3>
 		</table>
+
+		<!--댓글 ---------------------------------------------------- -->
+		<div class="row bootstrap snippets">
+			<div class="col-md-6 col-md-offset-2 col-sm-12">
+				<div class="comment-wrapper">
+					<div class="panel panel-info">
+						<div class="panel-heading">Comments..</div>
+						<div class="panel-body">
+							<!-- 댓글달기 ------------------------------>
+							<form name="commentInsertForm">
+								<input type="hidden" name="id" value="${login.id}" /> <input
+									type="hidden" name="no" value="${dto.no}" />
+								<textarea class="form-control" id="content" name="content"
+									placeholder="write a comment..." rows="3"></textarea>
+								<br>
+								<button type="button" id="commentBtn"
+									class="btn btn-info pull-right" name="commentInsertBtn">Post</button>
+								<div class="clearfix"></div>
+							</form>
+							<hr>
+							<!-- 댓글리스트 ----------------------------->
+							<div class="container">
+								<div class="commentList"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
+	<!-- 댓글 아작스처리 파일 include : script이기떄문에 head나 body 안에 include해야됨 -->
+	<%@ include file="comments.jsp"%>
 </body>
 </html>

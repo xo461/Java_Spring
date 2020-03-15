@@ -48,6 +48,8 @@ public class AuthoryFilter implements Filter {
 //		loginList.add("/notice/write.do");
 //		loginList.add("/notice/update.do");
 //		loginList.add("/notice/delete.do");
+		
+//		loginList.add("/bcomment/insert.do");
 //
 //		//map<key, value>: (권한이 필요한 URL, uri에서 요구하는 회원등급)
 //		authMap.put("/notice/write.do", 9);

@@ -138,19 +138,21 @@
 			<tr>
 				<th>No</th>
 				<th>Title</th>
-				<th>Writer</th>
+				<th>nickName</th>
 				<th>Write date</th>
 				<th>Hit</th>
+				<th>Like</th>
 			</tr>
 			<!-- 데이터 표시줄 : 데이터가 있는 만큼 반복 처리한다. -->
 			<c:forEach items="${list }" var="dto">
 				<tr class="dataRow">
 					<td class="no">${dto.no }</td>
 					<td>${dto.title }</td>
-					<td>${dto.writer }</td>
+					<td>${dto.nickName } (${dto.total_reply})</td>
 					<td><fmt:formatDate value="${dto.writeDate }"
 							pattern="yyyy-MM-dd" /></td>
 					<td>${dto.hit }</td>
+					<td>${dto.total_like }</td>
 				</tr>
 			</c:forEach>
 

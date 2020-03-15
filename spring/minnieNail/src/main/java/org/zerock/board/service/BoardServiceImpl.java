@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.zerock.board.dto.BoardDTO;
 import org.zerock.board.dto.BoardFileDTO;
+import org.zerock.board.dto.Board_repDTO;
 import org.zerock.board.mapper.BoardMapper;
 import org.zerock.util.fileutils.FileUtils;
 import org.zerock.util.page.PageObject;
@@ -58,14 +59,21 @@ public class BoardServiceImpl implements BoardService {
 	//**** 글보기 ****
 	//hashmap에 담기(글1개에대한 dto정보, 파일여러개리스트)
 	@Override
-	public Map<String, Object> view(int no) {
+	public Map<String, Object> view(int no, int cnt) {
+		
+		//조회수 1증가 먼저 수행
+		if(cnt==1) {
+			boardMapper.increaseHit(no);
+		}
 		
 		Map<String, Object> boardViewMap = new HashMap<String, Object>();
+
 		boardViewMap.put("dto", boardMapper.view(no)); //글정보dto dto이름으로 담기
 
 		List<BoardFileDTO> fList = boardMapper.selectFiles(no);
 		boardViewMap.put("fList", fList); //파일리스트 flist이름으로 담기
 		
+		System.out.println("boardServiceImpl.view().boardViewMap: "+boardViewMap);
 		return boardViewMap;  //mapper(dao역할)의 view메소드 호출 -> .xml에 있는 쿼리 실행 ->dto가져와서 controller로 리턴시킨다. 
 	}
 
@@ -73,8 +81,9 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardFileDTO selectAFile(BoardFileDTO dto) {
 		return boardMapper.selectAFile(dto);
-	};
+	}
 	
+
 	//**** 글수정 ****
 	@Override
 	public Integer update(BoardDTO dto) {

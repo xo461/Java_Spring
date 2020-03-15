@@ -21,6 +21,7 @@ public interface BoardMapper {
 	public void insertFile(Map<String, Object> map) throws Exception; //파일여러개첨부
 
 	//**** 글보기
+	public Integer increaseHit(int no);
 	public BoardDTO view(int no);
 	public List<BoardFileDTO> selectFiles(int no); //글보기에서 첨부파일리스트 보여주기
 	public BoardFileDTO selectAFile(BoardFileDTO dto); //글보기에서 첨부파일 클릭시 : 다운로드하기 위해 정보 갖고오기

@@ -2,6 +2,7 @@ package org.zerock.board.controller;
 
 import java.io.File;
 import java.net.URLEncoder;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.board.dto.BoardDTO;
 import org.zerock.board.dto.BoardFileDTO;
+import org.zerock.board.dto.Board_repDTO;
 import org.zerock.board.service.BoardService;
 import org.zerock.util.page.PageObject;
 
@@ -49,6 +51,7 @@ public class BoardController {
 		// Model을 파라메터로 받아야 데이터를 뷰로 넘길수있다.(리스트, 글보기, 글수정에서 데이터 사용자에게 보여줘야함)
 		// model 안에 HttpServletRequest request가 포함되어있다.... 
 		model.addAttribute("list", service.list(pageObject));
+		System.out.println(service.list(pageObject));
 		model.addAttribute("pageObject", pageObject);
 		// key:value형태. list라는 이름으로 데이터 넘겨줌.
 		// jsp에서  "list"이름을 써서 데이터를 받는다.(el객체)
@@ -86,15 +89,19 @@ public class BoardController {
 	// ?no=16처럼 글번호 넘어가야되는데 빠지면 오류)
 	// @RequestParam("no"):넘어오는 파라메터 이름이 no인 데이터 가져오기
 	// --> 파라메터 이름과 매개변수명이 같은 경우 생략할 수 있다. (나머지메소드에서는 다 생략했음.)
-	public String view(@RequestParam("no") int no, Model model) throws Exception{ // no는 jsp에서사용자가 보려는 글번호 넘어오므로 받는다, model은 넘길내용
-		// 넘어오는 데이터 확인
+	public String view(HttpServletRequest request, Model model) throws Exception{ // no는 jsp에서사용자가 보려는 글번호 넘어오므로 받는다, model은 넘길내용
+		// 넘어오는 데이터
+		int no = Integer.parseInt(request.getParameter("no")); //글번호
+		int cnt = Integer.parseInt(request.getParameter("cnt")); //조회수1증가용
 		System.out.println("BoardController.view().no: " + no);
 		
 		// DB처리 -> model에 "dto"라는 이름으로 담는다. -> jsp에서 "dto"이름으로 가져다 쓰면 됨.
-		model.addAttribute("dto", service.view(no).get("dto")); //글세부정보
-		model.addAttribute("fList", service.view(no).get("fList")); //글번호에 해당하는 파일리스트 hashmap 가져와서 담기
-		System.out.println("service.view(no): "+service.view(no));
-		System.out.println("service.view(no).get(\"fList\"): "+service.view(no).get("fList"));
+		
+		Map<String, Object> boardViewMap = service.view(no, cnt);
+		
+		model.addAttribute("dto", boardViewMap.get("dto")); //글세부정보
+		model.addAttribute("fList", boardViewMap.get("fList")); //파일리스트 hash map
+		
 		// 게시판리스트로 자동이동
 		return MODULE + "/view";
 	}
@@ -122,12 +129,16 @@ public class BoardController {
 	
 	}
 	
+
+	
 	// **** 게시판수정폼get ****
 //	@RequestMapping(value = "/update.do", method = RequestMethod.GET) // 글쓰기 폼이니까 get방식 -> 글써서 넘겨야 post
 	@GetMapping("/update.do") // 글쓰기 폼이니까 get방식 -> 글써서 넘겨야 post
 	public String updateForm(int no, Model model) { // 업데이트폼은 수정하려면 '글번호'받아서 '글보기'에서 불러와야함.
 		// DB처리 -> model에 "dto"라는 이름으로 담는다. -> jsp에서 "dto"이름으로 가져다 쓰면 됨.
-		model.addAttribute("dto", service.view(no));
+		// 게시판 수정시 조회수 증가 안되도록
+		int cnt = 0;
+		model.addAttribute("dto", service.view(no, cnt));
 		return MODULE + "/update";
 	}
 

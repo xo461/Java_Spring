@@ -127,25 +127,34 @@ body {
 			<a class="btn" href="#sup"><button>Sign-up without SNS</button></a>
 
 			<!-- 회원가입폼 : 모달로 뜬다. -->
-			<div id="sup" class="modal">
-				Please fill out the form.
-				<div>
-					<label>userName</label> <input type="text" name="userName"
-						id="userName">
-				</div>
-				<div>
-					<label>password</label> <input type="text" name="pw" id="pw">
-				</div>
-				<div>
-					<label>email</label> <input type="text" name="email" id="email">
-				</div>
-				<div>
-					<label>nickname</label> <input type="text" name="nickName"
-						id="nickName">
-				</div>
-				<button id="sendInfo">send</button>
-			</div>
+			<form method="POST" enctype="multipart/form-data" id="signupForm">
+				<div id="sup" class="modal">
+					<h2>SIGN UP</h2>
+					<div>
+						<label>userName</label> <input type="text" name="userName"
+							id="userName">
+					</div>
+					<div>
+						<label>password</label> <input type="text" name="pw" id="pw">
+					</div>
+					<div>
+						<label>email</label> <input type="text" name="email" id="email">
+					</div>
+					<div>
+						<label>nickname</label> <input type="text" name="nickName"
+							id="nickName">
+					</div>
 
+					<div>
+						<label>profile picture</label> <input type="file"
+							name="sns_profile"/> <a href='#this'
+							name='file-delete'>Remove</a>
+					</div>
+
+
+					<button id="sendInfo" onclick="signup();">Create Account</button>
+				</div>
+			</form>
 			<script>
 				//일반회원가입하기 클릭시 모달창띄우기
 				$('a[href="#sup"]').click(function(event) {
@@ -154,22 +163,38 @@ body {
 						fadeDuration : 250
 					});
 				});
-
+				//파일삭제버튼클릭
+				$("a[name='file-delete']").on("click", function(e) {
+						e.preventDefault();
+						deleteFile($(this));
+					});
 				//회원가입버튼누르면 콘드롤러로 데이터전송하기
-				$('#sendInfo').click(function() {
+				function signup() {
+					var form = $('#signupForm')[0];
+
+					// FormData 객체 생성
+					var formData = new FormData(form);
+
+					// 코드로 동적으로 데이터 추가 가능.
+					//				                formData.append("userId", "testUser!");
+
 					$.ajax({
 						type : "POST",
+						enctype : 'multipart/form-data',
 						url : "/member/signup.do",
-						data : {
-							"userName" : $('#userName').val(),
-							"pw" : $('#pw').val(),
-							"email" : $('#email').val(),
-							"nickName" : $('#nickName').val()
+						data : formData,
+					    processData: false,
+				        contentType: false,  //파일업로드시 false
+				        cache: false,
+						timeout : 600000,
+						success : function(data) {
+							console.log("SUCCESS : ", data);
+						},
+						error : function(e) {
+							console.log("ERROR : ", e);
 						}
 					});
-				});
-
-				/* 회원가입 성공,실패시 처리 어케?	$.modal.close();*/
+				};
 			</script>
 
 			<p></p>
@@ -233,8 +258,6 @@ body {
 			</div>
 		</div>
 	</div>
-
-
 	<script>
 		$(document).ready(function() {
 			$('#home').click(function() {
@@ -292,11 +315,6 @@ body {
 				CKEDITOR.instances[instance].updateElement();
 		}
 	</script>
-
-
-
-
-
  --%>
 
 	<!--------------------------------  -->

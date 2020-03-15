@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,8 +30,6 @@
 			if (!inputDataCheck(title_RegEx, "#title", title_err_msg))
 				return false;
 			if (!inputDataCheck(content_RegEx, "#content", content_err_msg))
-				return false;
-			if (!inputDataCheck(writer_RegEx, "#writer", writer_err_msg))
 				return false;
 		});
 	});
@@ -68,9 +68,8 @@
 					title="제목을 4~100 글자 사이로 입력하셔야 합니다.">
 			</div>
 			<div class="form-group">
-				<label for="writer">Writer</label> <input type="text" id="writer"
-					name="writer" class="form-control"
-					title="작성자는 2~10 글자 사이로 입력하셔야 합니다.">
+				<label for="nickName">Nickname</label> 
+				<div class="form-control">${login.nickName}</div>
 			</div>
 			<div>
 				<textarea name="content" id="content" rows="10" cols="80">

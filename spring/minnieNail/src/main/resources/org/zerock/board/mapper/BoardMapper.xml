@@ -12,22 +12,22 @@
 	<!-- resultType: 리스트, 글보기에서 select쿼리로 가져온 결과를 Java의 어떤 타입으로 변환하여 반환할지 지정 -->
 	<select id="list" resultType="org.zerock.board.dto.BoardDTO">
 		select * from (
-		select rownum rnum,
-		no, title, writer, writeDate, hit
+		select rownum rnum, no, title, nickname, writeDate, hit, total_reply, total_like
 		from (
-		select no, title, writer,
-		writeDate, hit
-		from board2
+		select b.no, b.title, u.nickName, b.writeDate, b.hit, b.total_reply, b.total_like
+		from board2 b, users u
+		where
 		<!-- word 프로퍼티가 null이나 ""가 아니면 검색을 한다. -->
 		<!-- mybatis에서 문자열이나 문자 데이터는 "'" 사용하는데 글자가 하나인 경우 char로 취급 -> .toString()함수를 
 			통해 문자열로 바꿔줘야함. -->
 		<!-- 동적쿼리if. if 문자열이 들어오는 경우에만 안에 쿼리 넣는다.include -->
 		<if test="word != null and word != ''.toString()">
-			where (1=0
+			(1=0
 			<include refid="searchCondition" />
-			)
+			) and
 		</if>
-		order by no desc)
+		(b.id = u.id)
+		order by b.no desc)
 		)
 		where rnum between #{startRow} and #{endRow}
 	</select>
@@ -56,7 +56,7 @@
 			or content like '%' || #{word} || '%'
 		</if>
 		<if test="key.toString().indexOf('w')>=0">
-			or writer like '%' || #{word} || '%'
+			or nickName like '%' || #{word} || '%'
 		</if>
 	</sql>
 
@@ -64,31 +64,29 @@
 	<insert id="write" parameterType="org.zerock.board.dto.BoardDTO">
 		<!-- 여기에 글번호가 먼저 생성되어야 boardfile에서 받아서 삽입가능하다. -->
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-			SELECT
-			BOARD2_SEQ.NEXTVAL FROM DUAL
+			SELECT BOARD2_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
-		insert into board2(no, title,
-		content, writer)
-		values(#{no}, #{title},
-		#{content},
-		#{writer})
+			insert into board2(no, title, content, id)
+			values(#{no}, #{title}, #{content}, #{id})
 	</insert>
 
 	<!-- 글쓰기에서 FileUpload -->
 	<insert id="insertFile" parameterType="java.util.HashMap">
 		insert into boardFile
-		(file_no, NO, ORG_FILE_NAME, STORED_FILE_NAME,
-		FILE_SIZE)
-		values(boardFile_seq.nextval, #{NO}, #{ORG_FILE_NAME},
-		#{STORED_FILE_NAME}, #{FILE_SIZE})
+		(file_no, NO, ORG_FILE_NAME, STORED_FILE_NAME, FILE_SIZE)
+		values(boardFile_seq.nextval, #{NO}, #{ORG_FILE_NAME}, #{STORED_FILE_NAME}, #{FILE_SIZE})
 	</insert>
 
 	<!-- 글보기 -->
 	<select id="view" resultType="org.zerock.board.dto.BoardDTO">
-		select no, title, content, writer,
-		writeDate , hit
-		from board2 where no = #{no}
+		select b.no, b.title, b.content, b.id, u.nickName, b.writeDate, b.hit, b.total_reply, b.total_like
+		from board2 b, users u where (no = #{no}) and (b.id = u.id)
 	</select>
+	
+	<!-- 조회수1증가 -->
+	<update id="increaseHit">
+		UPDATE board2 SET hit = hit + 1 WHERE no = #{no}	
+	</update>
 
 	<!-- 글보기에서 첨부파일 리스트 보여주기 -->
 	<select id="selectFiles" resultType="java.util.HashMap">
@@ -101,26 +99,31 @@
 	<!-- 글보기에서 파일 다운로드 위해 1개 정보 가져오기 -->
 	<select id="selectAFile"
 		resultType="org.zerock.board.dto.BoardFileDTO">
-		select file_no, NO, ORG_FILE_NAME, STORED_FILE_NAME,
-		FILE_SIZE
-		from boardFile
-		where file_no=#{file_no}
+		select file_no, NO, ORG_FILE_NAME, STORED_FILE_NAME, FILE_SIZE
+		from boardFile where file_no=#{file_no}
+	</select>
+	
+	<!-- 댓글 목록 가져오기 -->
+	<select id="selectComments" resultType="java.util.HashMap" >
+		SELECT r.rep_no, r.no, r.content, r.id, u.nickName, r.writeDate, r.total_like, r.total_dislike 
+		FROM board_rep r, users u 
+		WHERE (no = #{no}) and (r.id = u.id)
 	</select>
 
+	<!-- 댓글달기 -->
+	<insert id="insertAComment">
+	INSERT INTO board_rep (rep_no, no, content, id) VALUES
+	(board_rep_seq.nextval, #{no}, #{content}, #{id})
+	</insert>
+	
 	<!-- 글수정 -->
 	<update id="update">
-		update board2
-		set title = #{title}, content =
-		#{content}, writer = #{writer}
-		where no = #{no}
+		update board2 set title = #{title}, content = #{content} where no = #{no}
 	</update>
 
 	<!-- 글삭제 -->
 	<delete id="delete">
-		delete from board2
-		where no = #{no}
+		delete from board2 where no = #{no}
 	</delete>
-
-
 
 </mapper>

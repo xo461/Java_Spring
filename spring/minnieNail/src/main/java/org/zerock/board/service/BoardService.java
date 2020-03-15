@@ -17,9 +17,9 @@ public interface BoardService {
 	public void write(BoardDTO dto, MultipartHttpServletRequest mpReq) throws Exception;
 	
 	//***3.글보기 - view(no) / increaseHit(no)
-	public Map<String, Object> view(int no);
-	public BoardFileDTO selectAFile(BoardFileDTO dto); //글보기에서 첨부파일 클릭시 다운로드하기 위해 정보 갖고오기
-	
+	public Map<String, Object> view(int no, int cnt);
+	public BoardFileDTO selectAFile(BoardFileDTO dto); // 첨부파일 다운로드
+
 	//***4.글수정 처리 - update(dto)
 	public Integer update(BoardDTO dto);
 	

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.board.mapper.BoardCommentMapper">
+
+	<!-- 댓글 목록 가져오기 -->
+	<select id="commentList" resultType="java.util.HashMap">
+		SELECT
+		r.rep_no, r.no, r.content, r.id, u.nickName, u.sns_profile,
+		r.writeDate, r.total_like, r.total_dislike
+		FROM board_rep r, users u
+		WHERE (no = #{no}) and (r.id = u.id)
+	</select>
+
+	<!-- 댓글달기 -->
+	<insert id="commentInsert">
+		INSERT INTO board_rep (rep_no, no, content, id) VALUES
+		(board_rep_seq.nextval, #{no}, #{content}, #{id})
+	</insert>
+
+	<update id="commentUpdate"
+		parameterType="org.zerock.board.dto.Board_repDTO">
+		UPDATE board_rep SET CONTENT = #{content}
+		WHERE rep_no = #{rep_no}
+	</update>
+
+	<delete id="commentDelete" parameterType="int">
+		DELETE FROM board_rep WHERE rep_no = #{rep_no}
+	</delete>
+
+	<!-- 좋아요여부확인 -->
+	<select id="ifLike" parameterType="org.zerock.board.dto.Board_rep_likeDTO"
+	resultType="org.zerock.board.dto.Board_rep_likeDTO">
+		SELECT rep_no, no, id, likeDislike 
+		FROM board_rep_like WHERE (rep_no = #{rep_no}) AND (no = #{no}) AND (id = #{id})  
+	</select>
+	
+	<!-- 좋아요: 0, 싫어요:1 추가 -->
+	<insert id="insertLike">
+		INSERT INTO board_rep_like (rep_no, no, id, likeDislike) VALUES
+		(#{rep_no}, #{no}, #{id}, #{likeDislike})
+	</insert>
+	
+	
+	<!-- 좋아요 총개수 1증가 -->
+	<update id="incTotalLike"
+		parameterType="org.zerock.board.dto.Board_rep_likeDTO">
+		UPDATE board_rep SET total_like = total_like + 1
+		WHERE (no=#{no}) AND (rep_no=#{rep_no})
+	</update>
+
+	<!-- 싫어요 총개수 1증가 -->
+	<update id="incTotalDislike"
+		parameterType="org.zerock.board.dto.Board_rep_likeDTO">
+		UPDATE board_rep SET total_dislike = total_dislike + 1
+		WHERE (no=#{no}) AND (rep_no=#{rep_no})
+	</update>
+	
+</mapper>
