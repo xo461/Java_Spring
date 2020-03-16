@@ -7,12 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.webjjang.board.dto.BoardDTO;
 import com.webjjang.board.service.BoardService;
 import com.webjjang.util.page.PageObject;
 
-import lombok.extern.log4j.Log4j;
 
 //dispatcherservlet이 하는일:
 //1. new BoardDTO dto = BoardDtO; 생성한다.
@@ -20,7 +18,7 @@ import lombok.extern.log4j.Log4j;
 //3. 받은데이터와 매칭이 되는 property에 값을 넣어준다.
 
 @Controller
-@Log4j
+//@Log4j
 @RequestMapping("/board")
 //@AllArgsConstructor //생성자에 의해서 멤버 변수를 초기화시키는 작업을 한다. 근데 클래스가 없는 멤버변수같은 경우에도 주입해줄수있어서 오류날수 있고, 변수가 다른 클래스를 상속받은거면 bean이 두개가 되어, 이걸 안쓰고 주입필요한 멤버변수에만 @autowired/@inject를 써주기도 한다.
 public class BoardController {

@@ -1,18 +1,13 @@
 package com.webjjang.board.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
 import com.webjjang.board.dto.BoardDTO;
 import com.webjjang.board.mapper.BoardMapper;
 import com.webjjang.util.page.PageObject;
-
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
 
-@Log4j //로그 출력: log.info()
 @Service 
 @Qualifier("bs")
 @AllArgsConstructor

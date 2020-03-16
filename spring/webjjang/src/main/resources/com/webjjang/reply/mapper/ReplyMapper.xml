@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 댓글리스트 -->
+<mapper namespace="com.webjjang.reply.mapper.ReplyMapper">
+	<select id="list" resultType="com.webjjang.reply.dto.ReplyDTO">
+		select * from (
+		select rownum rnum, rno, no, content, writer, writeDate 
+		from (
+		select rno, no, content, writer, writeDate
+		from board_rep
+		where no = #{no}
+		order by rno desc)
+		)
+		where rnum between #{startRow} and #{endRow}
+	</select>
+	
+	<!-- 데이터총개수 가져오기: 검색어로 필터링되면 된대로 개수 가져오기 -->
+	<select id="getTotalRow" resultType="java.lang.Integer">
+		select count(*) from board_rep
+		where no = #{no}
+	</select>
+
+	<!-- 댓글쓰기 -->
+	<insert id="write">
+		insert into board_rep(rno, no, content, writer, pw)
+		values(board_rep_seq.nextval, #{rno}, #{no}, #{content}, #{writer}, #{pw})
+	</insert>
+
+	<!-- 글수정 : 본인글만 수정가능 pw 확인 -->
+	<update id="update">
+		update board_rep
+		set content = #{content}
+		where rno = #{rno} and pw = #{pw}
+	</update>
+
+	<!-- 글삭제 -->
+	<delete id="delete">
+		delete from board_rep 
+		where rno = #{rno} and pw = #{pw}
+	</delete>
+
+</mapper>
