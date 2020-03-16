@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<!-- 좋아요아이콘 -->
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
  
 <script>
 var no = '${dto.no}'; //게시글 번호
@@ -13,8 +15,22 @@ $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시
     var insertData = $('[name=commentInsertForm]').serialize(); //commentInsertForm의 내용을 가져와서 serialize직렬화해서 json으로 만들어서 보내준다.
     commentInsert(insertData); //Insert 함수호출(아래)
 });
- 
- 
+
+window.addeventlistner('DOMContentLoaded', function(){
+	
+});
+
+///////////////////////////////////////////////////////
+//수정중: boardlistcontroller에서 map으로 바꿔서 replydto, replylikedto 두개 다 담기
+//replylikedto에서 likedislike 필요하기 떄문. 이미좋아요/싫어요하면 맨처음 로드할떄 색칠한 버튼으로 로드해야 함.
+var thumbsup = 'far fa-thumbs-up';
+var thumbsdown = 'far fa-thumbs-down';
+if (${likeDislike} == 0){ //이미좋아요한상태
+	thumbsup = 'fas fa-thumbs-up';
+}else if(${likeDislike} == 1){
+	thumbsdown = 'fas fa-thumbs-down';
+}
+//==========================================================
 //댓글 목록 
 function commentList(){
     $.ajax({
@@ -30,8 +46,8 @@ function commentList(){
                 a += value.WRITEDATE+'</small></span>'
                 a += '<strong class="text-success">'+value.NICKNAME+'</strong>'
                 a += '<div class="commentContent'+value.REP_NO+'">'+value.CONTENT+'</div>'
-                a += '<p><a onclick="increaseLike('+value.REP_NO+')">'+value.TOTAL_LIKE+'</a> '
-                a += '<a onclick="increaseDislike('+value.REP_NO+')">'+value.TOTAL_DISLIKE+'</a></p>'
+                a += '<p><i id="thumbsup" class="'+thumbsup+'" style=\'font-size:26px\' onclick="increaseLike('+value.REP_NO+')">'+value.TOTAL_LIKE+'</i> '
+                a += '<i id="'+value.REP_NO+'" class=\'far fa-thumbs-down\' style=\'font-size:26px\' onclick="increaseDislike('+value.REP_NO+')">'+value.TOTAL_DISLIKE+'</i></p>'
              
                 a += '<a onclick="commentUpdate('+value.REP_NO+',\''+value.CONTENT+'\');"> update </a>';
                 a += '<a onclick="commentDelete('+value.REP_NO+');"> delete </a> </div></div></div></div></div>';
@@ -154,8 +170,7 @@ function increaseDislike(rep_no){
 		location.href="/login/login.do";
 		}
 	else{
-	
-	//1.좋아요누른사람등록
+
 	$.ajax({
 		url : '/bcomment/increaselike.do',
 		method : 'post',
@@ -168,14 +183,17 @@ function increaseDislike(rep_no){
 			}),
 		success : function(response){ //리턴값 1: 좋아요 성공, 2: 이미좋아요, 3: 이미싫어요
             if(response == 1) { 
-                commentList(); //댓글 작성 후 댓글 목록 reload
-                $('#like').css("color", "red"); //댓글창에 쓴 내용 사라짐
+                //commentList(), // 댓글 목록 reload
+                //thumbsup = "fas fa-thumbs-down";
+                //document.getElementById(rep_no).className = "fas fa-thumbs-down";
+                //this.className = "fas fa-thumbs-down";
+                
             	}
             else if(response==2){ //이미좋아요
-				$("message").html('The comment is already liked.');
+                alert("The comment is already liked.");
                 }
             else{
-				$("message").html('The comment is already disliked.');
+                alert("The comment is already disliked.");
                 }
         	}	
 		
