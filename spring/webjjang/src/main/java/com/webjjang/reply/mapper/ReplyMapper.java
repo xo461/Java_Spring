@@ -1,6 +1,7 @@
 package com.webjjang.reply.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.webjjang.reply.dto.ReplyDTO;
 import com.webjjang.util.page.PageObject;
@@ -8,7 +9,7 @@ import com.webjjang.util.page.PageObject;
 public interface ReplyMapper {
 	
 	//댓글리스트
-	public List<ReplyDTO> list(int no, PageObject pageObject);
+	public List<ReplyDTO> list(Map<String, Object> map);
 	public Integer getTotalRow(int no);
 
 	public Integer write(ReplyDTO dto);

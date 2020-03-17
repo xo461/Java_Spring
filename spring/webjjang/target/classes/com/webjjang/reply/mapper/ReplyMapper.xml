@@ -14,7 +14,7 @@
 		where no = #{no}
 		order by rno desc)
 		)
-		where rnum between #{startRow} and #{endRow}
+		where rnum between #{pageObject.startRow} and #{pageObject.endRow}
 	</select>
 	
 	<!-- 데이터총개수 가져오기: 검색어로 필터링되면 된대로 개수 가져오기 -->

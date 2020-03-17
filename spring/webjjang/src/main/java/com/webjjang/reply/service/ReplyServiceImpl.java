@@ -1,6 +1,9 @@
 package com.webjjang.reply.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.webjjang.reply.dto.ReplyDTO;
@@ -29,7 +32,12 @@ public class ReplyServiceImpl implements ReplyService{
 		System.out.println("===========================");
 		System.out.println(no);
 		System.out.println("===========================");
-		return mapper.list(no, pageObject);
+		//no랑 pageobject 둘다넘기고싶을떄: map에 넣어서 넘긴다.
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pageObject", pageObject);
+		map.put("no", no);
+		
+		return mapper.list(map);
 	}
 
 	@Override
