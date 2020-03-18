@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.webjjang.reply.dto.ReplyDTO;
@@ -34,7 +35,6 @@ public class ReplyController {
 	//ReplyserviceImpl이 Replyservice상속받으므로 replycontroller에서 replyservice 변수선언시 bean이 replyservice와 replyserviceimpl 두개 가 된다 ->  같은 타입의 빈이 두 개 이상이 존재하는 경우에 스프링이 어떤 빈을 주입해야 할지 알 수 없어서 스프링 컨테이너를 초기화하는 과정에서 예외를 발생시킨다.
 	//이 경우 @Qualifier을 @Autowired와 함께 사용하여 정확히 어떤 bean을 사용할지 지정하여 특정 의존 객체를 주입할 수 있도록 한다. (해당 서비스에도 @Qualifier("같은이름")어노테이션 써줘야함)
 	private ReplyService service;
-	private final String module = "reply";
 
 	//1. 댓글 리스트
 	@GetMapping("/pages/{no}/{page}")//{no}: 중괄호안에 숫자가 넘어오는데 그 숫자를 no로 받겠다. 주소로 데이터를 받으므로 @pathVariable 로 받는다.
@@ -50,10 +50,15 @@ public class ReplyController {
 	}
 	
 	//2. 댓글 글쓰기 처리
-	@PostMapping("/write.do")
-	public String write(ReplyDTO dto) {
-		service.write(dto);
-		return "redirect:list.do";
+	@PostMapping(value="/new", consumes = "application/json")
+	public ResponseEntity<String> write(@RequestBody ReplyDTO dto) {
+		log.info(dto);
+		System.out.println(dto);
+		Integer insertCount = service.write(dto); //글쓰기 성공시1 
+		//삼항연산자
+		return insertCount==1
+				?new ResponseEntity<>("댓글이 등록되었습니다.", HttpStatus.OK)
+				:new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	//3. 댓글 수정 처리

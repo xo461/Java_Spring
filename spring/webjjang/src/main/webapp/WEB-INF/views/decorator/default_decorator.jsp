@@ -83,8 +83,8 @@ article {
 	margin: 0 auto;
 }
 </style>
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript">
+<!-- <script type="text/javascript" src="../js/jquery.js"></script>
+ --><script type="text/javascript">
 	$(document).ready(function() {
 	});
 </script>

@@ -2,9 +2,7 @@ package com.webjjang.reply.mapper;
 
 import java.util.List;
 import java.util.Map;
-
 import com.webjjang.reply.dto.ReplyDTO;
-import com.webjjang.util.page.PageObject;
 
 public interface ReplyMapper {
 	
