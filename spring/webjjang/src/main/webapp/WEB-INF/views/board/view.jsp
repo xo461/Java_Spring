@@ -25,6 +25,7 @@
 	//댓글 객체 - 속성, 함수
 	var replyService = (function() {
 
+		//---------------------------------------------------------------------------------------------
 		//getList를 저장하는 프로그램 작성 -> 필요한 데이터 param(no, page), callback(처리되는함수를 넣는다.), error(오류가났을때 객체)
 		function getList(param, callback, error) {
 			var no = param.no;
@@ -37,7 +38,6 @@
 						//데이터가져오기성공하면 실행되는 함수를 밖에서 선언해서 넣어주는경우 처리
 						if (callback) {
 							callback(data);
-
 						}
 					}
 			//데이터 가져오는 것 실패했을때 처리
@@ -48,6 +48,7 @@
 			});
 		}
 
+		//---------------------------------------------------------------------------------------------
 		//날짜 timestamp 숫자를 받아서 날짜 형식을 리턴해주는 함수. -> json데이터로 받을떄 timestamp로 전달된다.
 		function displayDate(timeValue) {
 			var today = new Date(); //오늘 날짜 셋팅
@@ -64,6 +65,7 @@
 		}
 
 		//댓글 등록 처리 함수 선언(reply는 json데이터, callback함수, error함수)
+		// JSON.stringify 함수를 이용하고, contentType을 "application/json"으로 설정해주어야 한다는 것입니다. 그렇지 않으면 @RequestBody로 정보를 받을 수 없다.
 		function add(reply, callback, error) {
 			//ajax로 데이터 넘기는 방법: load(), 달러.getJSON, 달러.ajax()
 			$.ajax({
@@ -88,11 +90,39 @@
 			})
 		}
 
+		//댓글 수정 처리 함수 선언(reply는 json데이터, callback함수, error함수)
+		// JSON.stringify 함수를 이용하고, contentType을 "application/json"으로 설정해주어야 한다는 것입니다. 그렇지 않으면 @RequestBody로 정보를 받을 수 없다.
+		function update(reply, callback, error) {
+			//ajax로 데이터 넘기는 방법: load(), 달러.getJSON, 달러.ajax()
+			$.ajax({
+				type : 'patch',
+				url : '/reply/' + reply.rno,
+				//data: ?뒤에 쿼리를 의미. k=v&k=v. stringify는 json데이터로 만들어준다.
+				data : JSON.stringify(reply),
+				contentType : "application/json; charset=utf-8",
+				//등록 성공시: 댓글리스트를 불러와서 표시
+				success : function(result, status, xhr) {
+					if (callback) {
+						callback(result);
+					}
+				},
+				//등록오류발생시
+				error : function(xhr, status, er) {
+					if (error) {
+						error(er);
+					}
+				}
+
+			})
+		}
+
 		return {
 			//댓글리스트가 처리된 결과를 만들어내는 함수를 넣는다.
-			getList : getList,
+			getList : getList, //댓글리스트
 			displayDate : displayDate,
-			add : add
+			add : add, //댓글추가
+			update : update
+		//댓글수정
 		}
 
 	})();
@@ -109,10 +139,10 @@
 
 		//댓글 리스트를 보여주는 function: 글보기를 호출하면 바로 보여주는 부분이므로 페이지는 1페이지이다.
 		function showList(page) { //(1페이지 받는다))
-			//alert(replyService.getList);
+			//alert(replyService.);
 			replyService
 					.getList(
-							//위에서선언한 함수 호출
+							//함수호출(param, callback, error) 전달.
 							{
 								no : no,
 								page : page
@@ -121,7 +151,7 @@
 								//alert(list);
 								//alert(list[0].rno);
 								var str = "";
-								//댓글이 없는 경우의 처리
+								//댓글이 없는 경우
 								if (list == null || list.length == 0) {
 									replyUL
 											.html("<li class='left clearfix'>댓글 존재하지 않습니다.</li>")
@@ -131,14 +161,20 @@
 								for (var i = 0; i < list.length; i++) {
 									var dto = list[i];
 									str += "<li class='left clearfix' data-rno='"+dto.rno+"'>";
-									str += "<div><div class='header'><strong class='primary-font'>"
+									str += "<div><div class='header'><strong class='primary-font writer'>"
 											+ dto.writer + "</strong>";
 									str += "<small class='pull-right text-muted'>"
 											+ replyService
 													.displayDate(dto.writeDate)
 											+ "</small></div>";
-									str += "<p>" + dto.content
-											+ "</p></div><hr></li>";
+									str += "<p class='content'>"
+											+ dto.content
+											+ "</p>"
+											+ "<span class='pull-right'>"
+											+ "<button class='btn btn-default btn-xs replyUpdateBtn'>update</button>"
+											+ "<button class='btn btn-default btn-xs replyDeleteBtn'>delete</button>"
+											+ "</span>";
+									str += "</div><hr></li>";
 								}
 								replyUL.html(str);
 							});
@@ -149,10 +185,74 @@
 		$("#writeReplyBtn").click(function() {
 			//밑에 버튼들에 수정에 관한 text가 젹혀있는데, 여기서는 write 처리이기때문에 writeReplyBtn클릭시 write관련 text로 바꿔준다.(코드재활용) update버튼클릭시 원래의 텍스트내용이 보인다.
 			$("#updateModalTitle").text("Write a new comment.");
-			$("#updateModal_updateBtn").text("send");
+			$("#updateModal_updateBtn").text("write");
+			// 등록을 위해서 submit이 되도록 변경
+			$("#updateModal_updateBtn").attr("type", "submit");
+				
 			//모달창을 보여준다.
 			$("#updateModal").modal("show");
 		});
+
+		//댓글의 수정,삭제 버튼 처리
+		//ajax 후에 나타나는 버튼이므로 그냥 .click()으로 여기서 직접 찾을대는 적용이 안된다. 
+		//.click()은 처음에 나타난 태그에만 적용되고, onclick()은 동적으로 추가된 이벤트에도 적용이 된다.
+		//★그래서 on(event, 선택자, 함수) : 선택자는 find()함수에 의해 찾기가 진행되어 뒤에있는 function이 붙게되어 다 있는 상테에서 적용이 된다.
+		$(".chat").on("click", ".replyUpdateBtn", function(){
+			//alert("댓글 수정버튼 클릭됨");
+			//클릭한 것에서 가장 가까운 li태그 
+			var replyRow = $(this).closest("li"); 
+			var rno = replyRow.data("rno"); //★data-rno으로 써진거는 .data(rno)으로 가져온다.
+			var content = replyRow.find(".content").text();
+			var writer = replyRow.find(".writer").text();
+			//alert(rno+"/"+content+"/"+writer);
+
+			//모달창에 수정할 기존 데이터 셋팅
+			$("#modal_rno").val(rno);
+			$("#modal_content").val(content);
+			$("#modal_writer").val(writer);
+			$("#modal_pw").val("");
+			//작성자 수정못하게
+			$("#modal_writer").attr("readonly", "readonly");
+			//수정을 위해 submit에서 동작되지 않는 button으로 변경
+			$("#updateModal_updateBtn").attr("type", "button");
+			//버튼이름 수정으로. (코드재사용)
+			$("#updateModal_updateBtn").text("update");
+			//password타입으로 바꾸기(비번안보이게)
+			$("#modal_pw").attr("type", "password"); 
+			$("#updateModal").modal("show");
+			
+		});
+
+
+		$("#updateModal_updateBtn").click(function(){
+			//같은 버튼 재사용 -> 댓글등록, 삭제인 경우 처리 안한다.
+			if($(this).text()=="write" || $(this).text()=="delete"){
+				alert();
+				return;}
+				// Ajax로 넘길 데이터를 가져온다.
+				var reply ={
+					rno :  $("#modal_rno").val(),
+					content :  $("#modal_content").val(),
+					pw : $("#modal_pw").val()
+				}
+		 		alert(JSON.stringify(reply));
+				replyService.update(//함수호출
+					reply,
+					function(result){
+						// 결과를 경고창으로 보여준다. -> ReplyController에서 리턴해준다.
+						alert(result);
+						// 사용을한 모달창의 입력란(인풋태그, 텍스트에어리어)을 비워둔다.
+						$("#updateModal").find("input, textarea").val("");
+						// 모달 창은 숨긴다.
+						$("#updateModal").modal("hide");
+						
+						// 댓글 리스트를 다시 뿌린다.
+						showList(1);
+					}
+				);
+
+			});
+		
 		$("#deleteBtn").click(function() {
 			$("#pwDiv").show(); //css에서 태그 숨겨놓았음. 삭제버튼클릭시 보이게 한다.
 			//href="" -> 자신을 다시 호출함 -> false: 호출을 무시한다.
@@ -160,26 +260,27 @@
 		});
 
 		//댓글등록 이벤트처리
-		$("#modal_form").submit(function(event) {
+		$("#modal_form").submit(function() {
 			//Ajax로 넘길 데이터를 가져와서 json저장.
-			event.preventDefault();
+			//event.preventDefault();
 			var reply = {
 				content : $("#modal_content").val(),
 				writer : $("#modal_writer").val(),
 				pw : $("#modal_pw").val(),
 				no : $("#modal_no").val()
 			}
-			alert(JSON.stringify(reply));
-			//ajax로 보내고 돌아온 결과
+			//alert(JSON.stringify(reply));
+			//add함수 실행 . ajax로 보내고 돌아온 결과
 			replyService.add(reply, function(result) {
 				//결과를 경고창으로 보여주고 replycontroller에서 리턴해준다.
 				alert(result);
 				//사용을 한 모달창의 입력란을 비워둔다.
 				$("#updateModal").find("input, textarea").val("");
+				$("#updateModal").modal("hide");
 				//댓글리스트를 다시 뿌린다.(페이지는1)
 				showList(1);
 			});
-			//return false; // 폼태그는 url전송하는것이기 때문에 submit안되게 무시시킨다. 이건 아작스처리이기때문에 url바뀌지 않으므로.
+			return false; // 폼태그는 url전송하는것이기 때문에 submit안되게 무시시킨다. 이건 아작스처리이기때문에 url바뀌지 않으므로.
 		});
 	})
 </script>
@@ -298,7 +399,7 @@
 							</div>
 							<div class="btn-group right">
 								<button type="submit" class="btn btn-primary"
-									id="updateModal_updateBtn">send</button>
+									id="updateModal_updateBtn"></button>
 								<button type="button" class="btn btn-warning"
 									data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span>cancel
@@ -306,7 +407,8 @@
 							</div>
 						</form>
 					</div>
-
+					<a
+						href="list.do?page=${param.page }&perPageNum=${param.perPageNum }&key=${param.key }&word=${param.word}">list</a>
 				</div>
 			</div>
 		</div>
