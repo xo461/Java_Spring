@@ -13,6 +13,10 @@ var id = '${login.id}';
 //댓글등록버튼클릭시
 $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시 
 	//alert('test');
+	if ($(login.id)==null){
+		//다른컨트롤러로 보내려면 앞에 /슬래시붙여야함(루트의미)
+		location.replace('/login/login.do')
+		}
     var insertData = $('[name=commentInsertForm]').serialize(); //commentInsertForm의 내용을 가져와서 serialize직렬화해서 json으로 만들어서 보내준다.
     commentInsert(insertData); //Insert 함수호출(아래)
 });
@@ -28,7 +32,10 @@ function commentList(){
         data : {'no':no, 'id':id},
         success : function(data){
             var a =''; 
-
+			var repdto = data.repdto;
+			//alert(repdto);
+			var repLikeDto = data.repLikeDto; //로그인 안되어있거나 좋아요한 리스트 없으면 null반환(undefined)
+			//alert(repLikeDto);
 ///////////////////////////////////////////////////////
 //수정중: boardlistcontroller에서 map으로 바꿔서 replydto, replylikedto 두개 다 담기
 //replylikedto에서 likedislike 필요하기 떄문. 이미좋아요/싫어요하면 맨처음 로드할떄 색칠한 버튼으로 로드해야 함.
@@ -36,7 +43,7 @@ function commentList(){
             var thumbsup = 'far fa-thumbs-up';
             var thumbsdown = 'far fa-thumbs-down';
 
-            $.each(data, function(key, value){ //list형식->반복문으로가져온다.
+            $.each(repdto, function(key, value){ //list형식->반복문으로가져온다.
                 //console.log(key+""+value.REP_NO); //대소문자주의
 
  /*            if (${likeDislike} == 0 exist where repno==value.rep_no && login.id ==value.id){ //이미좋아요한상태
@@ -46,7 +53,7 @@ function commentList(){
             }
   */         //==========================================================
                 
-                a += '<div class="media"><a href="#" class="pull-left"><img src="'+value.SNS_PROFILE+'" alt="https://bootdey.com/img/Content/user_1.jpg" class="img-circle"></a><div class="media-body"><span class="text-muted pull-right"><small class="text-muted">'
+                a += '<div class="media"><a href="#" class="pull-left"><img src="'+value.SNS_PROFILE+'" alt="" class="img-circle"></a><div class="media-body"><span class="text-muted pull-right"><small class="text-muted">'
                 a += value.WRITEDATE+'</small></span>'
                 a += '<strong class="text-success">'+value.NICKNAME+'</strong>'
                 a += '<div class="commentContent'+value.REP_NO+'">'+value.CONTENT+'</div>'
@@ -131,7 +138,7 @@ function increaseLike(rep_no){
 	var id = null;
 	id = "${login.id}";
 	if (!id){
-		alert("This service requires sign-in.");
+		//alert("This service requires sign-in.");
 		location.href="/login/login.do";
 		}
 	else{
@@ -147,16 +154,18 @@ function increaseLike(rep_no){
 			rep_no : rep_no,
 			likeDislike : 0 //좋아요는 0, 싫어요는 -1보내기(총개수구하는용)
 			}),
-		success : function(response){ //리턴값 1: 좋아요 성공, 2: 이미좋아요, 3: 이미싫어요
+		success : function(response){ //리턴값 1: 좋아요 성공, 2: 이미좋아요(좋아요캔슬), 3: 이미싫어요(팝업창)
+			alert(response);
             if(response == 1) { 
                 commentList(); //댓글 작성 후 댓글 목록 reload
                 $('#like').css("color", "red"); //댓글창에 쓴 내용 사라짐
             	}
             else if(response==2){ //이미좋아요
-				$("message").html('The comment is already liked.');
-                }
+				
+				alert;  
+            }          
             else{
-				$("message").html('The comment is already disliked.');
+				alert('The comment is already disliked.');
                 }
         	}	
 		
@@ -191,13 +200,13 @@ function increaseDislike(rep_no){
                 //thumbsup = "fas fa-thumbs-down";
                 //document.getElementById(rep_no).className = "fas fa-thumbs-down";
                 //this.className = "fas fa-thumbs-down";
-                
+                alert;
             	}
             else if(response==2){ //이미좋아요
                 alert("The comment is already liked.");
                 }
             else{
-                alert("The comment is already disliked.");
+				alert;
                 }
         	}	
 		

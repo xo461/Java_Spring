@@ -65,7 +65,11 @@ public class LoginController {
 			udto = signupService.selectNormalUser(udto);
 			session.setAttribute("login", udto); //이렇게 key, value로 세션에 저장해놓으면 뷰에서 ${login.nickname}등으로 갖다 쓴다.
 			System.out.println("session.getAttribute(\"login\"): "+session.getAttribute("login"));
-			return "login/loginSuccess";
+			
+			//AuthInterceptor
+			String uri = (String) session.getAttribute("uri");
+			session.removeAttribute("uri");
+			return (uri == null)? "login/loginSuccess" : "redirect:"+uri;
 		}
 	}
 
@@ -134,9 +138,12 @@ public class LoginController {
 		System.out.println("LoginController.callback().userDTO: " + udto);
 		session.setAttribute("login", udto);
 		model.addAttribute("result", apiResult);
-
-		/* 네이버 로그인 성공 페이지 View 호출 */
-		return "login/loginSuccess";
+		
+		//AuthInterceptor
+		String uri = (String) session.getAttribute("uri");
+		session.removeAttribute("uri");
+		return (uri == null)? "login/loginSuccess":
+			"redirect:"+uri;
 	}
 
 	// 로그아웃-----------------------------------------------------

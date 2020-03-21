@@ -14,6 +14,12 @@
 		WHERE (no = #{no}) and (r.id = u.id)
 	</select>
 
+	<!-- 글번호에 대한 나의 댓글 좋아요 리스트 -->
+	<select id="commentLikeList" resultType="java.util.HashMap">
+		SELECT rep_no, no, id, likeDislike 
+		FROM board_rep_like WHERE (no = #{no}) AND (id = #{id}) 
+	</select>
+
 	<!-- 댓글달기 -->
 	<insert id="commentInsert">
 		INSERT INTO board_rep (rep_no, no, content, id) VALUES
@@ -31,11 +37,16 @@
 	</delete>
 
 	<!-- 좋아요여부확인 -->
-	<select id="ifLike" parameterType="org.zerock.board.dto.Board_rep_likeDTO"
+	<select id="ifAlreadyLike" parameterType="org.zerock.board.dto.Board_rep_likeDTO"
 	resultType="org.zerock.board.dto.Board_rep_likeDTO">
 		SELECT rep_no, no, id, likeDislike 
-		FROM board_rep_like WHERE (rep_no = #{rep_no}) AND (no = #{no}) AND (id = #{id})  
+		FROM board_rep_like WHERE (no = #{no}) AND (rep_no = #{rep_no}) and (id = #{id}) 
 	</select>
+	
+	<!-- 좋아요 싫어요 삭제 -->
+	<delete id="cancelLike" parameterType="org.zerock.board.dto.Board_rep_likeDTO">
+		DELETE FROM likeDislike WHERE (no = #{no}) AND (rep_no = #{rep_no}) and (id = #{id})
+	</delete>
 	
 	<!-- 좋아요: 0, 싫어요:1 추가 -->
 	<insert id="insertLike">

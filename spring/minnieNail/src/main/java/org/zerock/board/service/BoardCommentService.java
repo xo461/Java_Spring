@@ -4,9 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.zerock.board.dto.Board_repDTO;
 import org.zerock.board.dto.Board_rep_likeDTO;
 import org.zerock.board.mapper.BoardCommentMapper;
@@ -18,12 +16,17 @@ public class BoardCommentService {
 	BoardCommentMapper bcmapper;
 
 	// 댓글리스트*********
-	public List<Board_repDTO> commentList(@RequestBody int no, @RequestBody int id) throws Exception {
+	public List<Board_repDTO> commentList(int no) throws Exception {
 		// System.out.println("BoardCommentService.commentList:"+bcmapper.commentList(no));
-		System.out.println("===========================");
-		System.out.println(id);
-		System.out.println("===========================");
+		System.out.println("BoardCommentService.commentList().no: "+no);
 		return bcmapper.commentList(no);
+	}
+
+	// 글번호no에 대한 댓글들을 좋아한 목록
+	public List<Board_rep_likeDTO> commentLikeList(int no, Integer id) {
+		System.out.println("BoardCommentService.commentLikeList().no: "+no);
+		System.out.println("BoardCommentService.commentLikeList().id: "+id);
+		return bcmapper.commentLikeList(no, id);
 	}
 
 	// **** 댓글달기
@@ -42,33 +45,37 @@ public class BoardCommentService {
 		return bcmapper.commentDelete(rep_no);
 	}
 
-	private int result = 0;
-	private int ifInc = 0;
-	//좋아요혹은싫어요 추가시1, 이미좋아요 2, 이미싫어요3 리턴
-	public int ifLike(Board_rep_likeDTO dto) {
-		if (bcmapper.ifLike(dto) == null) { // 좋아요싫어요목록에없으면
-			if (dto.getLikeDislike()==0) { //좋아요클릭했으면(0이면)
+	//좋아요/싫어요버튼클릭시:
+	private int result = 0; // 이미좋아요시 2, 이미싫어요 3, 좋아요/싫어요 적용 성공1 넘길 예정
+	// 넘어오는값: 좋아요버튼 클릭시likedislike=0, 싫어요 버튼 클릭시likedislike=1
+	public int ifLike(Board_rep_likeDTO dto, int likeDislike) {
+
+		// 이미 좋아요 0 이미싫어요 1 기록없음 null(
+		Board_rep_likeDTO alreadydto = bcmapper.ifAlreadyLike(dto);
+		int ifAlready = alreadydto.getLikeDislike();
+
+		if (likeDislike == 0) {// 좋아요클릭시
+			if (ifAlready == 0) {// 이미좋아요
+				bcmapper.cancelLike(dto); // db에서 좋아요 삭제
+				result = 2;
+			} else if (ifAlready == 1) {// 이미싫어요
+				result = 3;
+			} else {// 기록없음
+				dto.setLikeDislike(0); // 좋아요추가
+				bcmapper.insertLike(dto);
 				result = bcmapper.insertLike(dto); // 좋아요(0) 추가. return 1
-				ifInc = bcmapper.incTotalLike(dto); //좋아요수1증가
-				System.out.println("BoardCommentService.ifLike().좋아요추가성공여부: "+result);
-				System.out.println("BoardCommentService.ifLike().좋아요수1증가성공여부: "+ifInc);
 			}
-			else { //싫어요클릭했으면(1이면)
+
+		} else {// 싫어요 클릭시
+			if (ifAlready == 0) {// 이미좋아요
+				result = 2;
+			} else if (ifAlready == 1) {// 이미싫어요
+				bcmapper.cancelLike(dto); // db에서 좋아요 삭제
+				result = 3;
+			} else {// 기록없음
+				dto.setLikeDislike(1); // 싫어요추가
+				bcmapper.insertLike(dto);
 				result = bcmapper.insertLike(dto); // 싫어요 추가(1). return 1
-				ifInc = bcmapper.incTotalDislike(dto); //싫어요수 1증가 
-				System.out.println("BoardCommentService.ifLike().싫어요추가성공여부: "+result);
-				System.out.println("BoardCommentService.ifLike().싫어요수1증가성공여부: "+ifInc);
-			}
-		}
-
-		else {// 좋아요싫어요 기록있으면
-
-			if (bcmapper.ifLike(dto).getLikeDislike() == 0) {// 기존에좋아요한기록이있으면
-				result = 2;// 이미좋아요하셧습니다.
-				System.out.println("BoardCommentService.ifLike().이미좋아요: "+result);
-			} else {
-				System.out.println("BoardCommentService.ifLike().이미싫어요: "+result);
-				result = 3; // 이미 싫어요하셨습니다.
 			}
 		}
 		return result;

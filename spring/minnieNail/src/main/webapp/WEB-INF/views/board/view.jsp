@@ -119,15 +119,38 @@ body {
 						<div class="panel-body">
 							<!-- 댓글달기 ------------------------------>
 							<form name="commentInsertForm">
-								<input type="hidden" name="id" value="${login.id}" /> <input
+								<input type="hidden" name="id" value="${login.id}" /> 
+								<input
 									type="hidden" name="no" value="${dto.no}" />
 								<textarea class="form-control" id="content" name="content"
 									placeholder="write a comment..." rows="3"></textarea>
 								<br>
 								<button type="button" id="commentBtn"
 									class="btn btn-info pull-right" name="commentInsertBtn">Post</button>
+								<button type="button" id="signinBtn"
+									class="btn btn-info pull-right" name="signinBtn" style="display: none;">Sign-in</button>
 								<div class="clearfix"></div>
 							</form>
+								<script>
+								var id = null;
+								id = "${login.id}";
+								if (!id){
+									  document.getElementById("commentBtn").style.display = "none";
+									  document.getElementById("content").placeholder = "Sign-in to write a comment...";
+									  //document.getElementById("content").readOnly = true;
+									  document.getElementById("signinBtn").style.display = "block";
+									  document.getElementById("signinBtn").onclick = function(){
+										  //다른컨트롤러로 보내고싶으면 앞에 슬래쉬/붙여야 한다. /가 루트를 의미.
+										  //붙이지 않으면 /board/login/login.do 이주소를 찾아서 에러난다. 
+									location.replace("/login/login.do");
+									  }
+									  document.getElementById("content").onclick = function(){
+										  //다른컨트롤러로 보내고싶으면 앞에 슬래쉬/붙여야 한다. /가 루트를 의미.
+										  //붙이지 않으면 /board/login/login.do 이주소를 찾아서 에러난다. 
+									location.replace("/login/login.do");
+										   }
+									}
+								</script>
 							<hr>
 							<!-- 댓글리스트 ----------------------------->
 							<div class="container">

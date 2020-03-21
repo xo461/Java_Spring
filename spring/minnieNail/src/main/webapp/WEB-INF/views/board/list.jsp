@@ -94,16 +94,16 @@
 						name="perPageNum" value="${pageObject.perPageNum }" type="hidden" />
 					<div class="form-group">
 						<select class="form-control" id="key" name="key">
-							<option value="t" ${(param.key == "t")?"selected='selected'":"" }>제목</option>
-							<option value="c" ${(param.key == "c")?"selected='selected'":"" }>내용</option>
-							<option value="w" ${(param.key == "w")?"selected='selected'":"" }>작성자</option>
-							<option value="tc" ${(param.key=="tc")?"selected='selected'":"" }>제목/내용</option>
+							<option value="t" ${(param.key == "t")?"selected='selected'":"" }>title</option>
+							<option value="c" ${(param.key == "c")?"selected='selected'":"" }>content</option>
+							<option value="w" ${(param.key == "w")?"selected='selected'":"" }>nickname</option>
+							<option value="tc" ${(param.key=="tc")?"selected='selected'":"" }>title/content</option>
 							<option value="tw"
-								${(param.key == "tw")?"selected='selected'":""}>제목/작성자</option>
+								${(param.key == "tw")?"selected='selected'":""}>title/nickname</option>
 							<option value="cw"
-								${(param.key == "cw")?"selected='selected'":""}>내용/작성자</option>
+								${(param.key == "cw")?"selected='selected'":""}>content/nickname</option>
 							<option value="tcw"
-								${(param.key == "tcw")?"selected='selected'":""}>전체</option>
+								${(param.key == "tcw")?"selected='selected'":""}>All</option>
 						</select>
 					</div>
 					<div class="input-group">
@@ -147,8 +147,8 @@
 			<c:forEach items="${list }" var="dto">
 				<tr class="dataRow">
 					<td class="no">${dto.no }</td>
-					<td>${dto.title }</td>
-					<td>${dto.nickName } (${dto.total_reply})</td>
+					<td>${dto.title } (${dto.total_reply})</td>
+					<td>${dto.nickName }</td>
 					<td><fmt:formatDate value="${dto.writeDate }"
 							pattern="yyyy-MM-dd" /></td>
 					<td>${dto.hit }</td>

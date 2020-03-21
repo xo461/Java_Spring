@@ -58,5 +58,14 @@
 	<beans:bean id="naverLoginBO"
 		class="org.zerock.login.NaverLoginBO" />
 
-
+	<!-- 로그인후 원래페이지로 돌아오도록. -->
+	<!-- MemberController수정, AuthInterceptor수정해야 적용됨 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/**" />
+			<beans:bean
+				class="org.zerock.util.interceptor.AuthInterceptor" />
+		</interceptor>
+	</interceptors>
+	
 </beans:beans>
