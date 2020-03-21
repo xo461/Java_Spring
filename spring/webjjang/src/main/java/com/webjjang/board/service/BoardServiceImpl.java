@@ -3,6 +3,8 @@ package com.webjjang.board.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.webjjang.board.dto.BoardDTO;
 import com.webjjang.board.mapper.BoardMapper;
 import com.webjjang.util.page.PageObject;

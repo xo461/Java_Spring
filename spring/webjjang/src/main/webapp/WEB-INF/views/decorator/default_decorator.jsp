@@ -83,8 +83,8 @@ article {
 	margin: 0 auto;
 }
 </style>
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript">
+<!-- <script type="text/javascript" src="../js/jquery.js"></script>
+ --><script type="text/javascript">
 	$(document).ready(function() {
 	});
 </script>
@@ -124,22 +124,22 @@ article {
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<c:if test="${empty login }">
-							<li><a href="${absUri }/member/writeForm.do">Sign-up</a></li>
+							<li><a href="${absUri }/member/loginForm.do">Sign-up</a></li>
 							<li><a href="${absUri }/member/login.do"><span
 									class="glyphicon glyphicon-log-in"></span> Sign-in</a></li>
 						</c:if>
 						<c:if test="${!empty login }">
 							<li id="welcome">${login.name}Welcome, [${login.gradeName }]</li>
 							<li><a href="${absUri }/member/view.do?id=${login.id}">MyPage</a></li>
-							<li><a href="${absUri }/member/logoutProcess.do"><span
+							<li><a href="${absUri }/member/logout.do"><span
 									class="glyphicon glyphicon-log-in"></span> Sign-out</a></li>
 						</c:if>
 					</ul>
 				</div>
-			</div>
+			<!-- </div> -->
 		</nav>
 	</header>
-	<article>
+	<article class = container>
 		<decorator:body />
 	</article>
 	<footer class="container-fluid text-center">

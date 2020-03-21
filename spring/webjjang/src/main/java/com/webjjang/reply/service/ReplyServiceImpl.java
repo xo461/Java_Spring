@@ -33,6 +33,7 @@ public class ReplyServiceImpl implements ReplyService{
 		System.out.println(no);
 		System.out.println("===========================");
 		//no랑 pageobject 둘다넘기고싶을떄: map에 넣어서 넘긴다.
+		//mybatis는 한개만 리턴하고받을수있기ㄸㅐ문에.
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("pageObject", pageObject);
 		map.put("no", no);

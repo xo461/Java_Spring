@@ -4,6 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 댓글리스트 -->
+<!-- no, pageObject두개이기때문에 hashmap으로 받음.no는 숫자이지만, pageObject는그안에여러요소들어잇는object이기때문에 꺼내쓸때 pageobject.startrow처럼 써야함. -->
 <mapper namespace="com.webjjang.reply.mapper.ReplyMapper">
 	<select id="list" resultType="com.webjjang.reply.dto.ReplyDTO">
 		select * from (
@@ -26,7 +27,7 @@
 	<!-- 댓글쓰기 -->
 	<insert id="write">
 		insert into board_rep(rno, no, content, writer, pw)
-		values(board_rep_seq.nextval, #{rno}, #{no}, #{content}, #{writer}, #{pw})
+		values(board_rep_seq.nextval, #{no}, #{content}, #{writer}, #{pw})
 	</insert>
 
 	<!-- 글수정 : 본인글만 수정가능 pw 확인 -->
