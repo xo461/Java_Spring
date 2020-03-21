@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.zerock.board.dto.Board_repDTO;
 import org.zerock.board.dto.Board_rep_likeDTO;
 import org.zerock.board.mapper.BoardCommentMapper;
@@ -16,8 +18,11 @@ public class BoardCommentService {
 	BoardCommentMapper bcmapper;
 
 	// 댓글리스트*********
-	public List<Board_repDTO> commentList(int no) throws Exception {
+	public List<Board_repDTO> commentList(@RequestBody int no, @RequestBody int id) throws Exception {
 		// System.out.println("BoardCommentService.commentList:"+bcmapper.commentList(no));
+		System.out.println("===========================");
+		System.out.println(id);
+		System.out.println("===========================");
 		return bcmapper.commentList(no);
 	}
 

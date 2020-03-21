@@ -1,6 +1,7 @@
 package org.zerock.board.controller;
 
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,9 +35,13 @@ public class BoardCommentController {
 	// 댓글리스트************
 	@RequestMapping("/list.do")
 	@ResponseBody
-	private List<Board_repDTO> bCommentList(int no, Model model) throws Exception {
+	private Map<String, Object> bCommentList(int no, int id, Model model) throws Exception {
 		// System.out.println("BoardCommentController.bCommentList.no: " + no);
-		return bcService.commentList(no); // 리스트로 반환
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("repdto", bcService.commentList(no));
+		map.put("likeDislike", bcService.likeDislike())
+		return map; // 리스트로 반환
+	
 	}
 
 	// 댓글삽입***************

@@ -7,6 +7,7 @@
  
 <script>
 var no = '${dto.no}'; //게시글 번호
+var id = '${login.id}';
 //alert('${dto.no}');
 
 //댓글등록버튼클릭시
@@ -16,38 +17,41 @@ $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시
     commentInsert(insertData); //Insert 함수호출(아래)
 });
 
-window.addeventlistner('DOMContentLoaded', function(){
-	
+/* window.addeventlistner('DOMContentLoaded', function(){
 });
-
-///////////////////////////////////////////////////////
-//수정중: boardlistcontroller에서 map으로 바꿔서 replydto, replylikedto 두개 다 담기
-//replylikedto에서 likedislike 필요하기 떄문. 이미좋아요/싫어요하면 맨처음 로드할떄 색칠한 버튼으로 로드해야 함.
-var thumbsup = 'far fa-thumbs-up';
-var thumbsdown = 'far fa-thumbs-down';
-if (${likeDislike} == 0){ //이미좋아요한상태
-	thumbsup = 'fas fa-thumbs-up';
-}else if(${likeDislike} == 1){
-	thumbsdown = 'fas fa-thumbs-down';
-}
-//==========================================================
+ */	
 //댓글 목록 
 function commentList(){
     $.ajax({
         url : '/bcomment/list.do',
         type : 'get',
-        data : {'no':no},
+        data : {'no':no, 'id':id},
         success : function(data){
             var a =''; 
+
+///////////////////////////////////////////////////////
+//수정중: boardlistcontroller에서 map으로 바꿔서 replydto, replylikedto 두개 다 담기
+//replylikedto에서 likedislike 필요하기 떄문. 이미좋아요/싫어요하면 맨처음 로드할떄 색칠한 버튼으로 로드해야 함.
+
+            var thumbsup = 'far fa-thumbs-up';
+            var thumbsdown = 'far fa-thumbs-down';
+
             $.each(data, function(key, value){ //list형식->반복문으로가져온다.
                 //console.log(key+""+value.REP_NO); //대소문자주의
+
+ /*            if (${likeDislike} == 0 exist where repno==value.rep_no && login.id ==value.id){ //이미좋아요한상태
+            	thumbsup = 'fas fa-thumbs-up';
+            }else if(${likeDislike} == 1){
+            	thumbsdown = 'fas fa-thumbs-down';
+            }
+  */         //==========================================================
                 
                 a += '<div class="media"><a href="#" class="pull-left"><img src="'+value.SNS_PROFILE+'" alt="https://bootdey.com/img/Content/user_1.jpg" class="img-circle"></a><div class="media-body"><span class="text-muted pull-right"><small class="text-muted">'
                 a += value.WRITEDATE+'</small></span>'
                 a += '<strong class="text-success">'+value.NICKNAME+'</strong>'
                 a += '<div class="commentContent'+value.REP_NO+'">'+value.CONTENT+'</div>'
                 a += '<p><i id="thumbsup" class="'+thumbsup+'" style=\'font-size:26px\' onclick="increaseLike('+value.REP_NO+')">'+value.TOTAL_LIKE+'</i> '
-                a += '<i id="'+value.REP_NO+'" class=\'far fa-thumbs-down\' style=\'font-size:26px\' onclick="increaseDislike('+value.REP_NO+')">'+value.TOTAL_DISLIKE+'</i></p>'
+                a += '<i id="'+thumbsdown+'" class=\'far fa-thumbs-down\' style=\'font-size:26px\' onclick="increaseDislike('+value.REP_NO+')">'+value.TOTAL_DISLIKE+'</i></p>'
              
                 a += '<a onclick="commentUpdate('+value.REP_NO+',\''+value.CONTENT+'\');"> update </a>';
                 a += '<a onclick="commentDelete('+value.REP_NO+');"> delete </a> </div></div></div></div></div>';
