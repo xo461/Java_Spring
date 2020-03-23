@@ -38,7 +38,7 @@ public class BoardCommentController {
 		if(id!=null) {
 			map.put("repLikeDto", bcService.commentLikeList(no, id));
 		}
-		System.out.println(map);
+		System.out.println("map:"+map);
 		return map; // 댓글리스트, 댓글좋아요리스트(로그인안되어있으면 undefined) 반환
 	
 	}
@@ -93,7 +93,6 @@ public class BoardCommentController {
 	
 		System.out.println("BoardCommentCOntroller.Like().dto: "+dto);
 		System.out.println("BoardCommentCOntroller.Like().likeDislike: "+likeDislike);
-		System.out.println("BoardCommentCOntroller.Like().리턴값:"+bcService.ifLike(dto, likeDislike));
 		return bcService.ifLike(dto, likeDislike); //좋아요나싫어요 추가 성공시 1, 이미좋아요 2, 이미싫어요 3리턴
 	}
 

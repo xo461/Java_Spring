@@ -45,13 +45,13 @@
 	
 	<!-- 좋아요 싫어요 삭제 -->
 	<delete id="cancelLike" parameterType="org.zerock.board.dto.Board_rep_likeDTO">
-		DELETE FROM likeDislike WHERE (no = #{no}) AND (rep_no = #{rep_no}) and (id = #{id})
+		DELETE FROM board_rep_like WHERE (no = #{no}) AND (rep_no = #{rep_no}) and (id = #{id})
 	</delete>
 	
 	<!-- 좋아요: 0, 싫어요:1 추가 -->
 	<insert id="insertLike">
-		INSERT INTO board_rep_like (rep_no, no, id, likeDislike) VALUES
-		(#{rep_no}, #{no}, #{id}, #{likeDislike})
+		INSERT INTO board_rep_like (auto, rep_no, no, id, likeDislike) VALUES
+		(board_rep_like_seq.nextval, #{rep_no}, #{no}, #{id}, #{likeDislike})
 	</insert>
 	
 	
@@ -66,6 +66,20 @@
 	<update id="incTotalDislike"
 		parameterType="org.zerock.board.dto.Board_rep_likeDTO">
 		UPDATE board_rep SET total_dislike = total_dislike + 1
+		WHERE (no=#{no}) AND (rep_no=#{rep_no})
+	</update>
+
+	<!-- 좋아요 총개수 1감소 -->
+	<update id="decTotalLike"
+		parameterType="org.zerock.board.dto.Board_rep_likeDTO">
+		UPDATE board_rep SET total_like = total_like - 1
+		WHERE (no=#{no}) AND (rep_no=#{rep_no})
+	</update>
+
+	<!-- 싫어요 총개수 1감소 -->
+	<update id="decTotalDislike"
+		parameterType="org.zerock.board.dto.Board_rep_likeDTO">
+		UPDATE board_rep SET total_dislike = total_dislike - 1
 		WHERE (no=#{no}) AND (rep_no=#{rep_no})
 	</update>
 	

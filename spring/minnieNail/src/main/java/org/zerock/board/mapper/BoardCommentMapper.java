@@ -28,9 +28,11 @@ public interface BoardCommentMapper {
 	//좋아요0, 싫어요1 추가
 	public int insertLike(Board_rep_likeDTO dto);
 
-	//좋아요, 싫어요 총개수 1 증가
+	//좋아요, 싫어요 총개수 1 증가, 감소
 	public int incTotalLike(Board_rep_likeDTO dto);
 	public int incTotalDislike(Board_rep_likeDTO dto);
+	public int decTotalLike(Board_rep_likeDTO dto);
+	public int decTotalDislike(Board_rep_likeDTO dto);
 	
 
 }

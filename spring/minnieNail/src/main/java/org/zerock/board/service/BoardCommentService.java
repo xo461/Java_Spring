@@ -48,21 +48,27 @@ public class BoardCommentService {
 	//좋아요/싫어요버튼클릭시:
 	private int result = 0; // 이미좋아요시 2, 이미싫어요 3, 좋아요/싫어요 적용 성공1 넘길 예정
 	// 넘어오는값: 좋아요버튼 클릭시likedislike=0, 싫어요 버튼 클릭시likedislike=1
-	public int ifLike(Board_rep_likeDTO dto, int likeDislike) {
+	public int ifLike(Board_rep_likeDTO dto, int likeDislike) throws Exception{
 
-		// 이미 좋아요 0 이미싫어요 1 기록없음 null(
+		// 이미 좋아요 0 이미싫어요 1 기록없음 null---> int로하면 null 처리 못해서 오류발생.★
+		int ifAlready = -1; //null로 기본셋팅
 		Board_rep_likeDTO alreadydto = bcmapper.ifAlreadyLike(dto);
-		int ifAlready = alreadydto.getLikeDislike();
+		if (alreadydto!=null) {
+			ifAlready = alreadydto.getLikeDislike(); //0이나 1이 담김
+		}
+		System.out.println("alreadydto:"+alreadydto);
+		System.out.println("ifAlready:"+ifAlready);
 
 		if (likeDislike == 0) {// 좋아요클릭시
 			if (ifAlready == 0) {// 이미좋아요
 				bcmapper.cancelLike(dto); // db에서 좋아요 삭제
+				bcmapper.decTotalLike(dto); //좋아요 총개수-1
 				result = 2;
 			} else if (ifAlready == 1) {// 이미싫어요
 				result = 3;
-			} else {// 기록없음
+			} else if (ifAlready == -1){// 기록없음
 				dto.setLikeDislike(0); // 좋아요추가
-				bcmapper.insertLike(dto);
+				bcmapper.incTotalLike(dto);//좋아요 총개수 +1
 				result = bcmapper.insertLike(dto); // 좋아요(0) 추가. return 1
 			}
 
@@ -70,11 +76,12 @@ public class BoardCommentService {
 			if (ifAlready == 0) {// 이미좋아요
 				result = 2;
 			} else if (ifAlready == 1) {// 이미싫어요
-				bcmapper.cancelLike(dto); // db에서 좋아요 삭제
+				bcmapper.cancelLike(dto); // db에서 싫어요 삭제
+				bcmapper.decTotalDislike(dto); //싫어요 총개수-1				
 				result = 3;
-			} else {// 기록없음
+			} else if (ifAlready == -1) {// 기록없음
 				dto.setLikeDislike(1); // 싫어요추가
-				bcmapper.insertLike(dto);
+				bcmapper.incTotalDislike(dto);//싫어요 총개수 +1
 				result = bcmapper.insertLike(dto); // 싫어요 추가(1). return 1
 			}
 		}
