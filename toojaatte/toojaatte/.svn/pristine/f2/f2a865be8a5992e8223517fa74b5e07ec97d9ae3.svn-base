@@ -1,0 +1,45 @@
+package com.toojaatte.news.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.toojaatte.news.dto.NewsDTO;
+import com.toojaatte.news.service.JsonRead;
+import com.toojaatte.news.service.NewsService;
+
+//gson라이브러리 다운 필수
+
+@Controller
+@RequestMapping("/news")
+public class NewsController {
+
+	@Autowired
+	private NewsService service;
+
+	@GetMapping("/insert.do")
+	public String insert(Model model) {
+		System.out.println("NewsController.insert()");
+		List<NewsDTO> list = JsonRead.jsonRead();
+		System.out.println(list);
+		service.insert(list);
+		return "news/test";
+	}
+	
+	@GetMapping("/list.do")
+	public String list(Model model) {
+		List<NewsDTO> dto = service.list();
+		System.out.println(dto);
+		model.addAttribute("dto", dto);
+		
+		return "news/list";
+	}
+	
+	
+//	public String view(NewsDTO dto, Model model) {
+//		JsonRead.view(no);
+//	}
+}
