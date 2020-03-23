@@ -1,0 +1,14 @@
+package com.toojaatte.news.mapper;
+
+import java.util.List;
+
+import com.toojaatte.news.dto.NewsDTO;
+
+public interface NewsMapper {
+
+	public int insert(NewsDTO dto);
+
+	public List<NewsDTO> list();
+
+
+}
