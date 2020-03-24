@@ -65,4 +65,28 @@
 	) WHERE rnum BETWEEN 1 AND 5
 	</select>
 
+	<!-- 인기검색어 10개 -->
+	<select id="mostSearched" resultType="com.toojaatte.news.dto.News_searchDTO">
+	SELECT * FROM(
+		SELECT rownum rnum, sno, search_cnt, word, search_date
+		FROM (
+			SELECT sno, search_cnt, word, search_date
+			FROM news_search
+			ORDER BY search_cnt DESC		
+		)
+	) WHERE rnum BETWEEN 1 AND 5
+	</select>
+	
+	<!-- 검색시 검색어 저장 -->
+	<insert id="saveWord" >
+	INSERT INTO news_search(sno, word)
+	SELECT news_search_seq.nextval, #{word} FROM DUAL
+	WHERE NOT EXISTS(SELECT word FROM news_search WHERE word = #{word})
+	</insert>
+	
+	<!-- 검색시 검색수 1증가 -->
+	<update id="increaseSearch_cnt">
+		UPDATE news_search SET search_cnt = search_cnt + 1
+		WHERE word = #{word}
+	</update>
 </mapper>

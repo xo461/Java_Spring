@@ -34,6 +34,18 @@
 		FROM member 
 		WHERE email = #{email}	
 	</select>
+
+	<select id="findPw" resultType="java.lang.String">
+		SELECT pw 
+		FROM member 
+		WHERE email = #{email} and id = #{id}	
+	</select>
+	
+	<select id="getQuestionAndAnswer" resultType="com.toojaatte.member.dto.MemberDTO">
+		SELECT question, answer, id, email
+		FROM member
+		WHERE id = #{id}
+	</select>
 	
 	<update id="update">
 		UPDATE member 
