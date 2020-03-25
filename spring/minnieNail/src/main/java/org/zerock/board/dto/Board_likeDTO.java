@@ -1,7 +1,5 @@
 package org.zerock.board.dto;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data 

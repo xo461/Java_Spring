@@ -8,15 +8,15 @@
  <!-- id는 mapper 인터페이스의 메서드와 맞춰준다. -->
  <select id="list" resultType="com.toojaatte.anaboard.dto.AnaBoardDTO">
  	select * from (
- 		select rownum rnum, no, gradeNo, title, id, writeDate,
+ 		select rownum rnum, no, grade, title, id, writeDate,
  			 hit, reply_cnt, r_cnt, n_cnt
  		from (
- 			select a.no, m.gradeNo, a.title, a.id, a.writeDate,
+ 			select a.no, m.grade, a.title, a.id, a.writeDate,
  			 a.hit, a.reply_cnt, a.r_cnt, a.n_cnt
  			from anaboard a, member m
  			where (a.id = m.id)
 <!--  			<if test="(word != null and word != ''.toString()) -->
-<!--  			or (gradeNoType != null and gradeNoType != ''.toString())  -->
+<!--  			or (gradeType != null and gradeType != ''.toString())  -->
 <!--  			or (orderType != null and orderType != ''.toString())"> -->
 <!--  				where  -->
 <!--  			</if> -->
@@ -25,13 +25,13 @@
 	 			<include refid="searchCondition"/>
 	 			)
  			</if>
- 			<if test="gradeNoType != null and gradeNoType != ''.toString()">
+ 			<if test="gradeType != null and gradeType != ''.toString()">
  				and 
  			</if>
- 			<if test="(gradeNoType != null and gradeNoType != ''.toString())">
+ 			<if test="(gradeType != null and gradeType != ''.toString())">
 	 			(1=1 
-	 			<if test='gradeNoType == "b"'>
-	 			and m.gradeNo = 8
+	 			<if test='gradeType == "b"'>
+	 			and m.grade = 8
 	 			</if>
 	 			)
  			</if>
@@ -122,6 +122,21 @@
  <delete id="delete">
  	delete from anaboard
  	where no = #{no} and id = #{id}
+ </delete>
+ 
+ <!-- 게시판 첨부파일 삭제 -->
+ <select id="selectFile" resultType="com.toojaatte.anaboard.dto.AnaBoard_FileDTO">
+ 	select fileName, ori_fileName
+ 	from anaboard_file
+ 	where no = #{no}
+ </select>
+ <delete id="deleteFileOne">
+ 	delete from anaboard_file
+ 	where no = #{no} and fileName = #{fileName}
+ </delete>
+ <delete id="deleteFileAll">
+ 	delete from anaboard_file
+ 	where no = #{no}
  </delete>
  
 </mapper>
