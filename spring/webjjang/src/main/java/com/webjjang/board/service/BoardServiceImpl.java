@@ -22,7 +22,7 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public List<BoardDTO> list(PageObject pageObject) {
-		// 넘어온 페이지의 첫번째와 마지막 게시글의 글번호 구하는 메서드
+		// 넘어온 페이지의 첫번째와 마지막 게시글의 rnum글번호 구하는 메서드
 		pageObject.calcuPageInfo();
 		// jsp의 페이지네이션을 위한 계산 -> jsp에 전달이 되어야 한다. request에 담는다.
 		pageObject.setTotalRow(mapper.getTotalRow(pageObject)); //db에서 전체데이터개수가져와서(검색해서필터링되면 된대로) => 전체페이지수및 페이지그룹의시작페이지,끝페이지 구하기.

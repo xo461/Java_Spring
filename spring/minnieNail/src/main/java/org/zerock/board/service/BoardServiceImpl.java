@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.zerock.board.dto.BoardDTO;
 import org.zerock.board.dto.BoardFileDTO;
-import org.zerock.board.dto.Board_repDTO;
 import org.zerock.board.mapper.BoardMapper;
 import org.zerock.util.fileutils.FileUtils;
 import org.zerock.util.page.PageObject;

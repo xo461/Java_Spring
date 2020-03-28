@@ -54,7 +54,6 @@
 		(board_rep_like_seq.nextval, #{rep_no}, #{no}, #{id}, #{likeDislike})
 	</insert>
 	
-	
 	<!-- 좋아요 총개수 1증가 -->
 	<update id="incTotalLike"
 		parameterType="org.zerock.board.dto.Board_rep_likeDTO">

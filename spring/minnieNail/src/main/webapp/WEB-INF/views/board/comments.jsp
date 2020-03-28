@@ -10,16 +10,6 @@ var no = '${dto.no}'; //게시글 번호
 var id = '${login.id}';
 //alert('${dto.no}');
 
-//댓글등록버튼클릭시 로그인안되어있으면 로그인페이지로, 
-$('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시 
-	//alert('test');
-	if (id==null){
-		//다른컨트롤러로 보내려면 앞에 /슬래시붙여야함(루트의미)
-		location.replace('/login/login.do')
-		}
-    var insertData = $('[name=commentInsertForm]').serialize(); //commentInsertForm의 내용을 가져와서 serialize직렬화해서 json으로 만들어서 보내준다.
-    commentInsert(insertData); //Insert 함수호출(아래)
-});
 
 //댓글 목록 =====================================
 function commentList(){
@@ -52,6 +42,7 @@ function commentList(){
     	               			thumbsdown = 'fas fa-thumbs-down';
     	               		}
         				}
+        				
 
     				})
     	        }
@@ -85,6 +76,17 @@ function commentList(){
 
 
 //댓글 등록===================================================
+//댓글등록버튼클릭시 로그인안되어있으면 로그인페이지로, 
+$('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시 
+	//alert('test');
+	if (id==null){
+		//다른컨트롤러로 보내려면 앞에 /슬래시붙여야함(루트의미)
+		location.replace('/login/login.do')
+		}
+    var insertData = $('[name=commentInsertForm]').serialize(); //commentInsertForm의 내용을 가져와서 serialize직렬화해서 json으로 만들어서 보내준다.
+    commentInsert(insertData); //Insert 함수호출(아래)
+});
+//댓글등록
 function commentInsert(insertData){
     $.ajax({
         url : '/bcomment/insert.do',
@@ -122,7 +124,7 @@ function commentUpdateProc(rep_no){
         type : 'post',
         data : {'content' : updateContent, 'rep_no' : rep_no},
         success : function(data){
-            if(data == 1) commentList(no); //댓글 수정후 목록 출력 
+            if(data == 1) commentList(); //댓글 수정후 목록 출력 
         }
     });
 }
@@ -133,18 +135,12 @@ function commentDelete(rep_no){
         url : '/bcomment/delete/'+rep_no+'.do',
         type : 'post',
         success : function(data){
-            if(data == 1) commentList(rep_no); //댓글 삭제후 목록 출력 
+            if(data == 1) commentList(); //댓글 삭제후 목록 출력 
         }
     });
 }
  
- 
-$(document).ready(function(){
-    commentList(); //페이지 로딩시 댓글 목록 출력 
-});
-
-
-//좋아요클릭==================================================
+//좋아요클릭시==================================================
 function increaseLike(rep_no){
 	//로그인안되어있으면 el객체 null이라 오류남.-> null변수 먼저 선언해주고, 대입. 쌍따옴표로 묶어야 한다.
 	var id = null;
@@ -226,7 +222,12 @@ function increaseDislike(rep_no){
 	});
 	}
 }
- 
+
+//페이지 로딩시 댓글 목록 출력 
+$(document).ready(function(){
+    commentList(); 
+});
+
 </script>
 
 
