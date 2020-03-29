@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.toojaatte.news.dto.NewsDTO;
+import com.toojaatte.stock.dto.MarketIndexDTO;
 import com.toojaatte.stock.dto.StockDTO;
 
 //gson라이브러리 다운 or dependency추가 필수
@@ -27,7 +28,7 @@ public class JsonRead {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Calendar c1 = Calendar.getInstance();
 		String today = sdf.format(c1.getTime());
-		System.out.println("JsonRead.newsJsonRead.today():"+today);
+		//System.out.println("JsonRead.newsJsonRead.today():"+today);
 
 		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\news"+today+".json")) {
 
@@ -44,10 +45,10 @@ public class JsonRead {
 	}
 
 	
-	public static List<StockDTO> kospiJsonRead() {
+	public static List<MarketIndexDTO> kospiJsonRead() {
 		
 		Gson gson = new Gson();
-		List<StockDTO> list = null;
+		List<MarketIndexDTO> list = null;
 		
 //		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
 			try (Reader reader = new FileReader("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\toojaatte\\toojaatte\\src\\main\\webapp\\upload\\crawlingtest\\kospi.json")) {
@@ -55,15 +56,15 @@ public class JsonRead {
 			//jsonobject로 받아서 jsonarray 꺼내서 dto에 맞는 array로 바꾸고 list로 바꿔줌
 			JsonObject object = gson.fromJson(reader, JsonObject.class);
 			JsonArray jsonArray = (JsonArray) object.get("data");
-			StockDTO[] dtoArray = gson.fromJson(jsonArray, StockDTO[].class);
+			MarketIndexDTO[] dtoArray = gson.fromJson(jsonArray, MarketIndexDTO[].class);
 			list = Arrays.asList(dtoArray);
 			
 			//그냥 가져올시 날짜 오래된순이기 때문에 최신순으로 재정렬해준다.
 			Collections.sort(list, new Datedesc());
-			for (StockDTO item : list) {
-				System.out.println(item.toString());
+			for (MarketIndexDTO item : list) {
+				//System.out.println(item.toString());
 			}
-			System.out.println("JsonRead.kospiJsonRead(): "+list);
+			//System.out.println("JsonRead.kospiJsonRead(): "+list);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -71,10 +72,10 @@ public class JsonRead {
 	}
 
 
-	public static List<StockDTO> kospi200JsonRead() {
+	public static List<MarketIndexDTO> kospi200JsonRead() {
 		
 		Gson gson = new Gson();
-		List<StockDTO> list = null;
+		List<MarketIndexDTO> list = null;
 		
 //		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
 			try (Reader reader = new FileReader("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\toojaatte\\toojaatte\\src\\main\\webapp\\upload\\crawlingtest\\kospi200.json")) {
@@ -82,15 +83,15 @@ public class JsonRead {
 			//jsonobject로 받아서 jsonarray 꺼내서 dto에 맞는 array로 바꾸고 list로 바꿔줌
 			JsonObject object = gson.fromJson(reader, JsonObject.class);
 			JsonArray jsonArray = (JsonArray) object.get("data");
-			StockDTO[] dtoArray = gson.fromJson(jsonArray, StockDTO[].class);
+			MarketIndexDTO[] dtoArray = gson.fromJson(jsonArray, MarketIndexDTO[].class);
 			list = Arrays.asList(dtoArray);
 			
 			//그냥 가져올시 날짜 오래된순이기 때문에 최신순으로 재정렬해준다.
 			Collections.sort(list, new Datedesc());
-			for (StockDTO item : list) {
-				System.out.println(item.toString());
+			for (MarketIndexDTO item : list) {
+				//System.out.println(item.toString());
 			}
-			System.out.println("JsonRead.kospi200JsonRead(): "+list);
+			//System.out.println("JsonRead.kospi200JsonRead(): "+list);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -98,10 +99,10 @@ public class JsonRead {
 	}
 
 
-	public static List<StockDTO> kosdaqJsonRead() {
+	public static List<MarketIndexDTO> kosdaqJsonRead() {
 		
 		Gson gson = new Gson();
-		List<StockDTO> list = null;
+		List<MarketIndexDTO> list = null;
 		
 //		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
 			try (Reader reader = new FileReader("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\toojaatte\\toojaatte\\src\\main\\webapp\\upload\\crawlingtest\\kosdaq.json")) {
@@ -109,15 +110,15 @@ public class JsonRead {
 			//jsonobject로 받아서 jsonarray 꺼내서 dto에 맞는 array로 바꾸고 list로 바꿔줌
 			JsonObject object = gson.fromJson(reader, JsonObject.class);
 			JsonArray jsonArray = (JsonArray) object.get("data");
-			StockDTO[] dtoArray = gson.fromJson(jsonArray, StockDTO[].class);
+			MarketIndexDTO[] dtoArray = gson.fromJson(jsonArray, MarketIndexDTO[].class);
 			list = Arrays.asList(dtoArray);
 			
 			//그냥 가져올시 날짜 오래된순이기 때문에 최신순으로 재정렬해준다.
 			Collections.sort(list, new Datedesc());
-			for (StockDTO item : list) {
-				System.out.println(item.toString());
+			for (MarketIndexDTO item : list) {
+				//System.out.println(item.toString());
 			}
-			System.out.println("JsonRead.kosdaqJsonRead(): "+list);
+			//System.out.println("JsonRead.kosdaqJsonRead(): "+list);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -125,10 +126,10 @@ public class JsonRead {
 	}
 
 
-	public static List<StockDTO> usdkrwJsonRead() {
+	public static List<MarketIndexDTO> usdkrwJsonRead() {
 		
 		Gson gson = new Gson();
-		List<StockDTO> list = null;
+		List<MarketIndexDTO> list = null;
 		
 //		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
 			try (Reader reader = new FileReader("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\toojaatte\\toojaatte\\src\\main\\webapp\\upload\\crawlingtest\\usdkrw.json")) {
@@ -136,15 +137,18 @@ public class JsonRead {
 			//jsonobject로 받아서 jsonarray 꺼내서 dto에 맞는 array로 바꾸고 list로 바꿔줌
 			JsonObject object = gson.fromJson(reader, JsonObject.class);
 			JsonArray jsonArray = (JsonArray) object.get("data");
-			StockDTO[] dtoArray = gson.fromJson(jsonArray, StockDTO[].class);
+			MarketIndexDTO[] dtoArray = gson.fromJson(jsonArray, MarketIndexDTO[].class);
 			list = Arrays.asList(dtoArray);
 			
 			//그냥 가져올시 날짜 오래된순이기 때문에 최신순으로 재정렬해준다.
 			Collections.sort(list, new Datedesc());
-			for (StockDTO item : list) {
-				System.out.println(item.toString());
+			for (MarketIndexDTO item : list) {
+				//System.out.println(item.toString());
 			}
-			System.out.println("JsonRead.kosdaqJsonRead(): "+list);
+			//System.out.println("JsonRead.kosdaqJsonRead(): "+list);
+			
+			//데이터 형 변환
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -152,10 +156,10 @@ public class JsonRead {
 	}
 
 
-	public static List<StockDTO> cnykrwJsonRead() {
+	public static List<MarketIndexDTO> cnykrwJsonRead() {
 		
 		Gson gson = new Gson();
-		List<StockDTO> list = null;
+		List<MarketIndexDTO> list = null;
 		
 //		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
 			try (Reader reader = new FileReader("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\toojaatte\\toojaatte\\src\\main\\webapp\\upload\\crawlingtest\\cnykrw.json")) {
@@ -163,15 +167,15 @@ public class JsonRead {
 			//jsonobject로 받아서 jsonarray 꺼내서 dto에 맞는 array로 바꾸고 list로 바꿔줌
 			JsonObject object = gson.fromJson(reader, JsonObject.class);
 			JsonArray jsonArray = (JsonArray) object.get("data");
-			StockDTO[] dtoArray = gson.fromJson(jsonArray, StockDTO[].class);
+			MarketIndexDTO[] dtoArray = gson.fromJson(jsonArray, MarketIndexDTO[].class);
 			list = Arrays.asList(dtoArray);
 			
 			//그냥 가져올시 날짜 오래된순이기 때문에 최신순으로 재정렬해준다.
 			Collections.sort(list, new Datedesc());
-			for (StockDTO item : list) {
-				System.out.println(item.toString());
+			for (MarketIndexDTO item : list) {
+				//System.out.println(item.toString());
 			}
-			System.out.println("JsonRead.kosdaqJsonRead(): "+list);
+			//System.out.println("JsonRead.kosdaqJsonRead(): "+list);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -180,10 +184,10 @@ public class JsonRead {
 
 
 
-	public static List<StockDTO> jpykrwJsonRead() {
+	public static List<MarketIndexDTO> jpykrwJsonRead() {
 		
 		Gson gson = new Gson();
-		List<StockDTO> list = null;
+		List<MarketIndexDTO> list = null;
 		
 //		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
 			try (Reader reader = new FileReader("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\toojaatte\\toojaatte\\src\\main\\webapp\\upload\\crawlingtest\\jpykrw.json")) {
@@ -191,15 +195,15 @@ public class JsonRead {
 			//jsonobject로 받아서 jsonarray 꺼내서 dto에 맞는 array로 바꾸고 list로 바꿔줌
 			JsonObject object = gson.fromJson(reader, JsonObject.class);
 			JsonArray jsonArray = (JsonArray) object.get("data");
-			StockDTO[] dtoArray = gson.fromJson(jsonArray, StockDTO[].class);
+			MarketIndexDTO[] dtoArray = gson.fromJson(jsonArray, MarketIndexDTO[].class);
 			list = Arrays.asList(dtoArray);
 			
 			//그냥 가져올시 날짜 오래된순이기 때문에 최신순으로 재정렬해준다.
 			Collections.sort(list, new Datedesc());
-			for (StockDTO item : list) {
-				System.out.println(item.toString());
+			for (MarketIndexDTO item : list) {
+				//System.out.println(item.toString());
 			}
-			System.out.println("JsonRead.kosdaqJsonRead(): "+list);
+			//System.out.println("JsonRead.kosdaqJsonRead(): "+list);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -208,8 +212,18 @@ public class JsonRead {
 
 }
 
-	//날짜를 비교해서 재정렬
-	class Datedesc implements Comparator<StockDTO>{
+	//날짜를 비교해서 재정렬(마켓인덱스용)
+	class Datedesc implements Comparator<MarketIndexDTO>{
+
+	@Override
+	public int compare(MarketIndexDTO o1, MarketIndexDTO o2) {
+		// TODO Auto-generated method stub
+		//a.compareTo(b) 의 경우 a가 크다면 1을 반환하고 b가 크다면 -1, 같다면 0을 반환한다.
+		return o2.getDate().compareTo(o1.getDate());
+	}
+	
+	//날짜를 비교해서 재정렬(뉴스용)
+	class Datedesc2 implements Comparator<StockDTO>{
 
 	@Override
 	public int compare(StockDTO o1, StockDTO o2) {
@@ -217,8 +231,8 @@ public class JsonRead {
 		//a.compareTo(b) 의 경우 a가 크다면 1을 반환하고 b가 크다면 -1, 같다면 0을 반환한다.
 		return o2.getDate().compareTo(o1.getDate());
 	}
-	
 }
+	}
 
 
 

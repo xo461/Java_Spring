@@ -81,22 +81,27 @@
 				document.getElementById('upordown').innerHTML = '▲';
 			}
 			}
-		</script>
-		<script type="text/javascript">
 
+
+			//google chart============================
+		window.onload = function(){
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-			['year', 'close'],
-	        <c:forEach var="i" begin="0" end="7" step="1">
-	        <c:set var="date" value="${usdkrw[7-i].date}"/>
-	        <c:set var="close" value="${usdkrw[7-i].close}"/>
-            ['${date}', ${close}]
-        	</c:forEach>
-    	]);
+          var data = google.visualization.arrayToDataTable([
+          	['year', 'usd/krw'],
 
+	          	//데이터 과거순이기때문에 역순으로 정렬. foreach에 step=-1없다.
+	          	<c:forEach var="i" begin="0" end="51" step="1">
+	          		<c:set var="date" value="${usdkrw[51-i].stringDate}"/>
+	          		<c:set var="close" value="${usdkrw[51-i].close}"/>
+	          	     ['${date}', ${close}], //쉼표 안쓰면 오류난다.
+	          	</c:forEach> 
+            ]);
+          	
+     
+      
         var options = {
           //title: 'Company Performance',
           //legend: { position: 'bottom' },
@@ -108,6 +113,7 @@
 
         chart.draw(data, options);
       }
+		}
     </script>
 		
 		</div>
