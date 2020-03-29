@@ -6,8 +6,9 @@ import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.logging.SimpleFormatter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -48,20 +49,176 @@ public class JsonRead {
 		Gson gson = new Gson();
 		List<StockDTO> list = null;
 		
-		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
+//		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
+			try (Reader reader = new FileReader("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\toojaatte\\toojaatte\\src\\main\\webapp\\upload\\crawlingtest\\kospi.json")) {
 			//원하는 데이터: jsonobject 안에 data안에 array로 있음.
 			//jsonobject로 받아서 jsonarray 꺼내서 dto에 맞는 array로 바꾸고 list로 바꿔줌
 			JsonObject object = gson.fromJson(reader, JsonObject.class);
 			JsonArray jsonArray = (JsonArray) object.get("data");
 			StockDTO[] dtoArray = gson.fromJson(jsonArray, StockDTO[].class);
 			list = Arrays.asList(dtoArray);
+			
+			//그냥 가져올시 날짜 오래된순이기 때문에 최신순으로 재정렬해준다.
+			Collections.sort(list, new Datedesc());
+			for (StockDTO item : list) {
+				System.out.println(item.toString());
+			}
 			System.out.println("JsonRead.kospiJsonRead(): "+list);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
 		return list;
 	}
+
+
+	public static List<StockDTO> kospi200JsonRead() {
+		
+		Gson gson = new Gson();
+		List<StockDTO> list = null;
+		
+//		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
+			try (Reader reader = new FileReader("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\toojaatte\\toojaatte\\src\\main\\webapp\\upload\\crawlingtest\\kospi200.json")) {
+			//원하는 데이터: jsonobject 안에 data안에 array로 있음.
+			//jsonobject로 받아서 jsonarray 꺼내서 dto에 맞는 array로 바꾸고 list로 바꿔줌
+			JsonObject object = gson.fromJson(reader, JsonObject.class);
+			JsonArray jsonArray = (JsonArray) object.get("data");
+			StockDTO[] dtoArray = gson.fromJson(jsonArray, StockDTO[].class);
+			list = Arrays.asList(dtoArray);
+			
+			//그냥 가져올시 날짜 오래된순이기 때문에 최신순으로 재정렬해준다.
+			Collections.sort(list, new Datedesc());
+			for (StockDTO item : list) {
+				System.out.println(item.toString());
+			}
+			System.out.println("JsonRead.kospi200JsonRead(): "+list);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+
+	public static List<StockDTO> kosdaqJsonRead() {
+		
+		Gson gson = new Gson();
+		List<StockDTO> list = null;
+		
+//		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
+			try (Reader reader = new FileReader("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\toojaatte\\toojaatte\\src\\main\\webapp\\upload\\crawlingtest\\kosdaq.json")) {
+			//원하는 데이터: jsonobject 안에 data안에 array로 있음.
+			//jsonobject로 받아서 jsonarray 꺼내서 dto에 맞는 array로 바꾸고 list로 바꿔줌
+			JsonObject object = gson.fromJson(reader, JsonObject.class);
+			JsonArray jsonArray = (JsonArray) object.get("data");
+			StockDTO[] dtoArray = gson.fromJson(jsonArray, StockDTO[].class);
+			list = Arrays.asList(dtoArray);
+			
+			//그냥 가져올시 날짜 오래된순이기 때문에 최신순으로 재정렬해준다.
+			Collections.sort(list, new Datedesc());
+			for (StockDTO item : list) {
+				System.out.println(item.toString());
+			}
+			System.out.println("JsonRead.kosdaqJsonRead(): "+list);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+
+	public static List<StockDTO> usdkrwJsonRead() {
+		
+		Gson gson = new Gson();
+		List<StockDTO> list = null;
+		
+//		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
+			try (Reader reader = new FileReader("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\toojaatte\\toojaatte\\src\\main\\webapp\\upload\\crawlingtest\\usdkrw.json")) {
+			//원하는 데이터: jsonobject 안에 data안에 array로 있음.
+			//jsonobject로 받아서 jsonarray 꺼내서 dto에 맞는 array로 바꾸고 list로 바꿔줌
+			JsonObject object = gson.fromJson(reader, JsonObject.class);
+			JsonArray jsonArray = (JsonArray) object.get("data");
+			StockDTO[] dtoArray = gson.fromJson(jsonArray, StockDTO[].class);
+			list = Arrays.asList(dtoArray);
+			
+			//그냥 가져올시 날짜 오래된순이기 때문에 최신순으로 재정렬해준다.
+			Collections.sort(list, new Datedesc());
+			for (StockDTO item : list) {
+				System.out.println(item.toString());
+			}
+			System.out.println("JsonRead.kosdaqJsonRead(): "+list);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+
+	public static List<StockDTO> cnykrwJsonRead() {
+		
+		Gson gson = new Gson();
+		List<StockDTO> list = null;
+		
+//		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
+			try (Reader reader = new FileReader("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\toojaatte\\toojaatte\\src\\main\\webapp\\upload\\crawlingtest\\cnykrw.json")) {
+			//원하는 데이터: jsonobject 안에 data안에 array로 있음.
+			//jsonobject로 받아서 jsonarray 꺼내서 dto에 맞는 array로 바꾸고 list로 바꿔줌
+			JsonObject object = gson.fromJson(reader, JsonObject.class);
+			JsonArray jsonArray = (JsonArray) object.get("data");
+			StockDTO[] dtoArray = gson.fromJson(jsonArray, StockDTO[].class);
+			list = Arrays.asList(dtoArray);
+			
+			//그냥 가져올시 날짜 오래된순이기 때문에 최신순으로 재정렬해준다.
+			Collections.sort(list, new Datedesc());
+			for (StockDTO item : list) {
+				System.out.println(item.toString());
+			}
+			System.out.println("JsonRead.kosdaqJsonRead(): "+list);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+
+
+	public static List<StockDTO> jpykrwJsonRead() {
+		
+		Gson gson = new Gson();
+		List<StockDTO> list = null;
+		
+//		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\kospi.json")) {
+			try (Reader reader = new FileReader("C:\\Users\\Admin\\Documents\\GitHub\\Java_Spring\\toojaatte\\toojaatte\\src\\main\\webapp\\upload\\crawlingtest\\jpykrw.json")) {
+			//원하는 데이터: jsonobject 안에 data안에 array로 있음.
+			//jsonobject로 받아서 jsonarray 꺼내서 dto에 맞는 array로 바꾸고 list로 바꿔줌
+			JsonObject object = gson.fromJson(reader, JsonObject.class);
+			JsonArray jsonArray = (JsonArray) object.get("data");
+			StockDTO[] dtoArray = gson.fromJson(jsonArray, StockDTO[].class);
+			list = Arrays.asList(dtoArray);
+			
+			//그냥 가져올시 날짜 오래된순이기 때문에 최신순으로 재정렬해준다.
+			Collections.sort(list, new Datedesc());
+			for (StockDTO item : list) {
+				System.out.println(item.toString());
+			}
+			System.out.println("JsonRead.kosdaqJsonRead(): "+list);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }
+
+	//날짜를 비교해서 재정렬
+	class Datedesc implements Comparator<StockDTO>{
+
+	@Override
+	public int compare(StockDTO o1, StockDTO o2) {
+		// TODO Auto-generated method stub
+		//a.compareTo(b) 의 경우 a가 크다면 1을 반환하고 b가 크다면 -1, 같다면 0을 반환한다.
+		return o2.getDate().compareTo(o1.getDate());
+	}
+	
+}
+
+
+

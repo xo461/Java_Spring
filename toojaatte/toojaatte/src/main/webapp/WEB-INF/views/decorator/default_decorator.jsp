@@ -99,6 +99,8 @@ article {
 						<li><a href="${absUri }/message/list.do">메세지</a></li>
 						<li><a href="${absUri }/anaboard/list.do">분석게시판</a></li>
 						<li><a href="${absUri }/news/list.do">뉴스</a></li>
+						<li><a href="${absUri }/stockmain/index.do">주식</a></li>
+						<li><a href="${absUri }/marketindex/main.do">시장지표</a></li>
 						<c:if test="${!empty login }">
 							<c:if test="${login.grade==9 }">
 								<li><a href="${absUri }/member/list.do">회원관리</a></li>

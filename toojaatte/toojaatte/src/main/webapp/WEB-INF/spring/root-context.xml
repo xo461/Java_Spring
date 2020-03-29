@@ -19,9 +19,9 @@
 		-->
 		<!-- log4jdbc url이 추가 -> 드라이버 스파이 사용을 위해 -->
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@402-oracle:1521:orcl" />
+<!-- 		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@402-oracle:1521:orcl" /> -->
 <!-- 		외부에서 접근시 -->
-<!-- 		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@106.243.249.72:4521:orcl" /> -->
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@106.243.249.72:4521:orcl" />
 		<property name="username" value="c##dogfoot" />
 		<property name="password" value="dogfoot" />
 	</bean>
