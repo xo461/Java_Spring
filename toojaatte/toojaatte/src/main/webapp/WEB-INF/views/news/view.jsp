@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,17 +26,6 @@
 <style>
 * {
 	box-sizing: border-box;
-}
-
-body {
-	font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Style the header */
-header {
-	padding: 30px;
-	text-align: center;
-	font-size: 35px;
 }
 
 /* Container for flexboxes */
@@ -77,7 +68,64 @@ article {
 	border-bottom: 1px dashed #efefef;
 	margin-bottom: 25px;
 }
+.hitNews_contents {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.mostViewedTitles{
+	font-size: 13px;
+	margin: 4px 4px;
+	padding-bottom: 5px;
+}
+.mostSearchedBtn{
+  background-color: #004a99;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+}
 
+.mostSearchedBtn:hover {
+	background-color: #2196F3;
+	cursor: pointer;
+}
+
+
+
+.searchTerm {
+  width: 80%;
+  border: 1.5px solid #004a99;
+  border-right: none;
+  padding: 5px;
+  height: 36px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+   float:left;
+}
+
+.searchTerm:focus{
+  color: #00B4CC;
+}
+
+.searchButton {
+  width: 40px;
+  height: 36px;
+  border: 1px solid #004a99;
+  background: #004a99;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+   float:left;
+}
 /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
 @media ( max-width : 600px) {
 	section {
@@ -145,9 +193,6 @@ function shareAct(a){
 	<div class="contaner">
 
 		<h2>뉴스</h2>
-		<header>
-			<h2>Header</h2>
-		</header>
 
 		<!-- 메인뉴스---------------------------- -->
 		<section>
@@ -156,11 +201,11 @@ function shareAct(a){
 					<div class="titleSection" style="padding: 5px">
 						<div>${dto.press }</div>
 						<div><h2>${dto.title }</h2></div>
-						<div>${dto.write_date }</div>
-						<div>조회수 ${dto.hit }</div>
-						<div><i class='far fa-comment-dots' style='font-size:20px'><p class=rep_cnt_main></p></i></div>
-						<div class="print" onclick="window.print()"><i class="fa fa-print" style="font-size:20px"></i></div>
-						<div class="shareIcon"><i onclick="toggleSNSIcon();" class='fas fa-share-square' style='font-size:20px'></i>
+						<div style="float: left;">${dto.write_date }</div>
+						<div style="float: left;">조회수 ${dto.hit }&nbsp;</div>
+						<div style="float: left;"><i class='far fa-comment-dots' style='font-size:20px'><p class=rep_cnt_main>&nbsp;&nbsp;</p></i></div>
+						<div class="print" onclick="window.print()" style="float: left;"><i class="fa fa-print" style="font-size:20px">&nbsp;</i></div>
+						<div class="shareIcon" style="float: left;"><i onclick="toggleSNSIcon();" class='fas fa-share-square' style='font-size:20px'></i>
 						<ul id="snsList" class="snsList" style="display: none;">
 						    <li>SNS 공유하기</li>
 						    <!-- sns사진넣기---------------------------------------------------------- -->
@@ -172,8 +217,9 @@ function shareAct(a){
 						</ul>
 						</div>
 					</div>
+					<hr>
 					<div class="bodySection">
-						<div>${dto.content }</div>					
+						<div>${dto.content }</div>	
 					</div>
 				</div>
 				<!--댓글 ---------------------------------------------------- -->
@@ -232,18 +278,17 @@ function shareAct(a){
 </article>
 			
 			
-			<!--사이드바 ------------------------------------------>
+					<!--사이드바 -------------------------------->
 			<nav>
-				<!--뉴스검색, 검색많은키워드 -------------------------------->
+				<!--뉴스검색 -------------------------------->
 				<div class="newsB">
-					<h4>뉴스 검색</h4>
-					<div class="searchB">
+					<h4><strong>뉴스 검색</strong></h4>
+					<div class="search">
 						<form action="list.do" class="searchForm" id="searchForm" name="searchForm">
-							<input type="text" name="word" id="newsSearchWord"
-								style="color: #aaaaaa;" placeholder="검색어를 입력하세요."
+							<input type="text" name="word" id="newsSearchWord" class="searchTerm" 
+								placeholder="검색어를 입력하세요."
 								value="${param.word }" tabindex="0">
-<!-- 							<button onclick="clearInput();">검색</button>
- -->							<button>검색</button>
+							<button class="searchButton"><i class="fa fa-search"></i></button>
 							<script>
 								//검색후 검색어 초기화되게 해야함==========================================
 								function clearInput() {
@@ -255,41 +300,52 @@ function shareAct(a){
 						</form>
 					</div>
 					<!-- 인기키워드-------------------------------------------------- -->
-
 					<script type="text/javascript">
 						$(function(){
 							$(".pop").click(function(){
 								var word = $(this).text();
-								alert(word);
-								location = "list.do?word="+word;
-									});
+								//해쉬태그# 제거
+								var word = word.substr(1);
+								//alert(word);
+								location = "list.do?word="+word;});
 							})
 					</script>
-
 					<div class="hashtag">
-						<h5>인기키워드</h5>
+					<br><br><br>
+						<h4><strong>인기키워드</strong></h4>
 						<c:forEach items="${mostSearched }" var="mostSearched">
-							<div class="pop"><button>${mostSearched.word}</button></div>
+							<span class="pop"><button class="mostSearchedBtn">#${mostSearched.word}</button></span>
 						</c:forEach>
 					</div>
 				</div>
 
-				<!-- 조회수높은뉴스 ------------------------------->
+				<!-- 조회수높은뉴스 -->
 				<div class="hitNews">
-					<h4>많이본 뉴스</h4>
+				<br><br>
+					<h4><strong>많이본 뉴스</strong></h4>
 					<div class="hitNews_contents">
-						<ul class="list">
-							<c:forEach items="${mostViewed }" var="mostViewed">
-							<!-- /*말줄임표 생략되게 수정해야함------------------------*/
-							 -->
-							<li style="list-style:none;">
-							<a href="view.do?nno=${mostViewed.nno}&cnt=1">
-							${mostViewed.title }</a></li>
-							</c:forEach>
-						</ul>
+						<c:forEach items="${mostViewed }" var="mostViewed">
+							<!-- 글자수 길이 자르기 -->
+							<c:choose>
+							<c:when test="${fn:length(mostViewed.title)>23}">
+								<div class="mostViewedTitles">
+								<a href="view.do?nno=${mostViewed.nno}&cnt=1">
+									<c:out value="${fn:substring(mostViewed.title,0,23)}"/>...
+								</a>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="mostViewedTitles">
+								<a href="view.do?nno=${mostViewed.nno}&cnt=1">
+										${mostViewed.title}</a>
+								</div>
+							</c:otherwise>
+							</c:choose>
+						</c:forEach>
 					</div>
 				</div>
-			</nav>
+
+			</nav>			
 			<!-- ----------------------------------->
 		</section>		
 	</div>

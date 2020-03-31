@@ -3,12 +3,16 @@ package com.toojaatte.news.service;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import org.springframework.core.io.ClassPathResource;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -20,7 +24,7 @@ import com.toojaatte.stock.dto.StockDTO;
 //gson라이브러리 다운 or dependency추가 필수
 public class JsonRead {
 	
-	public static List<NewsDTO> newsJsonRead() {
+	public static List<NewsDTO> newsJsonRead() throws IOException {
 		// 객체생성
 		Gson gson = new Gson();
 		List<NewsDTO> list = null;
@@ -28,12 +32,15 @@ public class JsonRead {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Calendar c1 = Calendar.getInstance();
 		String today = sdf.format(c1.getTime());
-		//System.out.println("JsonRead.newsJsonRead.today():"+today);
-
-		try (Reader reader = new FileReader("D:\\study\\ml\\korea_news_crawler\\crawled\\news"+today+".json")) {
+		//다른 컴퓨터에서도 사용할수있도록 절대경로를 찾는다.
+		ClassPathResource resource = new ClassPathResource("com/toojaatte/stock/crawlingtest/news"+today+".json");
+		Path path = Paths.get(resource.getURI());
+		try (Reader reader = new FileReader(path.toString())) {
 
 			NewsDTO[] array = gson.fromJson(reader, NewsDTO[].class);
 			list = Arrays.asList(array);
+			System.out.println(reader);
+			System.out.println("this is test!!!!!!!!!!!!!!!");
 			//System.out.println(list);
 			
 			

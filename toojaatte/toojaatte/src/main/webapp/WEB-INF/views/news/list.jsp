@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="p" tagdir="/WEB-INF/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,12 +22,6 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Style the header */
-header {
-	padding: 30px;
-	text-align: center;
-	font-size: 35px;
-}
 
 /* Container for flexboxes */
 section {
@@ -64,12 +60,64 @@ article {
 	border: 2px;
 }
 
-/*말줄임표 생략되게 수정해야함------------------------*/
 .hitNews_contents {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+.mostViewedTitles{
+	font-size: 13px;
+	margin: 4px 4px;
+	padding-bottom: 5px;
+}
+.mostSearchedBtn{
+  background-color: #004a99;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+}
 
+.mostSearchedBtn:hover {
+	background-color: #2196F3;
+	cursor: pointer;
+}
+
+
+
+.searchTerm {
+  width: 80%;
+  border: 1.5px solid #004a99;
+  border-right: none;
+  padding: 5px;
+  height: 36px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+   float:left;
+}
+
+.searchTerm:focus{
+  color: #00B4CC;
+}
+
+.searchButton {
+  width: 40px;
+  height: 36px;
+  border: 1px solid #004a99;
+  background: #004a99;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+   float:left;
+}
 /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
 @media ( max-width : 600px) {
 	section {
@@ -77,6 +125,23 @@ article {
 		flex-direction: column;
 	}
 }
+
+
+/*Resize the wrap to see the search bar change!*/
+/*.wrap{
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+*/
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -112,13 +177,9 @@ article {
 </script>
 </head>
 <body onload="document.searchForm.reset();">
-	<div class="contaner">
+	<div class="container">
 
-		<h2>뉴스</h2>
-		<header>
-			<h2>Header border속성주기, 검색후input태그초기화</h2>
-		</header>
-
+		<h2> 뉴스</h2>
 		<section>
 			<article>
 				<div class="main" id="main">
@@ -133,7 +194,7 @@ article {
 						<br />
 					</c:forEach>
 					<!-- 페이지네비-------------------------- -->
-					<div id="pageNav">
+					<div id="pageNav" align="center">
 						<p:pageNav startPage="${pageObject.startPage }"
 							endPage="${pageObject.endPage }"
 							totalPage="${pageObject.totalPage }" page="${pageObject.page }"></p:pageNav>
@@ -145,14 +206,13 @@ article {
 			<nav>
 				<!--뉴스검색 -------------------------------->
 				<div class="newsB">
-					<h4>뉴스 검색</h4>
-					<div class="searchB">
+					<h4><strong>뉴스 검색</strong></h4>
+					<div class="search">
 						<form action="list.do" class="searchForm" id="searchForm" name="searchForm">
-							<input type="text" name="word" id="newsSearchWord"
-								style="color: #aaaaaa;" placeholder="검색어를 입력하세요."
+							<input type="text" name="word" id="newsSearchWord" class="searchTerm" 
+								placeholder="검색어를 입력하세요."
 								value="${param.word }" tabindex="0">
-<!-- 							<button onclick="clearInput();">검색</button>
- -->							<button>검색</button>
+							<button class="searchButton"><i class="fa fa-search"></i></button>
 							<script>
 								//검색후 검색어 초기화되게 해야함==========================================
 								function clearInput() {
@@ -168,31 +228,44 @@ article {
 						$(function(){
 							$(".pop").click(function(){
 								var word = $(this).text();
+								//해쉬태그# 제거
+								var word = word.substr(1);
 								//alert(word);
 								location = "list.do?word="+word;});
 							})
 					</script>
 					<div class="hashtag">
-						<h5>인기키워드</h5>
+					<br><br><br>
+						<h4><strong>인기키워드</strong></h4>
 						<c:forEach items="${mostSearched }" var="mostSearched">
-							<div class="pop"><button>${mostSearched.word}</button></div>
+							<span class="pop"><button class="mostSearchedBtn">#${mostSearched.word}</button></span>
 						</c:forEach>
 					</div>
 				</div>
 
 				<!-- 조회수높은뉴스 -->
 				<div class="hitNews">
-					<h4>많이본 뉴스</h4>
+				<br><br>
+					<h4><strong>많이본 뉴스</strong></h4>
 					<div class="hitNews_contents">
-					<hr/>
-						<ul class="list">
-							<c:forEach items="${mostViewed }" var="mostViewed">
-								<!-- /*말줄임표 생략되게 수정해야함------------------------*/
-							 -->
-								<li style="list-style: none;"><a href="view.do?nno=${mostViewed.nno}&cnt=1">
-										${mostViewed.title }</a></li>
-							</c:forEach>
-						</ul>
+						<c:forEach items="${mostViewed }" var="mostViewed">
+							<!-- 글자수 길이 자르기 -->
+							<c:choose>
+							<c:when test="${fn:length(mostViewed.title)>23}">
+								<div class="mostViewedTitles">
+								<a href="view.do?nno=${mostViewed.nno}&cnt=1">
+									<c:out value="${fn:substring(mostViewed.title,0,23)}"/>...
+								</a>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="mostViewedTitles">
+								<a href="view.do?nno=${mostViewed.nno}&cnt=1">
+										${mostViewed.title}</a>
+								</div>
+							</c:otherwise>
+							</c:choose>
+						</c:forEach>
 					</div>
 				</div>
 

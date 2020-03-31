@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.toojaatte.news.dto.NewsDTO;
 import com.toojaatte.news.dto.News_searchDTO;
-import com.toojaatte.news.service.JsonRead;
 import com.toojaatte.news.service.NewsService;
 import com.toojaatte.util.page.PageObject;
 
@@ -52,7 +51,9 @@ public class NewsController {
 	
 	@GetMapping("/view.do")
 	public String view(int nno, Model model) {
-		model.addAttribute("dto", service.view(nno));
+		NewsDTO dto = service.view(nno);
+		dto.setContent(dto.getContent().substring(1, dto.getContent().length()-1));
+		model.addAttribute("dto", dto);
 		
 		List<NewsDTO> mostViewed = service.mostViewed();
 		model.addAttribute("mostViewed", mostViewed);
