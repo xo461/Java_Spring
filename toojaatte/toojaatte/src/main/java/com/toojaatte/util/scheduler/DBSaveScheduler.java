@@ -17,7 +17,8 @@ public class DBSaveScheduler {
 	private NewsService service;
 	
 	//파이썬에서 네이버뉴스크롤링해서 json으로 저장한 파일을 매일 오후 5시에 불러와서 db에 저장
-    @Scheduled(cron = "0 58 17 * * *")
+	//servlet-context에 등록해야 한다.
+    @Scheduled(cron = "0 10 16 * * *")
 	public void newsInsert() throws IOException {
 			System.out.println("this is scheduler");
 			System.out.println(new Date());

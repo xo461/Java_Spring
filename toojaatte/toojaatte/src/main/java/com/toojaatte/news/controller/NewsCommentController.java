@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.toojaatte.news.dto.News_repDTO;
 import com.toojaatte.news.dto.News_rep_likeDTO;
 import com.toojaatte.news.service.NewsCommentService;
+import com.toojaatte.news.service.NewsService;
 import com.toojaatte.util.filter.ConvertJsonToHashmap;
 import com.toojaatte.util.page.PageObject;
 
@@ -25,6 +26,8 @@ public class NewsCommentController {
 
 	@Inject
 	NewsCommentService ncService;
+	@Inject
+	NewsService service;
 	
 	@RequestMapping("/list.do")
 	@ResponseBody
@@ -46,9 +49,12 @@ public class NewsCommentController {
 
 	@RequestMapping("/insert.do")
 	@ResponseBody
-	public int nCommentInsert(News_repDTO dto) throws Exception {
+	public int nCommentInsert(News_repDTO dto, Model model) throws Exception {
 		System.out.println("newsCommentController.insertAComment().넘어오는값:" + dto);
-		return ncService.commentInsert(dto);
+		ncService.commentInsert(dto);
+		model.addAttribute("rep_cnt", service.view(dto.getNno()).getRep_cnt());
+		System.out.println(service.view(dto.getNno()).getRep_cnt());
+		return 1;
 	}
 
 	@RequestMapping("/update.do") // 댓글 수정
@@ -65,14 +71,14 @@ public class NewsCommentController {
 	}
 	
 	// 좋아요싫어요버튼클릭시
-	// 넘어오는값: 좋아요버튼 클릭시likedislike=0, 싫어요 버튼 클릭시likedislike=1
+	//json으로 받는거 맵핑시키려면 콘트롤러에서는 @requestyBody써줘야하고 뷰에서는 contenttype:application/json으로 하고 data는 JSON.stringify()로 문자열화해야 한다.
 	// 리턴값: 좋아요나싫어요 추가 성공시 1, 이미좋아요 2, 이미싫어요 3리턴
+	// 넘어오는값 중: 좋아요버튼 클릭시likedislike=0, 싫어요 버튼 클릭시likedislike=1
 	@RequestMapping(value = "/increaselike.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	//json으로 받는거 맵핑시키려면 콘트롤러에서는 @requestyBody써줘야하고 뷰에서는 contenttype:application/json으로 하고 data는 JSON.stringify()로 문자열화해야 한다.
 	public int like(@RequestBody String json) throws Exception {
 
-		//json을 hashmap으로 변환
+		//넘어온 json데이터를 hashmap으로 변환
         Map<String, Object> map = ConvertJsonToHashmap.convertJsonToObject(json);
         
         System.out.println("NewsCommentController.like().map: "+map);

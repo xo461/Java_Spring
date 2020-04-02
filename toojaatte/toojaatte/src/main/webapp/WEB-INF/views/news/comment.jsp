@@ -8,12 +8,11 @@
 <script>
  var nno = '${dto.nno}'; //뉴스글번호
  var id = '${login.id}';
- var rep_cnt = '${dto.rep_cnt}'; //댓글개수
+var a = '${rep_cnt}';
 
 //댓글개수리프레쉬 =============================
 function refresh_rep_cnt(){
-	var a = rep_cnt;
-	var b = '댓글 '+rep_cnt+'개';
+	var b = '댓글 '+a+'개';
 	$('.rep_cnt_main').html(a);	
 	$('.panel-heading').html(b);	
 	 }
@@ -50,23 +49,24 @@ function commentList(){
 					})
 				}
 			//----------------------
-	            a += '<div class="media"><a href="#" class="pull-left"><img src="'+value.photo+'" onerror="/upload/news/invester.png" class="img-circle"></a>';
+	            a += '<div class="media"><a href="#" class="pull-left"></a>';
                 a += '<div class="media-body">';
                 a += '<span class="text-muted pull-right"><small class="text-muted">'+value.write_date+'</small></span></br>'
 
                 //자기가 쓴댓글이면 수정삭제버튼이보인다.
+                //pull-right로 오른쪽정렬할때 빠져나오면: 부모태그 class에 fluid 넣는다. 
                 if (id == value.id){
-                a += '<div style="float:right;">';
+                a += '<div><span class="pull-right">';
                 a += '<a onclick="commentUpdate('+value.rno+',\''+value.content+'\');"> update </a>';
                 a += '<a onclick="commentDelete('+value.rno+');"> delete </a>';
-                a += '</div>';
+                a += '</span></div>';
                 }
 
-                a += '<strong class="text-success">'+value.nickName+'</strong>'
+                a += '<div style="font-size: 20px;"><p style="color: #004a99;"><strong>'+value.nickName+'</strong></p><div>'
                 a += '<div class="commentContent'+value.rno+'">'+value.content+'</div>'
-                a += '<p><i id="thumbsup" class="'+thumbsup+'" style=\'font-size:13px\' onclick="increaseLike('+value.rno+')">'+value.like_cnt+'</i> '
-                a += '<i id="thumbsdown" class="'+thumbsdown+'" style=\'font-size:13px\' onclick="increaseDislike('+value.rno+')">'+value.dislike_cnt+'</i></p>'
-                a += '</div></div></div></div></div>';
+                a += '<div><p><i id="thumbsup" class="'+thumbsup+'" onclick="increaseLike('+value.rno+')">'+value.like_cnt+'</i> '
+                a += '&nbsp;<i id="thumbsdown" class="'+thumbsdown+'" onclick="increaseDislike('+value.rno+')">'+value.dislike_cnt+'</i></p>'
+                a += '</div></div></div>';
 				
 			});
 		$('.commentList').html(a);	
@@ -83,7 +83,7 @@ function commentInsert(insertData){
       data : insertData,
       success : function(response){ //요청성공시
           if(response == 1) {
-            refresh_rep_cnt();//댓글개수 리로드
+            //refresh_rep_cnt();//댓글개수 리로드
         	commentList(); //댓글목록 리로드 
             $('[name=content]').val(''); //댓글창에 쓴 내용 사라짐
           }
@@ -137,7 +137,7 @@ function commentDelete(rno){
       type : 'post',
       success : function(data){
           if(data == 1){ 
-          	refresh_rep_cnt();//댓글개수 리로드
+          	//refresh_rep_cnt();//댓글개수 리로드
             commentList(); //댓글목록 리로드 
           }
       }
@@ -165,7 +165,7 @@ function increaseLike(rno){
 			id : id,
 			nno : ${dto.nno},
 			rno : rno,
-			likeDislike : 0 //좋아요는 0, 싫어요는 -1보내기(총개수구하는용)
+			likeDislike : 0 //좋아요는 0, 싫어요는 -1보내기(총개수 구하는용)
 			}),
 		success : function(response){ //리턴값 1: 좋아요 성공, 2: 이미좋아요(좋아요캔슬), 3: 이미싫어요(팝업창)
 			//alert(response);
@@ -237,7 +237,7 @@ function increaseDislike(rno){
 
 //페이지 로딩시 뿌려준다. ========================
 $(document).ready(function(){
-	refresh_rep_cnt(); //댓글개수
+	//refresh_rep_cnt(); //댓글개수
     commentList(); //댓글리스트 
 });
 

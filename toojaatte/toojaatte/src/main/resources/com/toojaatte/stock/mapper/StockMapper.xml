@@ -11,5 +11,10 @@
 		WHERE code LIKE '%' || #{searchData} || '%'
 		OR name LIKE '%' || #{searchData} || '%'
 	</select>
+	
+	<select id="prediction" resultType="com.toojaatte.stock.dto.PredictionDTO">
+		SELECT code, name, prediction
+		FROM stockPrediction
+	</select>
 
 </mapper>

@@ -49,7 +49,7 @@
 	</select>
 	
 	<update id="increaseHit">
-		UPDATE news SET hit = hit + 1
+		UPDATE news SET hit = hit + 1 
 		WHERE nno = #{nno}
 	</update>
 	
@@ -89,4 +89,6 @@
 		UPDATE news_search SET search_cnt = search_cnt + 1
 		WHERE word = #{word}
 	</update>
+
+	
 </mapper>

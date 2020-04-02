@@ -47,6 +47,11 @@
 		DELETE FROM news_rep WHERE rno = #{rno}
 	</delete>
 	
+	<!-- 댓글삭제시 댓글총개수 1감소(댓글추가시 댓글총개수1증가는 sql trigger로 설정해둠.  -->
+	<update id="decreaseTotalRep">
+		UPDATE news SET rep_cnt = rep_cnt - 1 WHERE nno = (SELECT nno from news_rep WHERE rno = #{rno})
+	</update>
+	
 	<!-- 좋아요여부확인 -->
 	<select id="ifAlreadyLike" parameterType="com.toojaatte.news.dto.News_rep_likeDTO"
 	resultType="com.toojaatte.news.dto.News_rep_likeDTO">

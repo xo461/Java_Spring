@@ -10,7 +10,7 @@ import com.webjjang.member.dto.LoginDTO;
 
 
 //★로그인후 원래 있던 페이지로 이동하게끔.
-//servlet-xml에 등록해야함
+//servlet-xml에 등록, membercontroller수정해야 함.
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 	private final String[] needLoginList = {
