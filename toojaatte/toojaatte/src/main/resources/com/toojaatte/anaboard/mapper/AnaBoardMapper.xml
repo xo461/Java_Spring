@@ -88,8 +88,9 @@
  			select a.no, m.grade, a.title, a.titleType, a.content, a.writer, a.writeDate,
  			 a.hit, a.reply_cnt, a.r_cnt, a.n_cnt
  			from anaboard a, member m
- 			where (a.writer = m.id)
- 			order by no desc
+ 			where (a.writer = m.id) and 
+ 			( a.writeDate between #{startDate} and #{endDate} )
+ 			 order by no desc
  		)
  	)
  </select>
