@@ -4,7 +4,7 @@
 >
 > Supplying Stock & cryptocurrency market index information
 
-## Development Period :date:
+## Development Period :calendar:
 
 Mar.23.2020 ~ Apr.03.2020
 
