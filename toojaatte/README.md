@@ -4,7 +4,8 @@
 
 > Supplying Stock & cryptocurrency market index information
 
-## Period
+## Development Period
+
 Mar.23.2020 ~ Apr.03.2020
 
 ## Development environment
@@ -12,7 +13,7 @@ Mar.23.2020 ~ Apr.03.2020
 ### IDE
 
 ```
-Spring Tool Suite 4 4.5.1
+Spring Tool Suite4 4.5.1
 ```
 
 ### Other
