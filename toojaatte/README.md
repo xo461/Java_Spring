@@ -1,6 +1,7 @@
 # 'toojaatte' Investment Website :chart_with_upwards_trend:
 
 > Using Spring Framework
+
 > Supplying Stock & cryptocurrency market index information
 
 ## Period
